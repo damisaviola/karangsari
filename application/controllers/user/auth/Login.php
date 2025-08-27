@@ -5,11 +5,11 @@ class Login extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        // load model/helper/library kalau butuh
     }
 
     public function index() {
-       $this->load->view('user/auth/auth-login');
+        // Pastikan view ada di: application/views/user/auth/auth-login.php
+        $this->load->view('user/auth/auth-login');
     }
 }
-
-?>

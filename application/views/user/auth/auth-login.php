@@ -71,9 +71,11 @@
             </div>
 
             <!-- Right Side / Gambar -->
-               <div class="col-lg-7 d-none d-lg-block p-0">
-    <div class="h-100 w-100" style="background-image: url('<?= base_url('assets/dist/assets/compiled/jpg/2.jpg') ?>'); background-size: cover; background-position: center;"></div>
-</div>
+               <div class="col-lg-7 d-none d-lg-block">
+        <div id="auth-right">
+
+        </div>
+    </div>
 
         </div>
     </div>
