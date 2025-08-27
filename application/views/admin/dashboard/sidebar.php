@@ -41,14 +41,11 @@
         <ul class="menu">
             <li class="sidebar-title">Menu</li>
             
-            <li
-                class="sidebar-item active ">
-                <a href="index.html" class='sidebar-link'>
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/dashboard') ? 'active' : '' ?>">
+                <a href="<?= site_url('admin/dashboard') ?>" class="sidebar-link">
                     <i class="bi bi-grid-fill"></i>
                     <span>Dashboard</span>
                 </a>
-                
-
             </li>
             
 
@@ -56,6 +53,13 @@
                 <a href="index.html" class="sidebar-link">
                     <i class="bi bi-calendar-check-fill"></i>
                     <span>Pemesanan</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/kamar' || $this->uri->uri_string() == 'admin/kamar/tambah_kamar') ? 'active' : '' ?>">
+                <a href="<?= site_url('admin/kamar') ?>" class="sidebar-link">
+                    <i class="bi bi-house-door-fill"></i>
+                    <span>Kamar</span>
                 </a>
             </li>
 
