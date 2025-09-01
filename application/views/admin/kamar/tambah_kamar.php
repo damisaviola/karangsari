@@ -147,7 +147,7 @@
                       <input 
                         type="file" 
                         id="gambar" 
-                        class="image-preview-filepond form-control" data-max-file-size="2MB" 
+                        class="with-validation-filepond" required multiple data-max-file-size="2MB" data-max-files="3"
                         name="gambar"
                         data-parsley-required="true"
                       >

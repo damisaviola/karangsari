@@ -49,12 +49,13 @@
             </li>
             
 
-            <li class="sidebar-item">
-                <a href="index.html" class="sidebar-link">
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pemesanan') ? 'active' : '' ?>">
+                <a href="<?= base_url('admin/pemesanan') ?>" class="sidebar-link">
                     <i class="bi bi-calendar-check-fill"></i>
                     <span>Pemesanan</span>
                 </a>
             </li>
+
 
             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/kamar' || $this->uri->uri_string() == 'admin/kamar/tambah_kamar') ? 'active' : '' ?>">
                 <a href="<?= site_url('admin/kamar') ?>" class="sidebar-link">
@@ -64,107 +65,14 @@
             </li>
 
 
-            <li
-                class="sidebar-item  has-sub">
-                <a href="#" class='sidebar-link'>
-                     <i class="bi bi-house-door-fill"></i>
-
-                    <span>Kamar</span>
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/penghuni' || $this->uri->uri_string() == 'admin/kamar/tambah_kamar') ? 'active' : '' ?>">
+                <a href="<?= site_url('admin/penghuni') ?>" class="sidebar-link">
+                    <i class="bi bi bi-people-fill"></i>
+                    <span>Penghuni</span>
                 </a>
-                
-                <ul class="submenu ">
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-accordion.html" class="submenu-link">Accordion</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-alert.html" class="submenu-link">Alert</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-badge.html" class="submenu-link">Badge</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-breadcrumb.html" class="submenu-link">Breadcrumb</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-button.html" class="submenu-link">Button</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-card.html" class="submenu-link">Card</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-carousel.html" class="submenu-link">Carousel</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-collapse.html" class="submenu-link">Collapse</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-dropdown.html" class="submenu-link">Dropdown</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-list-group.html" class="submenu-link">List Group</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-modal.html" class="submenu-link">Modal</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-navs.html" class="submenu-link">Navs</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-pagination.html" class="submenu-link">Pagination</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-progress.html" class="submenu-link">Progress</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-spinner.html" class="submenu-link">Spinner</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-toasts.html" class="submenu-link">Toasts</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-tooltip.html" class="submenu-link">Tooltip</a>
-                        
-                    </li>
-                    
-                </ul>
-                
-
             </li>
 
-
+        
              <li
                 class="sidebar-item  has-sub">
                 <a href="#" class='sidebar-link'>
@@ -176,7 +84,7 @@
                 <ul class="submenu ">
                     
                     <li class="submenu-item  ">
-                        <a href="component-accordion.html" class="submenu-link">Accordion</a>
+                        <a href="component-accordion.html" class="submenu-link">Daftar Penghuni</a>
                         
                     </li>
                     
