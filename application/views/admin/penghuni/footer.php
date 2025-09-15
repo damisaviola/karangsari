@@ -23,11 +23,11 @@
         <!-- Load JS -->
         <script src="<?= base_url('assets/dist/assets/static/js/components/dark.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') ?>"></script>
-       <?php if ($this->uri->uri_string() == 'admin/pemesanan' || $this->uri->uri_string() == 'admin/kamar/tambah_kamar') : ?>
+       <?php if ($this->uri->uri_string() == 'admin/penghuni' || $this->uri->uri_string() == 'admin/kamar/tambah_kamar') : ?>
             <script src="<?= base_url('assets/dist/assets/compiled/js/app.js') ?>"></script>
         <?php endif; ?>
 
-        <?php if ($this->uri->uri_string() == 'admin/pemesanan') : ?>
+        <?php if ($this->uri->uri_string() == 'admin/penghuni') : ?>
             <script src="<?= base_url('assets/dist/assets/extensions/simple-datatables/umd/simple-datatables.js') ?>"></script>
             <script src="<?= base_url('assets/dist/assets/static/js/pages/simple-datatables.js') ?>"></script>
         <?php endif; ?>
