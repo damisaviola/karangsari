@@ -72,6 +72,13 @@
                 </a>
             </li>
 
+             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/penghuni' || $this->uri->uri_string() == 'admin/kamar/tambah_kamarrr') ? 'active' : '' ?>">
+                <a href="<?= site_url('admin/penghuni') ?>" class="sidebar-link">
+                    <i class="bi bi bi-people-fill"></i>
+                    <span>Penghuni</span>
+                </a>
+            </li>
+
         
            
 
