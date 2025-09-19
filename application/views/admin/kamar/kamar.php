@@ -21,6 +21,47 @@
     }
 </style>
 
+
+<a href="<?= site_url('admin/chat') ?>" class="chat-btn">
+  <i class="bi bi-chat-dots-fill"></i>
+</a>
+
+<style>
+  .chat-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #4f46e5, #3b82f6); /* sesuai btn-modern */
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;   /* proporsional */
+    line-height: 1;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+    transition: all 0.3s ease;
+    z-index: 9999;
+    text-decoration: none;
+  }
+
+  .chat-btn:hover {
+    background: linear-gradient(135deg, #3b82f6, #2563eb); /* hover btn-modern */
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 6px 14px rgba(59, 130, 246, 0.4);
+    color: #fff;
+  }
+
+  .chat-btn i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+
 <body>
     <script src="<?= base_url('assets/dist/assets/static/js/initTheme.js') ?>"></script>
 
