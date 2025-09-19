@@ -49,9 +49,9 @@
                                     <div class="fonticon-wrap d-inline me-3">
 
                                         <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
-                                            <use
-                                                xlink:href="assets/static/images/bootstrap-icons.svg#envelope" />
-                                        </svg>
+                                                <use xlink:href="<?= base_url('assets/dist/assets/static/images/bootstrap-icons.svg#envelope') ?>" />
+                                            </svg>
+
                                     </div>
                                     Inbox
                                     <span
@@ -67,6 +67,9 @@
                                     </div>
                                     Sent
                                 </a>
+
+                                <a href="#" id="chat-menu" class="list-group-item">Chat</a>
+
                                 <a href="#" class="list-group-item">
                                     <div class="fonticon-wrap d-inline me-3">
 
@@ -110,29 +113,40 @@
                             <!-- sidebar menu  end-->
 
                             <!-- sidebar label start -->
-                            <label class="sidebar-label">Labels</label>
-                            <div class="list-group list-group-labels">
-                                <a href="#" class="list-group-item d-flex justify-content-between align-items-center">
-                                    Product
-                                    <span class="bullet bullet-success bullet-sm"></span>
-                                </a>
-                                <a href="#" class="list-group-item d-flex justify-content-between align-items-center">
-                                    Work
-                                    <span class="bullet bullet-primary bullet-sm"></span>
-                                </a>
-                                <a href="#" class="list-group-item d-flex justify-content-between align-items-center">
-                                    Misc
-                                    <span class="bullet bullet-warning bullet-sm"></span>
-                                </a>
-                                <a href="#" class="list-group-item d-flex justify-content-between align-items-center">
-                                    Family
-                                    <span class="bullet bullet-danger bullet-sm"></span>
-                                </a>
-                                <a href="#" class="list-group-item d-flex justify-content-between align-items-center">
-                                    Design
-                                    <span class="bullet bullet-info bullet-sm"></span>
-                                </a>
-                            </div>
+                            <label class="sidebar-label mt-3 mb-2 px-3 text-muted">Contacts</label>
+                                <div class="list-group list-group-contacts" style="max-height: 400px; overflow-y: auto;">
+                                    <a href="#" class="list-group-item user-details d-flex align-items-center contact-item">
+                                        <img src="<?= base_url('assets/dist/assets/static/images/faces/1.jpg') ?>" 
+                                            class="rounded-circle me-3" width="36" height="36" alt="Alfy">
+                                        <span>Alfy</span>
+                                        <span class="ms-auto badge bg-success rounded-circle" style="width:10px; height:10px;"></span>
+                                    </a>
+                                    <a href="#" class="list-group-item user-details d-flex align-items-center contact-item">
+                                        <img src="<?= base_url('assets/dist/assets/static/images/faces/2.jpg') ?>" 
+                                            class="rounded-circle me-3" width="36" height="36" alt="Samantha">
+                                        <span>Samantha</span>
+                                        <span class="ms-auto badge bg-success rounded-circle" style="width:10px; height:10px;"></span>
+                                    </a>
+                                    <a href="#" class="list-group-item user-details d-flex align-items-center contact-item">
+                                        <img src="<?= base_url('assets/dist/assets/static/images/faces/3.jpg') ?>" 
+                                            class="rounded-circle me-3" width="36" height="36" alt="John">
+                                        <span>John</span>
+                                        <span class="ms-auto badge bg-success rounded-circle" style="width:10px; height:10px;"></span>
+                                    </a>
+                                    <a href="#" class="list-group-item user-details d-flex align-items-center contact-item">
+                                        <img src="<?= base_url('assets/dist/assets/static/images/faces/3.jpg') ?>" 
+                                            class="rounded-circle me-3" width="36" height="36" alt="John">
+                                        <span>John</span>
+                                        <span class="ms-auto badge bg-success rounded-circle" style="width:10px; height:10px;"></span>
+                                    </a>
+                                    <a href="#" class="list-group-item user-details d-flex align-items-center contact-item">
+                                        <img src="<?= base_url('assets/dist/assets/static/images/faces/3.jpg') ?>" 
+                                            class="rounded-circle me-3" width="36" height="36" alt="John">
+                                        <span>John</span>
+                                        <span class="ms-auto badge bg-success rounded-circle" style="width:10px; height:10px;"></span>
+                                    </a>
+                                    
+                                </div>
                             <!-- sidebar label end -->
                             <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
                                 <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
@@ -143,6 +157,8 @@
                         </div>
                     </div>
                 </div>
+
+                
                 <!-- User new mail right area -->
                 <div class="compose-new-mail-sidebar ps">
                     <div class="card shadow-none quill-wrapper p-0">
@@ -426,6 +442,53 @@
                                 <!-- email user list start -->
                                 <div class="email-user-list list-group ps ps--active-y">
                                     <ul class="users-list-wrapper media-list">
+                                        <li class="media mail-read">
+                                            <div class="user-action">
+                                                <div class="checkbox-con me-3">
+                                                    <div class="checkbox checkbox-shadow checkbox-sm">
+                                                        <input type="checkbox" id="checkboxsmall1"
+                                                            class='form-check-input'>
+                                                        <label for="checkboxsmall1"></label>
+                                                    </div>
+                                                </div>
+                                                <span class="favorite text-warning">
+                                                    <svg class="bi" width="1.5em" height="1.5em" fill="currentColor">
+                                                        <use
+                                                            xlink:href="assets/static/images/bootstrap-icons.svg#star-fill" />
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                            <div class="pr-50">
+                                                <div class="avatar">
+                                                    <img src="./assets/compiled/jpg/1.jpg" alt="avtar img holder">
+                                                </div>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="user-details">
+                                                    <div class="mail-items">
+                                                        <span class="list-group-item-text text-truncate">Open source
+                                                            project public release 👍</span>
+                                                    </div>
+                                                    <div class="mail-meta-item">
+                                                        <span class="float-right">
+                                                            <span class="mail-date">4:14 AM</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="mail-message">
+                                                    <p class="list-group-item-text truncate mb-0">
+                                                        Hey John, bah kivu decrete epanorthotic unnotched
+                                                        Argyroneta nonius veratrine preimaginary
+                                                    </p>
+                                                    <div class="mail-meta-item">
+                                                        <span class="float-right">
+                                                            <span class="bullet bullet-success bullet-sm"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
                                         <li class="media mail-read">
                                             <div class="user-action">
                                                 <div class="checkbox-con me-3">
@@ -1510,9 +1573,306 @@
                             </div>
                         </div>
                         <!--/ Detailed Email View -->
+
+                        
                     </div>
                 </div>
             </div>
         </div>
     </section>
 </div>
+
+<!-- Chat Sidebar -->
+<div id="chatbox-sidebar" class="chatbox-sidebar shadow-lg d-flex flex-column">
+
+    <!-- Contacts -->
+    <div class="chatbox-contacts border-bottom p-2" style="max-height: 200px; overflow-y: auto;">
+        <a href="#" class="contact-item d-flex align-items-center" data-contact="Alfy">
+            <img src="<?= base_url('assets/dist/assets/compiled/jpg/1.jpg') ?>" class="rounded-circle me-2" width="40" height="40">
+            <div class="flex-grow-1">
+                <h6 class="mb-0">Alfy</h6>
+                <small class="text-success">Online</small>
+            </div>
+        </a>
+        <a href="#" class="contact-item d-flex align-items-center" data-contact="Alfy">
+            <img src="<?= base_url('assets/dist/assets/compiled/jpg/1.jpg') ?>" class="rounded-circle me-2" width="40" height="40">
+            <div class="flex-grow-1">
+                <h6 class="mb-0">Alfy</h6>
+                <small class="text-success">Online</small>
+            </div>
+        </a>
+        <a href="#" class="contact-item d-flex align-items-center" data-contact="Alfy">
+            <img src="<?= base_url('assets/dist/assets/compiled/jpg/1.jpg') ?>" class="rounded-circle me-2" width="40" height="40">
+            <div class="flex-grow-1">
+                <h6 class="mb-0">Alfy</h6>
+                <small class="text-success">Online</small>
+            </div>
+        </a>
+        <a href="#" class="contact-item d-flex align-items-center" data-contact="Alfy">
+            <img src="<?= base_url('assets/dist/assets/compiled/jpg/1.jpg') ?>" class="rounded-circle me-2" width="40" height="40">
+            <div class="flex-grow-1">
+                <h6 class="mb-0">Alfy</h6>
+                <small class="text-success">Online</small>
+            </div>
+        </a>
+        <a href="#" class="contact-item d-flex align-items-center" data-contact="Alfy">
+            <img src="<?= base_url('assets/dist/assets/compiled/jpg/1.jpg') ?>" class="rounded-circle me-2" width="40" height="40">
+            <div class="flex-grow-1">
+                <h6 class="mb-0">Alfy</h6>
+                <small class="text-success">Online</small>
+            </div>
+        </a>
+        <a href="#" class="contact-item d-flex align-items-center" data-contact="Samantha">
+            <img src="<?= base_url('assets/dist/assets/compiled/jpg/2.jpg') ?>" class="rounded-circle me-2" width="40" height="40">
+            <div class="flex-grow-1">
+                <h6 class="mb-0">Samantha</h6>
+                <small class="text-success">Online</small>
+            </div>
+        </a>
+        <a href="#" class="contact-item d-flex align-items-center" data-contact="John">
+            <img src="<?= base_url('assets/dist/assets/compiled/jpg/3.jpg') ?>" class="rounded-circle me-2" width="40" height="40">
+            <div class="flex-grow-1">
+                <h6 class="mb-0">John</h6>
+                <small class="text-success">Online</small>
+            </div>
+        </a>
+    </div>
+
+    <!-- Chat Active -->
+    <div class="chatbox-active flex-grow-1 d-flex flex-column">
+
+        <!-- Header -->
+        <div class="chatbox-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+            <div class="d-flex align-items-center">
+                <img id="chat-header-img" src="<?= base_url('assets/dist/assets/compiled/jpg/1.jpg') ?>" class="rounded-circle me-2" width="48" height="48">
+                <div>
+                    <h6 id="chat-header-name" class="mb-0 fw-bold">Alfy</h6>
+                    <small class="text-success">● Online</small>
+                </div>
+            </div>
+            <button class="btn btn-light btn-sm rounded-circle chat-close-icon">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="chatbox-body flex-grow-1 p-3" id="chat-body">
+            <div class="chat-message from-them mb-2">Hi Alfy, how can I help you?</div>
+            <div class="chat-message from-me mb-2">I'm looking for the best admin dashboard template</div>
+        </div>
+
+        <!-- Footer -->
+        <div class="chatbox-footer d-flex align-items-center p-3 border-top bg-white">
+            <button class="btn btn-light rounded-circle me-2"><i class="bi bi-emoji-smile"></i></button>
+            <label for="chatFile" class="btn btn-light rounded-circle me-2 mb-0"><i class="bi bi-paperclip"></i></label>
+            <input type="file" id="chatFile" class="d-none" multiple>
+            <input type="text" class="form-control rounded-pill me-2" placeholder="Type a message...">
+            <button class="btn btn-primary rounded-circle"><i class="bi bi-send-fill"></i></button>
+        </div>
+    </div>
+</div>
+
+<style>
+.chatbox-sidebar {
+    position: fixed;
+    top: 0;
+    right: -420px;
+    width: 400px;
+    height: 100%;
+    background: #fff;
+    border-left: 1px solid #e0e0e0;
+    transition: right 0.3s ease;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatbox-sidebar.show {
+    right: 0;
+}
+
+.chatbox-contacts input { width: 100%; } 
+
+.chatbox-sidebar.show { right: 0; }
+
+#contacts-container::-webkit-scrollbar {
+    width: 6px;
+}
+#contacts-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 3px;
+}
+
+#chat-messages { overflow-y:auto; flex-grow:1; }
+
+.chatbox-body {
+    flex: 1;
+    overflow-y: auto;
+    background: #f7f7f7;
+    padding: 15px;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
+
+.chat-message {
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 20px;
+    max-width: 80%;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.from-them {
+    background: #e5e5ea;
+    color: #333;
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    margin-right: auto;
+}
+
+.from-me {
+    background: #007bff;
+    color: #fff;
+    border-bottom-right-radius: 4px;
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.contact-item {
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 10px;
+    transition: background 0.2s;
+}
+.contact-item:hover {
+    background: #f0f0f0;
+}
+
+.chatbox-body.fade-out {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.chatbox-body.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+</style>
+
+<script>
+const chatData = {
+    "Alfy": [
+        { from: "them", text: "Hi Alfy, how can I help you?" },
+        { from: "me", text: "I'm looking for the best admin dashboard template" }
+    ],
+    "Samantha": [
+        { from: "them", text: "Hello Samantha, welcome!" },
+        { from: "me", text: "Thanks! Can you show me the dashboard?" }
+    ],
+    "John": [
+        { from: "them", text: "Hey John, good to see you" },
+        { from: "me", text: "Good to see you too!" }
+    ]
+};
+
+document.querySelectorAll('.contact-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const contactName = item.dataset.contact;
+        const imgSrc = item.querySelector('img').src;
+        const body = document.getElementById('chat-body');
+
+        // animasi keluar
+        body.classList.add('fade-out');
+        setTimeout(() => {
+            // update header
+            document.getElementById('chat-header-name').innerText = contactName;
+            document.getElementById('chat-header-img').src = imgSrc;
+
+            // update chat body
+            body.innerHTML = '';
+            if(chatData[contactName]){
+                chatData[contactName].forEach(msg => {
+                    const div = document.createElement('div');
+                    div.classList.add('chat-message', 'mb-2', msg.from === 'me' ? 'from-me' : 'from-them');
+                    div.innerText = msg.text;
+                    body.appendChild(div);
+                });
+            }
+
+            // animasi masuk
+            body.classList.remove('fade-out');
+            body.classList.add('fade-in');
+            body.scrollTop = body.scrollHeight;
+
+            setTimeout(()=> body.classList.remove('fade-in'), 300);
+        }, 200);
+
+        document.getElementById('chatbox-sidebar').classList.add('show');
+    });
+});
+
+document.querySelector('.chat-close-icon').addEventListener('click', () => {
+    document.getElementById('chatbox-sidebar').classList.remove('show');
+});
+</script>
+
+
+<script>
+const allContacts = [];
+for(let i=1; i<=100; i++){ 
+    allContacts.push({name: 'User ' + i, avatar: '<?= base_url("assets/dist/assets/static/images/faces/1.jpg") ?>'});
+}
+
+const contactsContainer = document.getElementById('contacts-container');
+let loadedCount = 0;
+const batchSize = 10;
+
+function renderContactsBatch() {
+    const batch = allContacts.slice(loadedCount, loadedCount + batchSize);
+    batch.forEach(contact => {
+        const el = document.createElement('a');
+        el.href = "#";
+        el.className = 'list-group-item user-details d-flex align-items-center contact-item';
+        el.dataset.contact = contact.name;
+        el.innerHTML = `<img src="${contact.avatar}" class="rounded-circle me-2" width="36" height="36" alt="${contact.name}">
+                        <span>${contact.name}</span>
+                        <span class="ms-auto badge bg-success rounded-circle" style="width:10px; height:10px;"></span>`;
+        contactsContainer.appendChild(el);
+    });
+    loadedCount += batch.length;
+}
+
+renderContactsBatch();
+
+contactsContainer.addEventListener('scroll', () => {
+    if(contactsContainer.scrollTop + contactsContainer.clientHeight >= contactsContainer.scrollHeight - 5){
+        if(loadedCount < allContacts.length){
+            renderContactsBatch();
+        }
+    }
+});
+
+document.getElementById('contact-search').addEventListener('input', e=>{
+    const filter = e.target.value.toLowerCase();
+    document.querySelectorAll('.contact-item').forEach(contact=>{
+        contact.style.display = contact.dataset.contact.toLowerCase().includes(filter) ? 'flex' : 'none';
+    });
+});
+
+contactsContainer.addEventListener('click', e=>{
+    const target = e.target.closest('.contact-item');
+    if(!target) return;
+    document.getElementById('chat-name').textContent = target.dataset.contact;
+
+    document.getElementById('chat-messages').innerHTML = '';
+    document.getElementById('chatbox-sidebar').classList.add('show');
+});
+
+document.querySelector('.chat-close-icon').addEventListener('click', ()=>{
+    document.getElementById('chatbox-sidebar').classList.remove('show');
+});
+</script>

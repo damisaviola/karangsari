@@ -35,6 +35,37 @@
     })
 </script>
 
+
+<script>
+ 
+    document.querySelectorAll('.user-details').forEach(item => {
+        item.addEventListener('click', () => {
+            document.getElementById('chatbox-sidebar').classList.add('show');
+        });
+    });
+
+    document.querySelector('.chat-close-icon').addEventListener('click', () => {
+        document.getElementById('chatbox-sidebar').classList.remove('show');
+    });
+</script>
+
+<script>
+    const fileInput = document.getElementById('chatFile');
+    const chatBody = document.querySelector('.chatbox-body');
+
+    fileInput.addEventListener('change', (event) => {
+        const files = event.target.files;
+        for (let file of files) {
+          t
+            let fileElement = document.createElement('div');
+            fileElement.classList.add('chat-message', 'from-me', 'mb-2');
+            fileElement.innerHTML = `<i class="bi bi-file-earmark"></i> ${file.name}`;
+            chatBody.appendChild(fileElement);
+        }
+        chatBody.scrollTop = chatBody.scrollHeight; 
+    });
+</script>
+
 </body>
 
 </html>

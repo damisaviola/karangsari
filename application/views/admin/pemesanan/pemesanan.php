@@ -24,6 +24,10 @@
 <body>
     <script src="<?= base_url('assets/dist/assets/static/js/initTheme.js') ?>"></script>
 
+        <a href="#" class="chat-btn">
+    <i class="bi bi-chat-dots-fill"></i>
+    </a>
+
     <div id="app">
         <div id="main">
             <header class="mb-3">

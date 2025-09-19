@@ -13,7 +13,22 @@
     <script src="<?= base_url('assets/dist/assets/extensions/apexcharts/apexcharts.min.js') ?>"></script>
     <script src="<?= base_url('assets/dist/assets/static/js/pages/dashboard.js') ?>"></script>
 
+<script>
+  const chatBtn = document.querySelector('.chat-btn'); 
+  const chatSidebar = document.getElementById('chatbox-sidebar');
 
+  // tombol untuk membuka sidebar
+  chatBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    chatSidebar.classList.add('show');
+  });
+
+  // tombol close di sidebar
+  const chatClose = chatSidebar.querySelector('.chat-close-icon');
+  chatClose.addEventListener('click', function() {
+    chatSidebar.classList.remove('show');
+  });
+</script>
 </body>
 
 </html>
