@@ -79,16 +79,6 @@
                 </a>
             </li>
 
-             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/penghuni' || $this->uri->uri_string() == 'admin/kamar/tambah_kamarrr') ? 'active' : '' ?>">
-                <a href="<?= site_url('admin/penghuni') ?>" class="sidebar-link">
-                    <i class="bi bi bi-people-fill"></i>
-                    <span>Penghuni</span>
-                </a>
-            </li>
-
-        
-           
-
 
             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/inventory') ? 'active' : '' ?>">
                 <a href="<?= site_url('admin/inventory') ?>" class="sidebar-link">
@@ -98,30 +88,28 @@
             </li>
 
 
+        <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/notifikasi') ? 'active' : '' ?>">
+            <a href="<?= site_url('admin/notifikasi') ?>" class="sidebar-link">
+                <i class="bi bi-bell-fill"></i>
+                <span>Notifikasi</span>
+            </a>
+        </li>
 
 
-<li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/notifikasi') ? 'active' : '' ?>">
-    <a href="<?= site_url('admin/notifikasi') ?>" class="sidebar-link">
-        <i class="bi bi-bell-fill"></i>
-        <span>Notifikasi</span>
-    </a>
-</li>
+        <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pengumuman') ? 'active' : '' ?>">
+            <a href="<?= site_url('admin/pengumuman') ?>" class="sidebar-link">
+                <i class="bi bi-megaphone-fill"></i>
+                <span>Pengumuman</span>
+            </a>
+        </li>
 
 
-<li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pengumuman') ? 'active' : '' ?>">
-    <a href="<?= site_url('admin/pengumuman') ?>" class="sidebar-link">
-        <i class="bi bi-megaphone-fill"></i>
-        <span>Pengumuman</span>
-    </a>
-</li>
-
-
-<li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/backup') ? 'active' : '' ?>">
-    <a href="<?= site_url('admin/backup') ?>" class="sidebar-link">
-        <i class="bi bi-hdd-stack-fill"></i>
-        <span>Backup Data</span>
-    </a>
-</li>
+        <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/backup') ? 'active' : '' ?>">
+            <a href="<?= site_url('admin/backup') ?>" class="sidebar-link">
+                <i class="bi bi-hdd-stack-fill"></i>
+                <span>Backup Data</span>
+            </a>
+        </li>
 
 
             <li
