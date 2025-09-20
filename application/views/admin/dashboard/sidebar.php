@@ -112,6 +112,14 @@
         </li>
 
 
+        <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/auth/login/logout') ? 'active' : '' ?>">
+            <a href="<?= site_url('admin/auth/login/logout') ?>" class="sidebar-link">
+                <i class="bi bi-megaphone-fill"></i>
+                <span>Logou</span>
+            </a>
+        </li>
+
+
             <li
                 class="sidebar-item  has-sub">
                 <a href="#" class='sidebar-link'>

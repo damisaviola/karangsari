@@ -4,72 +4,91 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Login extends CI_Controller {
 
     private $max_attempts = 5;       
-    private $lockout_time = 300;
+    private $lockout_time = 900; 
 
     public function __construct() {
         parent::__construct();
+        $this->load->model('Admin_model', 'admin');
+        $this->load->library(['form_validation', 'session']);
+        $this->load->helper(['url', 'security', 'form']);
+        $this->_set_security_headers();
+    }
 
-        $this->load->model('Login_model', 'user');
-        $this->load->library('session');
-        $this->load->helper(['url', 'form']);
+    private function _set_security_headers() {
+        header("X-Frame-Options: SAMEORIGIN");
+        header("X-Content-Type-Options: nosniff");
+        header("Referrer-Policy: no-referrer-when-downgrade");
+        header("X-XSS-Protection: 1; mode=block");
     }
 
     public function index() {
-       $this->load->view('admin/auth/login-admin');
+        if ($this->session->userdata('id_admin')) {
+            redirect('admin/dashboard');
+        }
+        $this->load->view('admin/auth/login-admin');
     }
 
+    public function login_action() {
+    if ($this->session->userdata('id_admin')) {
+        redirect('admin/dashboard');
+    }
 
-      private function process_login()
-    {
-        $username = $this->input->post('username', TRUE);
-        $password = $this->input->post('password', TRUE);
+    $this->form_validation->set_rules('username','Username','required|trim');
+    $this->form_validation->set_rules('password','Password','required');
 
-     
-        $attempts = $this->session->userdata('login_attempts') ?? 0;
-        $last_attempt = $this->session->userdata('last_attempt') ?? 0;
+    if ($this->form_validation->run() === FALSE) {
+        $this->session->set_flashdata('error','Isi username dan password.');
+        redirect('admin/login');
+        return;
+    }
 
-        if ($attempts >= $this->max_attempts && (time() - $last_attempt) < $this->lockout_time) {
-            $this->session->set_flashdata('error', 'Terlalu banyak percobaan login. Tunggu beberapa menit.');
-            redirect('auth/login');
+    $username   = $this->security->xss_clean($this->input->post('username', TRUE));
+    $password   = $this->security->xss_clean($this->input->post('password', TRUE));
+    $ip_address = $this->input->ip_address();
+
+    $admin = $this->admin->get_by_username($username);
+
+    if ($admin && $admin->status === 'aktif') {
+
+        if ($admin->failed_attempts >= $this->max_attempts && 
+            (time() - strtotime($admin->last_failed_attempt)) < $this->lockout_time) {
+            
+            $this->session->set_flashdata('error','Akun terkunci karena salah login berulang. Tunggu 15 menit.');
+            redirect('admin/login');
+            return;
         }
 
-        if (empty($username) || empty($password)) {
-            $this->session->set_flashdata('error', 'Username dan Password wajib diisi.');
-            redirect('auth/login');
-        }
-
-        $user = $this->user->get_by_username($username);
-
-        if ($user && password_verify($password, $user->password)) {
-       
-            $this->session->unset_userdata(['login_attempts', 'last_attempt']);
-
-           
+        if ($admin->password === md5($password)) {
+            $this->admin->reset_failed_attempt($admin->id_admin);
             $this->session->sess_regenerate(TRUE);
 
-            $session_data = [
-                'user_id'   => $user->id,
-                'username'  => $user->username,
-                'logged_in' => TRUE
-            ];
-            $this->session->set_userdata($session_data);
+            $this->session->set_userdata([
+                'id_admin'     => $admin->id_admin,
+                'username'     => $username,
+                'nama_lengkap' => $admin->nama_lengkap,
+                'role'         => $admin->role,
+                'logged_in'    => TRUE,
+                'is_admin'     => TRUE,
+                'ip_address'   => $ip_address
+            ]);
 
-            redirect('dashboard');
+            $this->admin->update_last_login($admin->id_admin);
+
+            redirect('admin/dashboard');
+            return;
         } else {
-            $this->session->set_userdata('login_attempts', $attempts + 1);
-            $this->session->set_userdata('last_attempt', time());
 
-            $this->session->set_flashdata('error', 'Username atau Password salah.');
-            redirect('auth/login');
+            $this->admin->set_failed_attempt($admin->id_admin);
         }
     }
 
-
-      public function logout()
-    {
-        $this->session->sess_destroy();
-        redirect('auth/login');
-    }
+    $this->session->set_flashdata('error','Username atau password salah.');
+    redirect('admin/login');
 }
 
-?>
+
+    public function logout() {
+        $this->session->sess_destroy();
+        redirect('admin/login');
+    }
+}

@@ -33,13 +33,13 @@
     right: 20px;
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, #4f46e5, #3b82f6); /* sesuai btn-modern */
+    background: linear-gradient(135deg, #4f46e5, #3b82f6); 
     color: #fff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;   /* proporsional */
+    font-size: 22px;   
     line-height: 1;
     box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
     transition: all 0.3s ease;
@@ -48,8 +48,7 @@
   }
 
   .chat-btn:hover {
-    background: linear-gradient(135deg, #3b82f6, #2563eb); /* hover btn-modern */
-    transform: scale(1.1) translateY(-2px);
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
     box-shadow: 0 6px 14px rgba(59, 130, 246, 0.4);
     color: #fff;
   }
