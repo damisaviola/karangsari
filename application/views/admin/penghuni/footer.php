@@ -44,7 +44,53 @@
 
 
 
+<script>
+  const chatBtn = document.querySelector('.chat-btn'); 
+  const chatSidebar = document.getElementById('chatbox-sidebar');
 
+  // tombol untuk membuka sidebar
+  chatBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    chatSidebar.classList.add('show');
+  });
+
+  // tombol close di sidebar
+  const chatClose = chatSidebar.querySelector('.chat-close-icon');
+  chatClose.addEventListener('click', function() {
+    chatSidebar.classList.remove('show');
+  });
+  
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatBtn = document.querySelector('.chat-btn');
+    const chatSidebar = document.getElementById('chatbox-sidebar');
+    const chatClose = chatSidebar.querySelector('.chat-close-icon');
+
+    // Sidebar menu Mail (misal Inbox) yang ingin diberi active
+    const inboxMenu = document.getElementById('inbox-menu');
+
+    // Tampilkan sidebar & sembunyikan tombol chat
+    chatBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        chatSidebar.classList.add('show');
+        chatBtn.style.display = 'none'; // sembunyikan tombol
+
+        // Aktifkan menu Inbox
+        inboxMenu.classList.add('active');
+    });
+
+    // Tutup sidebar & tampilkan tombol chat lagi
+    chatClose.addEventListener('click', function() {
+        chatSidebar.classList.remove('show');
+        chatBtn.style.display = 'block'; // tampilkan tombol
+
+        // Hilangkan active dari menu Inbox
+        inboxMenu.classList.remove('active');
+    });
+});
+</script>
 
 </body>
 
