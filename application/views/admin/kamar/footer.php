@@ -32,6 +32,9 @@
             <script src="<?= base_url('assets/dist/assets/static/js/pages/simple-datatables.js') ?>"></script>
         <?php endif; ?>
 
+        
+
+ 
 
 
 

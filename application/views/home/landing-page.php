@@ -119,8 +119,14 @@
 <section id="booking-section" class="booking-section" style="position: relative; z-index: 10; margin-top: -120px;">
   <div class="container">
     <div class="booking-form-wrapper mx-auto shadow-lg p-5 rounded-5 bg-white" style="max-width: 800px; border-radius: 2rem;">
-      <form action="<?= base_url('booking/create') ?>" method="post" class="row g-4 align-items-end">
-
+      <?php if($this->session->flashdata('error')): ?>
+  <div class="alert alert-danger">
+    <?= $this->session->flashdata('error'); ?>
+  </div>
+<?php endif; ?>
+      <form action="<?= base_url('home/create') ?>" method="post" class="row g-4 align-items-end">
+         <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" 
+           value="<?= $this->security->get_csrf_hash(); ?>">
         <!-- Check In -->
         <div class="col-12 col-md-6 mb-3 mb-md-0">
           <label class="form-label fw-semibold" style="font-size: 0.95rem;">CHECK IN</label>
