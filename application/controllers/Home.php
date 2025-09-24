@@ -45,5 +45,37 @@ class Home extends CI_Controller {
 }
 
 
+public function create2()
+{
+    $check_in  = $this->security->xss_clean($this->input->get('check_in', true));
+    $check_out = $this->security->xss_clean($this->input->get('check_out', true));
+
+    $inDate  = DateTime::createFromFormat('Y-m-d', $check_in);
+    $outDate = DateTime::createFromFormat('Y-m-d', $check_out);
+
+    if (!$inDate || !$outDate) {
+        $this->session->set_flashdata('error', 'Format tanggal tidak valid.');
+        redirect('home');
+        return;
+    }
+
+    if ($outDate <= $inDate) {
+        $this->session->set_flashdata('error', 'Check-out harus lebih besar dari Check-in.');
+        redirect('home');
+        return;
+    }
+
+    $data['available_rooms'] = $this->Booking_model->getAvailableRooms($check_in, $check_out);
+
+    // Escape sebelum dilempar ke view
+    $data['check_in']  = html_escape($check_in);
+    $data['check_out'] = html_escape($check_out);
+
+    $this->load->view('home/results', $data);
+}
+
+
+
+
     
 }

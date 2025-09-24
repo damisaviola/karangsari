@@ -124,9 +124,8 @@
     <?= $this->session->flashdata('error'); ?>
   </div>
 <?php endif; ?>
-      <form action="<?= base_url('home/create') ?>" method="post" class="row g-4 align-items-end">
-         <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" 
-           value="<?= $this->security->get_csrf_hash(); ?>">
+      <form action="<?= base_url('home/create2') ?>" method="get" class="row g-4 align-items-end">
+        
         <!-- Check In -->
         <div class="col-12 col-md-6 mb-3 mb-md-0">
           <label class="form-label fw-semibold" style="font-size: 0.95rem;">CHECK IN</label>
