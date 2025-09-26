@@ -209,8 +209,12 @@
           <div class="col-md-6 col-lg-4 mb-5 mb-lg-5 ">
             <div class="ftco-media-1">
               <div class="ftco-media-1-inner">
-                <a href="property-single.html" class="d-inline-block mb-4"><img src="assets/home/images/property_1.jpg" alt="Free website template by Free-Template.co" class="img-fluid"></a>
-                <div class="ftco-media-details">
+                <a href="<?= base_url('property-single') ?>" class="d-inline-block mb-4">
+                  <img src="<?= base_url('assets/home/images/property_1.jpg') ?>" 
+                      alt="Free website template by Free-Template.co" 
+                      class="img-fluid">
+              </a>
+                  <div class="ftco-media-details">
                   <h3>HD17 19 Utica Ave.</h3>
                   <p>New York - USA</p>
                   <strong>$20,000,000</strong>
@@ -222,7 +226,11 @@
           <div class="col-md-6 col-lg-4 mb-5 mb-lg-5 ">
               <div class="ftco-media-1">
                   <div class="ftco-media-1-inner">
-                    <a href="property-single.html" class="d-inline-block mb-4"><img src="assets/home/images/property_2.jpg" alt="Free website template by Free-Template.co" class="img-fluid"></a>
+                   <a href="<?= base_url('property-single') ?>" class="d-inline-block mb-4">
+                    <img src="<?= base_url('assets/home/images/property_1.jpg') ?>" 
+                        alt="Free website template by Free-Template.co" 
+                        class="img-fluid">
+                    </a>
                     <div class="ftco-media-details">
                       <h3>HD17 19 Utica Ave.</h3>
                       <p>New York - USA</p>
