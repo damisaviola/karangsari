@@ -72,6 +72,10 @@
           font-size: 0.9rem;
         }
       }
+
+      .card-body a.btn {
+      text-align: center;
+    }
     </style>
   </head>
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -136,37 +140,40 @@
 
     <!-- Property Section -->
     <div class="site-section" id="property-details">
-      <div class="container">
-        <div class="row g-4">
+  <div class="container">
+    <div class="row g-4">
 
-          <?php if(empty($available_rooms)): ?>
-            <div class="col-12">
-              <div class="alert alert-warning text-center">
-                Maaf, tidak ada kamar tersedia dari <?= $check_in ?> sampai <?= $check_out ?>.
-              </div>
-            </div>
-          <?php else: ?>
-            <?php foreach($available_rooms as $kamar): ?>
-              <div class="col-12 col-sm-6 col-md-4 mb-4">
-                <div class="card room-card shadow-sm h-100">
-                  <?php if(!empty($kamar->gambar)): ?>
-                    <img src="uploads/<?= $kamar->gambar ?>" alt="Kamar <?= $kamar->nomor_kamar ?>">
-                  <?php else: ?>
-                    <img src="<?= base_url('assets/home/images/property_3.jpg') ?>" alt="Default Room">
-                  <?php endif; ?>
-                  <div class="card-body">
-                    <h5 class="card-title">Kamar <?= $kamar->nomor_kamar ?></h5>
-                    <p class="card-text mb-1">Lantai: <?= $kamar->lantai ?></p>
-                    <p class="card-text mb-1">Harga: Rp <?= number_format($kamar->harga) ?> / Bulan</p>
-                  </div>
+      <?php if(empty($available_rooms)): ?>
+        <div class="col-12">
+          <div class="alert alert-warning text-center">
+            Maaf, tidak ada kamar tersedia dari <?= $check_in ?> sampai <?= $check_out ?>.
+          </div>
+        </div>
+      <?php else: ?>
+        <?php foreach($available_rooms as $kamar): ?>
+          <div class="col-12 col-sm-6 col-md-4 mb-4">
+            <a href="<?= base_url('room/detail/'.$kamar->id_kamar) ?>" class="text-decoration-none">
+              <div class="card room-card shadow-sm h-100">
+                <?php if(!empty($kamar->gambar)): ?>
+                  <img src="uploads/<?= $kamar->gambar ?>" alt="Kamar <?= $kamar->nomor_kamar ?>">
+                <?php else: ?>
+                  <img src="<?= base_url('assets/home/images/property_3.jpg') ?>" alt="Default Room">
+                <?php endif; ?>
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title text-dark">Kamar <?= $kamar->nomor_kamar ?></h5>
+                  <p class="card-text mb-1 text-muted">Lantai: <?= $kamar->lantai ?></p>
+                  <p class="card-text mb-2 text-muted">Harga: Rp <?= number_format($kamar->harga) ?> / Bulan</p>
+                  <a href="<?= base_url('home/detail_kamar/'.$kamar->id_kamar) ?>" class="btn btn-primary mt-auto rounded-pill">Detail</a>
                 </div>
               </div>
-            <?php endforeach; ?>
-          <?php endif; ?>
+            </a>
+          </div>
+        <?php endforeach; ?>
+      <?php endif; ?>
 
-        </div>
-      </div>
     </div>
+  </div>
+</div>
 
     <!-- Footer -->
     <footer class="site-footer bg-dark text-light pt-5 pb-3">

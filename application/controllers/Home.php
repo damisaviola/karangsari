@@ -66,14 +66,34 @@ public function create2()
     }
 
     $data['available_rooms'] = $this->Booking_model->getAvailableRooms($check_in, $check_out);
-
-    // Escape sebelum dilempar ke view
     $data['check_in']  = html_escape($check_in);
     $data['check_out'] = html_escape($check_out);
 
     $this->load->view('home/results', $data);
 }
 
+
+ public function detail_kamar($id_kamar = null) {
+    if (!$id_kamar) {
+        $this->session->set_flashdata('error', 'Kamar tidak ditemukan.');
+        redirect('home');
+        return;
+    }
+
+    // Ambil data kamar dari model
+    $data['room'] = $this->Booking_model->getRoomById($id_kamar);
+
+    if (!$data['room']) {
+        $this->session->set_flashdata('error', 'Kamar tidak tersedia.');
+        redirect('home');
+        return;
+    }
+
+    $this->load->view('home/detail-kamar', $data);
+}
+
+
+    
 
 
 

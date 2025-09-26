@@ -19,4 +19,24 @@ class Booking_model extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+
+   public function getRoomById($id_kamar) {
+    // Ambil data kamar
+    $this->db->where('id_kamar', $id_kamar);
+    $room = $this->db->get('kamar')->row_array();
+
+    if (!$room) return null;
+
+    // Ambil fasilitas kamar berdasarkan tabel penghubung
+    $this->db->select('f.nama_fasilitas');
+    $this->db->from('kamar_fasilitas kf');
+    $this->db->join('fasilitas_kos f', 'kf.id_fasilitas = f.id_fasilitas', 'left');
+    $this->db->where('kf.id_kamar', $id_kamar);
+    $fasilitas = $this->db->get()->result_array();
+
+    $room['fasilitas'] = array_column($fasilitas, 'nama_fasilitas');
+    return $room;
+}
+
+
 }
