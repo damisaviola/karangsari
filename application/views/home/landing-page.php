@@ -116,21 +116,23 @@
 </div> 
 
 
+<?php $today = date('Y-m-d'); ?>
 <section id="booking-section" class="booking-section" style="position: relative; z-index: 10; margin-top: -120px;">
   <div class="container">
     <div class="booking-form-wrapper mx-auto shadow-lg p-5 rounded-5 bg-white" style="max-width: 800px; border-radius: 2rem;">
       <?php if($this->session->flashdata('error')): ?>
-  <div class="alert alert-danger">
-    <?= $this->session->flashdata('error'); ?>
-  </div>
-<?php endif; ?>
+        <div class="alert alert-danger">
+          <?= $this->session->flashdata('error'); ?>
+        </div>
+      <?php endif; ?>
+      
       <form action="<?= base_url('home/create2') ?>" method="get" class="row g-4 align-items-end">
         
         <!-- Check In -->
         <div class="col-12 col-md-6 mb-3 mb-md-0">
           <label class="form-label fw-semibold" style="font-size: 0.95rem;">CHECK IN</label>
           <div class="input-card p-3 rounded-4 border bg-light d-flex align-items-center">
-            <input type="date" name="check_in" class="form-control border-0  bg-light w-100 h-100" placeholder="Check In">
+            <input type="date" name="check_in" class="form-control border-0 bg-light w-100 h-100" min="<?= $today ?>" required>
           </div>
         </div>
 
@@ -138,7 +140,7 @@
         <div class="col-12 col-md-6">
           <label class="form-label fw-semibold " style="font-size: 0.95rem;">CHECK OUT</label>
           <div class="input-card p-3 rounded-4 border bg-light d-flex align-items-center">
-            <input type="date" name="check_out" class="form-control border-0 bg-light w-100 h-100" placeholder="Check Out">
+            <input type="date" name="check_out" class="form-control border-0 bg-light w-100 h-100" min="<?= $today ?>" required>
           </div>
         </div>
 
@@ -153,6 +155,7 @@
     </div>
   </div>
 </section>
+
 
 <style>
 

@@ -73,29 +73,24 @@ public function create2()
 }
 
 
- public function detail_kamar($id_kamar = null) {
-    if (!$id_kamar) {
-        $this->session->set_flashdata('error', 'Kamar tidak ditemukan.');
-        redirect('home');
-        return;
+    public function detail_kamar($id_kamar = null) {
+        if ($id_kamar === null || !ctype_digit((string)$id_kamar)) {
+            $this->session->set_flashdata('error', 'ID kamar tidak valid.');
+            redirect('home');
+            return;
+        }
+
+        $id_kamar = (int)$id_kamar;
+        $room = $this->Booking_model->getRoomById($id_kamar);
+
+        if (!$room) {
+            $this->session->set_flashdata('error', 'Kamar tidak tersedia.');
+            redirect('home');
+            return;
+        }
+
+        $data['room'] = $room;
+        $this->load->view('home/detail-kamar', $data);
     }
-
-    // Ambil data kamar dari model
-    $data['room'] = $this->Booking_model->getRoomById($id_kamar);
-
-    if (!$data['room']) {
-        $this->session->set_flashdata('error', 'Kamar tidak tersedia.');
-        redirect('home');
-        return;
-    }
-
-    $this->load->view('home/detail-kamar', $data);
-}
-
-
-    
-
-
-
     
 }

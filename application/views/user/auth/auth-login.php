@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/compiled/css/app-dark.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/compiled/css/auth.css') ?>">
 
+    <!-- Font Awesome untuk icon WhatsApp -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         .fade-up {
             opacity: 0;
@@ -22,6 +25,31 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        .divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin: 25px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.divider:not(:empty)::before {
+  margin-right: 10px;
+}
+
+.divider:not(:empty)::after {
+  margin-left: 10px;
+}
+
     </style>
 </head>
 
@@ -59,7 +87,17 @@
                             </label>
                         </div>
                         <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Masuk</button>
+
+                        <!-- Divider -->
+                        <div class="divider"><span>atau login dengan cara lain</span></div>
+
+                        <!-- Button Login WhatsApp -->
+                        <a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20login" 
+                           target="_blank" class="btn btn-success btn-block btn-lg shadow-lg">
+                            <i class="fa-brands fa-whatsapp"></i> Login dengan WhatsApp
+                        </a>
                     </form>
+
                     <div class="text-center mt-5 text-lg fs-4">
                         <p class="text-gray-600">
                             Belum mempunyai akun?
@@ -71,12 +109,9 @@
             </div>
 
             <!-- Right Side / Gambar -->
-               <div class="col-lg-7 d-none d-lg-block">
-        <div id="auth-right">
-
-        </div>
-    </div>
-
+            <div class="col-lg-7 d-none d-lg-block">
+                <div id="auth-right"></div>
+            </div>
         </div>
     </div>
 
