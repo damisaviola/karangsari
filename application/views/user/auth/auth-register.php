@@ -48,7 +48,7 @@
                     <?php if ($this->session->flashdata('success')): ?>
                         <?= $this->session->flashdata('success'); ?>
                     <?php endif; ?>
-                     <form action="<?= site_url('user/auth/register/action_register') ?>" method="post">
+                     <form action="<?= site_url('user/auth/register/action_register2') ?>" method="post">
 
                      <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" 
                         value="<?= $this->security->get_csrf_hash(); ?>">
@@ -108,7 +108,7 @@
                             </label>
                         </div>
 
-                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-4">Daftar</button>
+                        <button id="btn-submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-4" disabled>Daftar</button>
                     </form>
 
                     <div class="text-center mt-5 text-lg fs-4">
@@ -127,3 +127,23 @@
 </body>
 
 </html>
+
+<script>
+  const btn = document.getElementById('btn-submit');
+  const formInputs = document.querySelectorAll('#auth-left input[type="text"], #auth-left input[type="email"], #auth-left input[type="password"]');
+  const checkbox = document.getElementById('terms');
+
+  function toggleButton() {
+    let allFilled = true;
+    formInputs.forEach(input => {
+      if (input.value.trim() === '') {
+        allFilled = false;
+      }
+    });
+
+    btn.disabled = !(allFilled && checkbox.checked);
+  }
+
+  formInputs.forEach(input => input.addEventListener('input', toggleButton));
+  checkbox.addEventListener('change', toggleButton);
+</script>
