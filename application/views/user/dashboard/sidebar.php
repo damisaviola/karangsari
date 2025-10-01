@@ -47,8 +47,16 @@
                     <i class="bi bi-grid-fill"></i>
                     <span>Dashboard</span>
                 </a>
-                
+    
+            </li>
 
+            <li
+            class="sidebar-item">
+            <a href="javascript:void(0)" class="sidebar-link" id="btnLogout">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>logout</span>
+            </a>
+        
             </li>
             
             <li

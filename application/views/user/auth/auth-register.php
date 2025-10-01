@@ -101,6 +101,11 @@
                             </div>
                         </div>
 
+                        <label for="confirm_password">Captcha : </label>
+                         <div class="mt-3">
+                            <div class="g-recaptcha" data-sitekey="6LfMpNorAAAAAL8ExfzyifLLO_FMR60LnUp1K1l2" data-callback="recaptchaCallback"></div>
+                        </div>
+
                         <div class="form-check mt-3">
                             <input class="form-check-input" type="checkbox" id="terms" required>
                             <label class="form-check-label" for="terms">
@@ -124,26 +129,35 @@
             </div>
         </div>
     </div>
+     
+     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+      <script>
+      const btn = document.getElementById('btn-submit');
+      const formInputs = document.querySelectorAll('#auth-left input[type="text"], #auth-left input[type="email"], #auth-left input[type="password"]');
+      const checkbox = document.getElementById('terms');
+
+      function toggleButton() {
+        let allFilled = true;
+        formInputs.forEach(input => {
+          if (input.value.trim() === '') {
+            allFilled = false;
+          }
+        });
+
+        const captchaResponse = grecaptcha.getResponse();
+
+        btn.disabled = !(allFilled && checkbox.checked && captchaResponse.length > 0);
+      }
+
+      formInputs.forEach(input => input.addEventListener('input', toggleButton));
+      checkbox.addEventListener('change', toggleButton);
+      function recaptchaCallback() {
+        toggleButton();
+      }
+    </script>
+
+    
 </body>
 
 </html>
 
-<script>
-  const btn = document.getElementById('btn-submit');
-  const formInputs = document.querySelectorAll('#auth-left input[type="text"], #auth-left input[type="email"], #auth-left input[type="password"]');
-  const checkbox = document.getElementById('terms');
-
-  function toggleButton() {
-    let allFilled = true;
-    formInputs.forEach(input => {
-      if (input.value.trim() === '') {
-        allFilled = false;
-      }
-    });
-
-    btn.disabled = !(allFilled && checkbox.checked);
-  }
-
-  formInputs.forEach(input => input.addEventListener('input', toggleButton));
-  checkbox.addEventListener('change', toggleButton);
-</script>

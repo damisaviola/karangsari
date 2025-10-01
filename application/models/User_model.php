@@ -21,19 +21,17 @@ class User_model extends CI_Model
         return $query->num_rows() > 0;
     }
 
-
-    public function get_by_email($email_md5) {
-        return $this->db->where('email', $email_md5)->get('penghuni')->row();
+        public function get_by_login($email, $password) {
+        $this->db->where('email', md5($email));     
+        $this->db->where('password', md5($password));
+        return $this->db->get('penghuni')->row();
     }
 
-    public function get_by_login($email, $password) {
-    $this->db->where('email', md5($email));     
-    $this->db->where('password', md5($password));
-    return $this->db->get('penghuni')->row();
-}
-
+    public function get_by_email($email) {
+        $this->db->where('email', md5($email));
+        return $this->db->get('penghuni')->row();
+    }
     
-
 
     public function update_last_login($id_penghuni, $ip_address) {
         $data = [
@@ -49,7 +47,7 @@ class User_model extends CI_Model
         $this->db->set('failed_attempts', 'failed_attempts+1', FALSE);
         $this->db->set('last_failed_attempt', date('Y-m-d H:i:s'));
         $this->db->where('id_penghuni', $id_penghuni);
-        return $this->db->update($this->table);
+        $this->db->update('penghuni');
     }
 
     public function reset_failed_attempt($id_penghuni) {
@@ -64,12 +62,10 @@ class User_model extends CI_Model
         return $this->db->get_where($this->table, ['no_hp' => $phone])->row_array();
     }
 
-
     public function insertOtp($data) 
     {
         return $this->db->insert($this->otp_table, $data);
     }
-
 
     public function verifyOtp($email, $otp) 
     {
@@ -87,20 +83,18 @@ class User_model extends CI_Model
         return false;
     }
 
+    public function existsByEmailOrPhone($email_plain, $no_hp_plain)
+    {
+        $email_hashed = md5($email_plain);
+        $nohp_hashed  = md5($no_hp_plain);
 
-  
-public function existsByEmailOrPhone($email_plain, $no_hp_plain)
-{
-    $email_hashed = md5($email_plain);
-    $nohp_hashed  = md5($no_hp_plain);
+        $this->db->from($this->table);
+        $this->db->group_start();
+        $this->db->where('email', $email_hashed);
+        $this->db->or_where('no_hp', $nohp_hashed);
+        $this->db->group_end();
 
-    $this->db->from($this->table);
-    $this->db->group_start();
-    $this->db->where('email', $email_hashed);
-    $this->db->or_where('no_hp', $nohp_hashed);
-    $this->db->group_end();
-
-    return $this->db->count_all_results() > 0;
-}
+        return $this->db->count_all_results() > 0;
+    }
 
 }
