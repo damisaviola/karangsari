@@ -6,13 +6,12 @@ class User_model extends CI_Model
     protected $table = 'penghuni';
     protected $otp_table = 'otp_verifikasi'; 
 
-
     public function insertUser($data)
     {
+       
         return $this->db->insert($this->table, $data);
     }
 
-  
     public function checkDuplicate($email, $no_hp) 
     {
         $this->db->where('email', $email);
@@ -21,19 +20,27 @@ class User_model extends CI_Model
         return $query->num_rows() > 0;
     }
 
-        public function get_by_login($email, $password) {
-        $this->db->where('email', md5($email));     
-        $this->db->where('password', md5($password));
-        return $this->db->get('penghuni')->row();
+    public function get_by_login($email, $password) 
+    {
+        $this->db->where('email', $email);
+        $user = $this->db->get($this->table)->row();
+
+        if ($user && $user->password === md5($password)) {
+            return $user;
+        }
+
+        return null;
     }
 
-    public function get_by_email($email) {
-        $this->db->where('email', md5($email));
-        return $this->db->get('penghuni')->row();
-    }
-    
+    public function get_by_email($email) 
+{
+    $this->db->where('email', $email); // harus plain email
+    return $this->db->get($this->table)->row();
+}
 
-    public function update_last_login($id_penghuni, $ip_address) {
+
+    public function update_last_login($id_penghuni, $ip_address) 
+    {
         $data = [
             'last_login' => date('Y-m-d H:i:s'),
             'ip_login'   => $ip_address,
@@ -43,14 +50,16 @@ class User_model extends CI_Model
         return $this->db->update($this->table, $data);
     }
 
-     public function set_failed_attempt($id_penghuni) {
+     public function set_failed_attempt($id_penghuni)
+    {
         $this->db->set('failed_attempts', 'failed_attempts+1', FALSE);
         $this->db->set('last_failed_attempt', date('Y-m-d H:i:s'));
         $this->db->where('id_penghuni', $id_penghuni);
-        $this->db->update('penghuni');
+        return $this->db->update($this->table);
     }
 
-    public function reset_failed_attempt($id_penghuni) {
+    public function reset_failed_attempt($id_penghuni) 
+    {
         $this->db->set('failed_attempts', 0);
         $this->db->set('last_failed_attempt', NULL);
         $this->db->where('id_penghuni', $id_penghuni);
@@ -83,18 +92,18 @@ class User_model extends CI_Model
         return false;
     }
 
-    public function existsByEmailOrPhone($email_plain, $no_hp_plain)
+    public function existsByEmailOrPhone($email, $no_hp) {
+            $this->db->from($this->table);
+            $this->db->group_start();
+            $this->db->where('email', $email);
+            $this->db->or_where('no_hp', $no_hp);
+            $this->db->group_end();
+            return $this->db->count_all_results() > 0;
+}
+
+    public function get_by_id($id_penghuni)
     {
-        $email_hashed = md5($email_plain);
-        $nohp_hashed  = md5($no_hp_plain);
-
-        $this->db->from($this->table);
-        $this->db->group_start();
-        $this->db->where('email', $email_hashed);
-        $this->db->or_where('no_hp', $nohp_hashed);
-        $this->db->group_end();
-
-        return $this->db->count_all_results() > 0;
+        $this->db->where('id_penghuni', $id_penghuni);
+        return $this->db->get($this->table)->row();
     }
-
 }
