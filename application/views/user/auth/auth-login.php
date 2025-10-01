@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/compiled/css/app-dark.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/compiled/css/auth.css') ?>">
 
-    <!-- Font Awesome untuk icon WhatsApp -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
@@ -60,21 +59,20 @@
         <script src="<?= base_url('assets/dist/assets/static/js/initTheme.js') ?>"></script>
 
         <div class="row h-100">
-            <!-- Login Form -->
             <div class="col-lg-5 col-12">
                 <div id="auth-left" class="fade-up">
                     <div class="auth-logo"></div>
                     <h1 class="auth-title">Masuk.</h1>
                     <p class="auth-subtitle mb-5">Silakan masuk dengan data yang Anda masukkan saat pendaftaran.</p>
 
-                     <!-- Flashdata -->
-                    <?php if ($this->session->flashdata('error')): ?>
-                        <?= $this->session->flashdata('error'); ?>
+                     <?php if ($this->session->flashdata('error')): ?>
+                        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                            <?= $this->session->flashdata('error') ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     <?php endif; ?>
                     
-                    <?php if ($this->session->flashdata('success')): ?>
-                        <?= $this->session->flashdata('success'); ?>
-                    <?php endif; ?>
+            
 
                     <form action="<?= site_url('user/auth/login/login_action') ?>" method="post">
                     <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" 
@@ -99,12 +97,15 @@
                                 Keep me logged in
                             </label>
                         </div>
+
+                        <div class="form-group mt-3">
+                            <div class="g-recaptcha" data-sitekey="6LfMpNorAAAAAL8ExfzyifLLO_FMR60LnUp1K1l2"></div>
+                        </div>
+
                         <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Masuk</button>
 
                         <!-- Divider -->
                         <div class="divider"><span>atau login dengan cara lain</span></div>
-
-                        <!-- Button Login WhatsApp -->
                         <a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20login" 
                            target="_blank" class="btn btn-success btn-block btn-lg shadow-lg">
                             <i class="fa-brands fa-whatsapp"></i> Login dengan WhatsApp
@@ -121,7 +122,7 @@
                 </div>
             </div>
 
-            <!-- Right Side / Gambar -->
+
             <div class="col-lg-7 d-none d-lg-block">
                 <div id="auth-right"></div>
             </div>
@@ -138,6 +139,8 @@
             }
         });
     </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 </body>
 
 </html>
