@@ -225,12 +225,33 @@
                     <span>Dashboard</span>
                 </a>
             </li>
+
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/penghuni' || $this->uri->uri_string() == 'admin/kamar/tambah_kamarrr') ? 'active' : '' ?>">
+                <a href="<?= site_url('admin/penghuni') ?>" class="sidebar-link">
+                    <i class="bi bi bi-people-fill"></i>
+                    <span>Penghuni</span>
+                </a>
+            </li>
             
 
             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pemesanan') ? 'active' : '' ?>">
                 <a href="<?= base_url('admin/pemesanan') ?>" class="sidebar-link">
                     <i class="bi bi-calendar-check-fill"></i>
                     <span>Pemesanan</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pemesanan') ? 'active' : '' ?>">
+                <a href="<?= base_url('admin/pemesanan') ?>" class="sidebar-link">
+                    <i class="bi-wallet-fill"></i>
+                    <span>Tagihan</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pemesanan') ? 'active' : '' ?>">
+                <a href="<?= base_url('admin/pemesanan') ?>" class="sidebar-link">
+                    <i class="bi bi-calendar-check-fill"></i>
+                    <span>Pembayaran</span>
                 </a>
             </li>
 
@@ -243,12 +264,7 @@
             </li>
 
 
-            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/penghuni' || $this->uri->uri_string() == 'admin/kamar/tambah_kamarrr') ? 'active' : '' ?>">
-                <a href="<?= site_url('admin/penghuni') ?>" class="sidebar-link">
-                    <i class="bi bi bi-people-fill"></i>
-                    <span>Penghuni</span>
-                </a>
-            </li>
+            
 
                 <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/mail') ? 'active' : '' ?>">
                         <a class="sidebar-link show-chat-sidebar">
@@ -267,37 +283,44 @@
                 </a>
             </li>
 
-
-        <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/notifikasi') ? 'active' : '' ?>">
-            <a href="<?= site_url('admin/notifikasi') ?>" class="sidebar-link">
-                <i class="bi bi-bell-fill"></i>
-                <span>Notifikasi</span>
-            </a>
-        </li>
-
-
-        <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pengumuman') ? 'active' : '' ?>">
-            <a href="<?= site_url('admin/pengumuman') ?>" class="sidebar-link">
-                <i class="bi bi-megaphone-fill"></i>
-                <span>Pengumuman</span>
-            </a>
-        </li>
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/notifikasi') ? 'active' : '' ?>">
+                <a href="<?= site_url('admin/notifikasi') ?>" class="sidebar-link">
+                    <i class="bi bi-bell-fill"></i>
+                    <span>Notifikasi</span>
+                </a>
+            </li>
 
 
-        <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/backup') ? 'active' : '' ?>">
-            <a href="<?= site_url('admin/backup') ?>" class="sidebar-link">
-                <i class="bi bi-hdd-stack-fill"></i>
-                <span>Backup Data</span>
-            </a>
-        </li>
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pengumuman') ? 'active' : '' ?>">
+                <a href="<?= site_url('admin/pengumuman') ?>" class="sidebar-link">
+                    <i class="bi bi-megaphone-fill"></i>
+                    <span>Pengumuman</span>
+                </a>
+            </li>
 
 
-        <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/auth/login/logout') ? 'active' : '' ?>">
-            <a href="<?= site_url('admin/auth/login/logout') ?>" class="sidebar-link">
-                <i class="bi bi-megaphone-fill"></i>
-                <span>Logou</span>
-            </a>
-        </li>
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/backup') ? 'active' : '' ?>">
+                <a href="<?= site_url('admin/backup') ?>" class="sidebar-link">
+                    <i class="bi bi-hdd-stack-fill"></i>
+                    <span>Backup Data</span>
+                </a>
+            </li>
+
+
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/inventory') ? 'active' : '' ?>">
+                    <a href="<?= site_url('admin/inventory') ?>" class="sidebar-link">
+                        <i class="bi bi-gear-fill"></i>
+                        <span>Pengaturan</span>
+                    </a>
+                </li>
+
+
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/auth/login/logout') ? 'active' : '' ?>">
+                <a href="<?= site_url('admin/auth/login/logout') ?>" class="sidebar-link">
+                    <i class="bi bi-door-open-fill"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
 
 
             <li

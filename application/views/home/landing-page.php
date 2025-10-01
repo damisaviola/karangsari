@@ -29,6 +29,16 @@
 
     <link rel="stylesheet" href="<?= base_url('assets/home/css/style.css') ?>">
 
+    <style>
+      .exclusive-text {
+          font-size: 0.6em; 
+          font-weight: 400; 
+          display: block; 
+          margin-top: -4px; 
+          color: #ffcc00; 
+        }
+    </style>
+
   </head>
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
   
@@ -50,7 +60,11 @@
         <div class="row align-items-center">
           
           <div class="col-6 col-xl-2">
-            <h1 class="mb-0 site-logo m-0 p-0"><a href="index.html" class="mb-0">Warehouse</a></h1>
+            <h1 class="mb-0 site-logo m-0 p-0">
+              <a href="index.html" class="mb-0">
+                Karangsari <span class="exclusive-text">Exclusive</span>
+              </a>
+            </h1>
           </div>
 
           <div class="col-12 col-md-10 d-none d-xl-block">
@@ -62,8 +76,9 @@
                 <li><a href="#properties-section" class="nav-link">Galeri</a></li>
                 <li><a href="#about-section" class="nav-link">Tentang</a></li>
                 <li><a href="#contact-section" class="nav-link">Kontak</a></li>
-                <li><a href="#agents-section" class="nav-link">Daftar</a></li>
-                <li><a href="#agents-section" class="nav-link">Masuk</a></li>
+                <li><a href="<?= site_url('user/auth/register') ?>" class="nav-link">Daftar</a></li>
+                <li><a href="<?= site_url('user/auth/login') ?>" class="nav-link">Masuk</a></li>
+
               </ul>
             </nav>
           </div>
@@ -301,43 +316,111 @@
       </div>
     </div>
     
-    <section class="py-5 bg-primary site-section how-it-works" id="howitworks-section">
-      <div class="container">
-        <div class="row mb-5 justify-content-center">
-          <div class="col-md-7 text-center">
-            <h2 class="section-title mb-3 text-black">How It Works</h2>
-          </div>
+   <section class="py-5 bg-primary site-section how-it-works" id="howitworks-section">
+  <div class="container">
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-7 text-center">
+        <h2 class="section-title mb-3 text-black">Gini Caranya</h2>
+      </div>
+    </div>
+    <div class="row timeline-row">
+      <!-- Step 1 -->
+      <div class="col-md-4 text-center mb-4 mb-md-0">
+        <div class="step">
+          <div class="circle">01</div>
+          <span class="custom-icon flaticon-house text-black"></span>
+          <h3 class="step-title text-black">Temukan Kamar</h3>
+          <p class="step-desc text-black">Temukan kamar kost yang cozy dan cocok buat kamu.</p>
         </div>
-        <div class="row">
-          <div class="col-md-4 text-center">
-            <div class="pr-5 first-step">
-              <span class="text-black">01.</span>
-              <span class="custom-icon flaticon-house text-black"></span>
-              <h3 class="text-black">Find Property.</h3>
-              <p class="text-black">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-          </div>
+      </div>
 
-          <div class="col-md-4 text-center">
-            <div class="pr-5 second-step">
-              <span class="text-black">02.</span>
-              <span class="custom-icon flaticon-coin text-black"></span>
-              <h3 class="text-dark">Buy Property.</h3>
-              <p class="text-black">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-          </div>
-
-          <div class="col-md-4 text-center">
-            <div class="pr-5">
-              <span class="text-black">03.</span>
-              <span class="custom-icon flaticon-home text-black"></span>
-              <h3 class="text-dark">Outstanding Houses.</h3>
-              <p class="text-black">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-          </div>
+      <!-- Step 2 -->
+      <div class="col-md-4 text-center mb-4 mb-md-0">
+        <div class="step">
+          <div class="circle">02</div>
+          <span class="custom-icon flaticon-coin text-black"></span>
+          <h3 class="step-title text-black">Pesan Kamar</h3>
+          <p class="step-desc text-black">Pilih kamar yang kamu suka dan pesan dengan gampang.</p>
         </div>
-      </div>  
-    </section>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="col-md-4 text-center">
+        <div class="step">
+          <div class="circle">03</div>
+          <span class="custom-icon flaticon-home text-black"></span>
+          <h3 class="step-title text-black">Tinggal Nyaman</h3>
+          <p class="step-desc text-black">Nikmati kamar kostmu, santai, dan bebas ribet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<style>
+.timeline-row {
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .timeline-row::before {
+    content: '';
+    position: absolute;
+    top: 30px;  
+    left: 16.66%; 
+    width: 66.66%; 
+    height: 2px;
+    background-color: #ffcc00;
+    z-index: 0;
+  }
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  background-color: #ffcc00;
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px auto;
+  font-size: 1rem;        
+  font-weight: 400;          
+  font-family: inherit;      
+  position: relative;
+  z-index: 1;
+}
+
+.step {
+  position: relative;
+  padding: 20px 10px;
+  z-index: 1;
+}
+
+.step-title {
+  font-size: 1.3rem;
+  margin: 10px 0;
+}
+
+.step-desc {
+  font-size: 1rem;
+  color: #000;
+}
+
+.custom-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.step-title, .step-desc {
+  font-family: 'Poppins', sans-serif; 
+  color: #000;
+}
+
+</style>
 
 
 
@@ -534,16 +617,16 @@
 
             <form action="#" class="p-5 bg-white">
               
-              <h2 class="h4 text-black mb-5">Get In Touch</h2> 
+              <h2 class="h4 text-black mb-5">Hai! Ada yang ingin ditanyakan?</h2> 
 
               <div class="row form-group">
                 <div class="col-md-6 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">First Name</label>
-                  <input type="text" id="fname" class="form-control">
+                  <label class="text-black" for="fname">Nama Depan</label>
+                  <input type="text" id="fname" class="form-control" placeholder="Contoh: Jason">
                 </div>
                 <div class="col-md-6">
-                  <label class="text-black" for="lname">Last Name</label>
-                  <input type="text" id="lname" class="form-control">
+                  <label class="text-black" for="lname">Nama Belakang</label>
+                  <input type="text" id="lname" class="form-control" placeholder="Contoh: Susanto">
                 </div>
               </div>
 
@@ -551,28 +634,28 @@
                 
                 <div class="col-md-12">
                   <label class="text-black" for="email">Email</label> 
-                  <input type="email" id="email" class="form-control">
+                  <input type="email" id="email" class="form-control" placeholder="contoh@email.com">
                 </div>
               </div>
 
               <div class="row form-group">
                 
                 <div class="col-md-12">
-                  <label class="text-black" for="subject">Subject</label> 
-                  <input type="subject" id="subject" class="form-control">
+                  <label class="text-black" for="subject">Subjekmu</label> 
+                  <input type="subject" id="subject" class="form-control" placeholder="Judul pesanmu">
                 </div>
               </div>
 
               <div class="row form-group">
                 <div class="col-md-12">
-                  <label class="text-black" for="message">Message</label> 
-                  <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Write your notes or questions here..."></textarea>
+                  <label class="text-black" for="message">Pesanmu</label> 
+                  <textarea name="message" id="message" cols="30" rows="7" class="form-control" placeholder="Tulis pesanmu di sini, kita akan membalas secepatnya 😊"></textarea>
                 </div>
               </div>
 
               <div class="row form-group">
                 <div class="col-md-12">
-                  <input type="submit" value="Send Message" class="btn btn-primary btn-md text-white">
+                  <input type="submit" value="Kirim Pesanmu" class="btn btn-primary btn-md text-white">
                 </div>
               </div>
 
@@ -582,14 +665,15 @@
           <div class="col-md-5">
             
             <div class="p-4 mb-3 bg-white">
-              <p class="mb-0 font-weight-bold">Address</p>
-              <p class="mb-4">203 Fake St. Mountain View, San Francisco, California, USA</p>
+              <p class="mb-0 font-weight-bold">Alamat</p>
+              <p class="mb-4">Jln. Stadion, Karangsari, Wedomartani, Ngemplak,  
+                Sleman,Yogyakarta 55584 </p>
 
-              <p class="mb-0 font-weight-bold">Phone</p>
+              <p class="mb-0 font-weight-bold">Nomor HP</p>
               <p class="mb-4"><a href="#">+1 232 3235 324</a></p>
 
-              <p class="mb-0 font-weight-bold">Email Address</p>
-              <p class="mb-0"><a href="#">youremail@domain.com</a></p>
+              <p class="mb-0 font-weight-bold">Email</p>
+              <p class="mb-0"><a href="#">Karangsariexclusive@gmail.com</a></p>
 
             </div>
             
@@ -605,7 +689,7 @@
           <div class="col-md-8">
             <div class="row">
               <div class="col-md-5">
-                <h2 class="footer-heading mb-4">About Us</h2>
+                <h2 class="footer-heading mb-4">Tentang Kami</h2>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque facere laudantium magnam voluptatum autem. Amet aliquid nesciunt veritatis aliquam.</p>
               </div>
               <div class="col-md-3 mx-auto">

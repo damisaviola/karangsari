@@ -109,7 +109,7 @@
                         <div class="form-check mt-3">
                             <input class="form-check-input" type="checkbox" id="terms" required>
                             <label class="form-check-label" for="terms">
-                                Dengan mendaftar, Anda telah setuju dengan kebijakan dan aturan dalam menggunakan sistem <b>D'Paragon</b>.
+                                Dengan mendaftar, Anda telah setuju dengan kebijakan dan aturan dalam menggunakan sistem <b>Karangsari Exclusive</b>.
                             </label>
                         </div>
 

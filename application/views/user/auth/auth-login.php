@@ -91,25 +91,15 @@
                                 <i class="bi bi-shield-lock"></i>
                             </div>
                         </div>
-                        <div class="form-check form-check-lg d-flex align-items-end">
-                            <input class="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label text-gray-600" for="flexCheckDefault">
-                                Keep me logged in
-                            </label>
-                        </div>
-
+                       
+                        <label for="">Captcha : </label>
                         <div class="form-group mt-3">
                             <div class="g-recaptcha" data-sitekey="6LfMpNorAAAAAL8ExfzyifLLO_FMR60LnUp1K1l2"></div>
                         </div>
 
                         <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Masuk</button>
 
-                        <!-- Divider -->
-                        <div class="divider"><span>atau login dengan cara lain</span></div>
-                        <a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20login" 
-                           target="_blank" class="btn btn-success btn-block btn-lg shadow-lg">
-                            <i class="fa-brands fa-whatsapp"></i> Login dengan WhatsApp
-                        </a>
+                       
                     </form>
 
                     <div class="text-center mt-5 text-lg fs-4">
