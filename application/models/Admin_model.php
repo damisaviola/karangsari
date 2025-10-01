@@ -11,9 +11,9 @@ class Admin_model extends CI_Model
     }
 
     public function get_by_username($username) {
-        $hashed_username = md5($username);
-        return $this->db->get_where($this->table, ['username' => $hashed_username])->row();
-    }
+    return $this->db->get_where($this->table, ['username' => $username])->row();
+}
+
 
     public function update_password($id_admin, $new_password) {
         $hashed = md5($new_password);

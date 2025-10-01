@@ -28,9 +28,10 @@ class Login extends CI_Controller {
         $this->load->view('admin/auth/login-admin');
     }
 
-    public function login_action() {
+  public function login_action() {
     if ($this->session->userdata('id_admin')) {
         redirect('admin/dashboard');
+        return;
     }
 
     $this->form_validation->set_rules('username','Username','required|trim');
@@ -46,10 +47,12 @@ class Login extends CI_Controller {
     $password   = $this->security->xss_clean($this->input->post('password', TRUE));
     $ip_address = $this->input->ip_address();
 
+    // Ambil data admin berdasarkan username
     $admin = $this->admin->get_by_username($username);
 
     if ($admin && $admin->status === 'aktif') {
 
+        // Cek apakah akun terkunci
         if ($admin->failed_attempts >= $this->max_attempts && 
             (time() - strtotime($admin->last_failed_attempt)) < $this->lockout_time) {
             
@@ -58,10 +61,12 @@ class Login extends CI_Controller {
             return;
         }
 
+        // Cek password MD5 saja
         if ($admin->password === md5($password)) {
+            // Reset failed attempt
             $this->admin->reset_failed_attempt($admin->id_admin);
-            $this->session->sess_regenerate(TRUE);
 
+            $this->session->sess_regenerate(TRUE);
             $this->session->set_userdata([
                 'id_admin'     => $admin->id_admin,
                 'username'     => $username,
@@ -72,12 +77,13 @@ class Login extends CI_Controller {
                 'ip_address'   => $ip_address
             ]);
 
+            // Update last login
             $this->admin->update_last_login($admin->id_admin);
 
             redirect('admin/dashboard');
             return;
         } else {
-
+            // Password salah → tambah failed attempt
             $this->admin->set_failed_attempt($admin->id_admin);
         }
     }

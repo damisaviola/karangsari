@@ -37,28 +37,66 @@
             </div>
         </div>
     </div>
-    <div class="sidebar-menu">
-        <ul class="menu">
-            <li class="sidebar-title">Menu</li>
-            
-            <li
-                class="sidebar-item active ">
-                <a href="index.html" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
-                    <span>Dashboard</span>
-                </a>
-    
-            </li>
+   <div class="sidebar-menu">
+    <ul class="menu">
+        <li class="sidebar-title">Menu</li>
 
-            <li
-            class="sidebar-item">
-            <a href="javascript:void(0)" class="sidebar-link" id="btnLogout">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>logout</span>
+    
+        <li class="sidebar-item active">
+            <a href="<?= site_url('user/dashboard') ?>" class="sidebar-link">
+                <i class="bi bi-grid-fill"></i>
+                <span>Dashboard</span>
             </a>
-        
-            </li>
-            
-           
-    </div>
+        </li>
+
+        <!-- Tagihan -->
+        <li class="sidebar-item">
+            <a href="<?= site_url('user/tagihan') ?>" class="sidebar-link">
+                <i class="bi bi-wallet-fill"></i>
+                <span>Tagihan</span>
+            </a>
+        </li>
+
+        <!-- Riwayat -->
+        <li class="sidebar-item">
+            <a href="<?= site_url('user/history') ?>" class="sidebar-link">
+                <i class="bi bi-clock-fill"></i>
+                <span>Riwayat</span>
+            </a>
+        </li>
+
+        <!-- Komplain -->
+        <li class="sidebar-item">
+            <a href="<?= site_url('user/komplain') ?>" class="sidebar-link">
+                <i class="bi bi-chat-left-dots-fill"></i>
+                <span>Komplain</span>
+            </a>
+        </li>
+
+        <!-- Notifikasi -->
+        <li class="sidebar-item">
+            <a href="<?= site_url('user/notifikasi') ?>" class="sidebar-link">
+                <i class="bi bi-bell-fill"></i>
+                <span>Notifikasi</span>
+            </a>
+        </li>
+
+        <!-- Pengaturan -->
+        <li class="sidebar-item">
+            <a href="<?= site_url('user/pengaturan') ?>" class="sidebar-link">
+                <i class="bi bi-gear-fill"></i>
+                <span>Pengaturan</span>
+            </a>
+        </li>
+
+        <!-- Logout -->
+        <li class="sidebar-item">
+            <a href="javascript:void(0)" class="sidebar-link" id="btnLogout">
+                <i class="bi bi-door-open-fill"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
 </div>
