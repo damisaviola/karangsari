@@ -8,51 +8,81 @@ class Login extends CI_Controller {
         $this->load->model('Admin_model');
         $this->load->model('User_model');
         $this->load->library('session');
+        $this->load->library('form_validation');
+        $this->load->helper(['url', 'security']);
       
     }
 
     public function index() {
+
+        if ($this->session->userdata('id_penghuni')) {
+            redirect('user/dashboard');
+        }
        
         $this->load->view('user/auth/auth-login');
     }
 
-    public function action_login()
-{
-    $this->form_validation->set_rules('login', 'Email/No HP', 'required|trim');
+ public function login_action() {
+    if ($this->session->userdata('id_penghuni')) {
+        redirect('user/dashboard'); 
+        return;
+    }
+
+    $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
     $this->form_validation->set_rules('password', 'Password', 'required');
 
-    if ($this->form_validation->run() == FALSE) {
-        $this->session->set_flashdata('error', validation_errors('<div class="alert alert-danger">','</div>'));
+    if ($this->form_validation->run() === FALSE) {
+        $this->session->set_flashdata('error', 'Isi email dan password.');
         redirect('user/auth/login');
-    } else {
-        $login_input = $this->input->post('login', TRUE);
-        $password    = $this->input->post('password', TRUE);
-        $password_md5 = md5($password);
-
-        if (filter_var($login_input, FILTER_VALIDATE_EMAIL)) {
-            $login_hashed = md5($login_input);
-            $user = $this->User_model->getUserByEmail($login_hashed);
-        } else {
-            $user = $this->User_model->getUserByPhone($login_input);
-        }
-
-        if ($user) {
-            if ($user['password'] === $password_md5) {
-               
-                $this->session->set_userdata('user_id', $user['id_penghuni']);
-                $this->session->set_userdata('user_email', $login_input); 
-                $this->session->set_flashdata('success', '<div class="alert alert-success">Login berhasil!</div>');
-                echo "berhasil"; 
-            } else {
-                $this->session->set_flashdata('error', '<div class="alert alert-danger">Password salah!</div>');
-                echo "gagal1"; 
-            }
-        } else {
-            $this->session->set_flashdata('error', '<div class="alert alert-danger">Email atau Nomor HP tidak ditemukan!</div>');
-            echo "gagal"; 
-        }
+        return;
     }
+
+    $email_input    = $this->security->xss_clean($this->input->post('email', TRUE));
+    $password_input = $this->security->xss_clean($this->input->post('password', TRUE));
+    $ip_address     = $this->input->ip_address();
+
+    $penghuni = $this->User_model->get_by_login($email_input, $password_input);
+
+    $max_attempts = 5;
+    $lockout_time = 15 * 60; 
+
+    if ($penghuni && $penghuni->status === 'aktif') {
+        if ($penghuni->failed_attempts >= $max_attempts && 
+            (time() - strtotime($penghuni->last_failed_attempt)) < $lockout_time) {
+            
+            $this->session->set_flashdata('error', 'Akun terkunci karena gagal login terlalu banyak. Tunggu 15 menit.');
+            redirect('user/auth/login');
+            return;
+        }
+
+        $this->session->sess_regenerate(TRUE);
+
+        $this->session->set_userdata([
+            'id_penghuni' => $penghuni->id_penghuni,
+            'nama'        => $penghuni->nama,
+            'email'       => $email_input,   
+            'no_hp'       => $penghuni->no_hp,
+            'alamat'      => $penghuni->alamat,
+            'status'      => $penghuni->status,
+            'ip_login'    => $ip_address,
+            'logged_in'   => TRUE
+        ]);
+
+
+        $this->User_model->reset_failed_attempt($penghuni->id_penghuni);
+        $this->User_model->update_last_login($penghuni->id_penghuni, $ip_address);
+
+        redirect('user/dashboard');
+        return;
+
+    } else if ($penghuni) {
+        $this->User_model->set_failed_attempt($penghuni->id_penghuni);
+    }
+
+    $this->session->set_flashdata('error', 'Email atau password salah.');
+    redirect('user/auth/login');
 }
+
 
 
     public function login_whatsapp() {

@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class User_model extends CI_Model
 {
     protected $table = 'penghuni';
-    protected $otp_table = 'otp_verifikasi'; // pastikan tabel OTP dideklarasikan
+    protected $otp_table = 'otp_verifikasi'; 
 
 
     public function insertUser($data)
@@ -22,11 +22,42 @@ class User_model extends CI_Model
     }
 
 
-    public function getUserByEmail($email_hashed) 
-    {
-        return $this->db->get_where($this->table, ['email' => $email_hashed])->row_array();
+    public function get_by_email($email_md5) {
+        return $this->db->where('email', $email_md5)->get('penghuni')->row();
     }
 
+    public function get_by_login($email, $password) {
+    $this->db->where('email', md5($email));     
+    $this->db->where('password', md5($password));
+    return $this->db->get('penghuni')->row();
+}
+
+    
+
+
+    public function update_last_login($id_penghuni, $ip_address) {
+        $data = [
+            'last_login' => date('Y-m-d H:i:s'),
+            'ip_login'   => $ip_address,
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+        $this->db->where('id_penghuni', $id_penghuni);
+        return $this->db->update($this->table, $data);
+    }
+
+     public function set_failed_attempt($id_penghuni) {
+        $this->db->set('failed_attempts', 'failed_attempts+1', FALSE);
+        $this->db->set('last_failed_attempt', date('Y-m-d H:i:s'));
+        $this->db->where('id_penghuni', $id_penghuni);
+        return $this->db->update($this->table);
+    }
+
+    public function reset_failed_attempt($id_penghuni) {
+        $this->db->set('failed_attempts', 0);
+        $this->db->set('last_failed_attempt', NULL);
+        $this->db->where('id_penghuni', $id_penghuni);
+        return $this->db->update($this->table);
+    }
 
     public function getUserByPhone($phone) 
     {

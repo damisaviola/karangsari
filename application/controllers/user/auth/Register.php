@@ -17,7 +17,7 @@ class Register extends CI_Controller {
     }
 
     public function verify_otp() {
-        $this->load->view('user/auth/login-wa'); 
+        $this->load->view('user/auth/get-otp'); 
     }
 
     public function action_register(){

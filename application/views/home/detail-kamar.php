@@ -131,11 +131,20 @@
               <?php endif; ?>
             </div>
 
-            <a href="#" class="btn btn-primary btn-block rounded-pill">Pesan Sekarang</a>
+            <!-- Tombol Pesan -->
+            <?php if ($this->session->userdata('user_id')): ?>
+              <a href="<?= base_url('pemesanan/create/'.$room['id']) ?>" 
+                 class="btn btn-primary btn-block rounded-pill">Pesan Sekarang</a>
+            <?php else: ?>
+               <a href="<?= base_url('user/auth/login') ?>" 
+                  class="btn btn-secondary btn-block rounded-pill">
+                  Login untuk Pesan
+                </a>
+            <?php endif; ?>
           </div>
         </div>
 
-    
+        <!-- Info Admin -->
         <div class="card shadow-sm rounded-lg">
           <div class="card-body text-center">
             <img src="<?= base_url('assets/home/images/person_1.jpg') ?>" alt="Admin Kos" class="rounded-circle mb-3" style="width:100px;height:100px;object-fit:cover;">
@@ -150,6 +159,7 @@
     </div>
   </div>
 </div>
+
 
 <style>
 
@@ -268,6 +278,7 @@
     <script src="<?= base_url('assets/home/js/jquery.fancybox.min.js') ?>"></script>
     <script src="<?= base_url('assets/home/js/jquery.sticky.js') ?>"></script>
     <script src="<?= base_url('assets/home/js/main.js') ?>"></script>
+    
 
 
   </body>
