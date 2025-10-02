@@ -141,13 +141,13 @@
         </div>
       <?php endif; ?>
       
-      <form action="<?= base_url('home/create2') ?>" method="get" class="row g-4 align-items-end">
+      <form action="<?= base_url('home/create2') ?>" method="get" class="row g-4 align-items-end" id="booking-form">
         
         <!-- Check In -->
         <div class="col-12 col-md-6 mb-3 mb-md-0">
           <label class="form-label fw-semibold" style="font-size: 0.95rem;">CHECK IN</label>
           <div class="input-card p-3 rounded-4 border bg-light d-flex align-items-center">
-            <input type="date" name="check_in" class="form-control border-0 bg-light w-100 h-100" min="<?= $today ?>" required>
+            <input type="date" name="check_in" id="check_in" class="form-control border-0 bg-light w-100 h-100" min="<?= $today ?>" required>
           </div>
         </div>
 
@@ -155,7 +155,7 @@
         <div class="col-12 col-md-6">
           <label class="form-label fw-semibold " style="font-size: 0.95rem;">CHECK OUT</label>
           <div class="input-card p-3 rounded-4 border bg-light d-flex align-items-center">
-            <input type="date" name="check_out" class="form-control border-0 bg-light w-100 h-100" min="<?= $today ?>" required>
+            <input type="date" name="check_out" id="check_out" class="form-control border-0 bg-light w-100 h-100" required>
           </div>
         </div>
 
@@ -170,6 +170,41 @@
     </div>
   </div>
 </section>
+
+<script>
+  const checkIn = document.getElementById('check_in');
+  const checkOut = document.getElementById('check_out');
+
+  checkIn.addEventListener('change', () => {
+    if(!checkIn.value) return;
+
+    // Hitung tanggal satu bulan berikutnya
+    const inDate = new Date(checkIn.value);
+    const outDate = new Date(inDate);
+    outDate.setMonth(outDate.getMonth() + 1); // tambah 1 bulan
+
+    const year = outDate.getFullYear();
+    const month = (outDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = outDate.getDate().toString().padStart(2, '0');
+
+    checkOut.value = `${year}-${month}-${day}`;
+    checkOut.min = checkOut.value; // pastikan tidak bisa kurang dari 1 bulan
+  });
+
+  // optional: prevent manual input kurang dari 1 bulan
+  checkOut.addEventListener('input', () => {
+    const inDate = new Date(checkIn.value);
+    const outDate = new Date(checkOut.value);
+    const minOut = new Date(inDate);
+    minOut.setMonth(minOut.getMonth() + 1);
+
+    if(outDate < minOut) {
+      alert('Durasi minimal booking adalah 1 bulan!');
+      checkOut.value = '';
+    }
+  });
+</script>
+
 
 
 <style>

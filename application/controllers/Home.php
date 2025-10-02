@@ -10,6 +10,7 @@ class Home extends CI_Controller {
         $this->load->helper(['url', 'form']);
         $this->load->library('form_validation');
         $this->load->library('session');
+         $this->load->model('User_model');
       
     }
 
@@ -45,8 +46,7 @@ class Home extends CI_Controller {
 }
 
 
-public function create2()
-{
+public function create2() {
     $check_in  = $this->security->xss_clean($this->input->get('check_in', true));
     $check_out = $this->security->xss_clean($this->input->get('check_out', true));
 
@@ -65,32 +65,57 @@ public function create2()
         return;
     }
 
+    $monthly_rate = 1100000;
+    $daily_rate   = $monthly_rate / 30; 
+
+    $interval    = $inDate->diff($outDate);
+    $total_days  = $interval->days;
+
+    $total_price = round($total_days * $daily_rate);
+    $this->session->set_userdata([
+        'check_in'   => $check_in,
+        'check_out'  => $check_out,
+        'total_days' => $total_days,
+        'daily_rate' => round($daily_rate),
+        'total_price'=> $total_price
+    ]);
+
     $data['available_rooms'] = $this->Booking_model->getAvailableRooms($check_in, $check_out);
-    $data['check_in']  = html_escape($check_in);
-    $data['check_out'] = html_escape($check_out);
+    $data['check_in']        = $check_in;
+    $data['check_out']       = $check_out;
 
     $this->load->view('home/results', $data);
 }
 
 
-    public function detail_kamar($id_kamar = null) {
-        if ($id_kamar === null || !ctype_digit((string)$id_kamar)) {
-            $this->session->set_flashdata('error', 'ID kamar tidak valid.');
-            redirect('home');
-            return;
-        }
 
-        $id_kamar = (int)$id_kamar;
-        $room = $this->Booking_model->getRoomById($id_kamar);
-
-        if (!$room) {
-            $this->session->set_flashdata('error', 'Kamar tidak tersedia.');
-            redirect('home');
-            return;
-        }
-
-        $data['room'] = $room;
-        $this->load->view('home/detail-kamar', $data);
+   public function detail_kamar($id_kamar = null) {
+    if ($id_kamar === null || !ctype_digit((string)$id_kamar)) {
+        $this->session->set_flashdata('error', 'ID kamar tidak valid.');
+        redirect('home');
+        return;
     }
+
+    $id_kamar = (int)$id_kamar;
+    $room = $this->Booking_model->getRoomById($id_kamar);
+
+    if (!$room) {
+        $this->session->set_flashdata('error', 'Kamar tidak tersedia.');
+        redirect('home');
+        return;
+    }
+    $session_data = [
+        'check_in'   => $this->session->userdata('check_in'),
+        'check_out'  => $this->session->userdata('check_out'),
+        'total_days' => $this->session->userdata('total_days'),
+        'daily_rate' => $this->session->userdata('daily_rate'),
+        'total_price'=> $this->session->userdata('total_price'),
+    ];
+
+    $data['room'] = $room;
+    $data['session_data'] = $session_data;
+
+    $this->load->view('home/detail-kamar', $data);
+}
     
 }

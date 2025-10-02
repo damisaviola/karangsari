@@ -92,24 +92,49 @@
 
     
     
+<?php
+
+$session_data = [
+    'check_in'    => $this->session->userdata('check_in') ?? null,
+    'check_out'   => $this->session->userdata('check_out') ?? null,
+    'monthly_rate'=> $room['harga'] ?? 0,
+    'daily_rate'  => 0,
+    'total_days'  => 0,
+    'total_price' => 0
+];
+
+if(!empty($session_data['check_in']) && !empty($session_data['check_out'])) {
+    $in  = new DateTime($session_data['check_in']);
+    $out = new DateTime($session_data['check_out']);
+    $diff = $out->diff($in);
+    $session_data['total_days'] = $diff->days > 0 ? $diff->days : 1; 
+
+    if($session_data['total_days'] <= 31){
+        $session_data['total_price'] = $session_data['monthly_rate'];
+        $session_data['daily_rate'] = round($session_data['total_price'] / $session_data['total_days']);
+    } else {
+        $months = ceil($session_data['total_days'] / 30);
+        $session_data['total_price'] = $months * $session_data['monthly_rate'];
+        $session_data['daily_rate'] = round($session_data['total_price'] / $session_data['total_days']);
+    }
+}
+?>
+
+
+
 <div class="site-section" id="property-details">
   <div class="container">
     <div class="row">
 
-      <!-- Carousel Gambar Kamar -->
-      <div class="col-lg-7 mb-4 mb-lg-0">
+        <div class="col-lg-7 mb-4 mb-lg-0">
         <div class="owl-carousel slide-one-item with-dots rounded shadow-sm">
-          <?php if(!empty($room['images'])): ?>
-            <?php foreach($room['images'] as $img): ?>
-              <div><img src="<?= base_url('uploads/kamar/'.$img) ?>" alt="Kamar Image" class="img-fluid rounded"></div>
-            <?php endforeach; ?>
-          <?php else: ?>
-            <div><img src="<?= base_url('assets/home/images/property_1.jpg') ?>" alt="Kamar Image" class="img-fluid rounded"></div>
-          <?php endif; ?>
+          <div><img src="<?= base_url('assets/home/images/property_1.jpg') ?>" alt="Kamar Image" class="img-fluid rounded"></div>
+          <div><img src="<?= base_url('assets/home/images/property_2.jpg') ?>" alt="Kamar Image" class="img-fluid rounded"></div>
+          <div><img src="<?= base_url('assets/home/images/property_3.jpg') ?>" alt="Kamar Image" class="img-fluid rounded"></div>
         </div>
       </div>
 
-      <!-- Detail Kamar & Info Admin -->
+ 
       <div class="col-lg-5 pl-lg-5 ml-auto">
         <div class="card shadow-sm rounded-lg mb-4">
           <div class="card-body">
@@ -117,10 +142,10 @@
 
             <p class="mb-2"><strong>Nomor Kamar:</strong> <?= $room['nomor_kamar'] ?></p>
             <p class="mb-2"><strong>Lantai:</strong> <?= $room['lantai'] ?></p>
-            <p class="mb-2"><strong>Harga:</strong> <span class="text-success h5">Rp <?= number_format($room['harga'], 0, ',', '.') ?></span></p>
+            <p class="mb-2"><strong>Harga per bulan:</strong> <span class="text-success h5">Rp <?= number_format($room['harga'], 0, ',', '.') ?></span></p>
             <p class="mb-3"><?= $room['deskripsi'] ?></p>
 
-            <h5 class="text-primary mb-3">Fasilitas:</h5>
+             <h5 class="text-primary mb-3">Fasilitas:</h5>
             <div class="d-flex flex-wrap mb-3">
               <?php if(!empty($room['fasilitas'])): ?>
                 <?php foreach($room['fasilitas'] as $f): ?>
@@ -131,16 +156,30 @@
               <?php endif; ?>
             </div>
 
-            <!-- Tombol Pesan -->
-            <?php if ($this->session->userdata('user_id')): ?>
-              <a href="<?= base_url('pemesanan/create/'.$room['id']) ?>" 
-                 class="btn btn-primary btn-block rounded-pill">Pesan Sekarang</a>
-            <?php else: ?>
-               <a href="<?= base_url('user/auth/login') ?>" 
-                  class="btn btn-secondary btn-block rounded-pill">
-                  Login untuk Pesan
-                </a>
+
+            <?php if(!empty($session_data['check_in']) && !empty($session_data['check_out'])): ?>
+              <div class="mb-3 p-3 border rounded bg-light">
+                <h5 class="text-primary mb-2">Informasi Booking</h5>
+                <p class="mb-1"><strong>Check In:</strong> <?= $session_data['check_in'] ?></p>
+                <p class="mb-1"><strong>Check Out:</strong> <?= $session_data['check_out'] ?></p>
+                <p class="mb-1"><strong>Durasi:</strong> <?= $session_data['total_days'] ?> hari</p>
+                <p class="mb-0"><strong>Total Harga:</strong> Rp <?= number_format($session_data['total_price'], 0, ',', '.') ?></p>
+              </div>
             <?php endif; ?>
+
+           
+
+                    <!-- Tombol Pesan -->
+                  <?php if ($this->session->userdata('id_penghuni')): ?>
+                    <a href="<?= base_url('pemesanan/create/'.$room['id_kamar']) ?>" 
+                      class="btn btn-primary btn-block rounded-pill">Pesan Sekarang</a>
+                    <?php else: ?>
+                        <a href="<?= base_url('user/auth/login') ?>" 
+                          class="btn btn-secondary btn-block rounded-pill">
+                          Login untuk Pesan
+                        </a>
+                    <?php endif; ?>
+
           </div>
         </div>
 
@@ -159,6 +198,7 @@
     </div>
   </div>
 </div>
+
 
 
 <style>
