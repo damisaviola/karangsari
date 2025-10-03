@@ -12,6 +12,11 @@ class User_model extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
+    public function get_all() {
+        $this->db->order_by('id_penghuni', 'DESC');
+        return $this->db->get('penghuni')->result();
+    }
+
     public function checkDuplicate($email, $no_hp) 
     {
         $this->db->where('email', $email);
