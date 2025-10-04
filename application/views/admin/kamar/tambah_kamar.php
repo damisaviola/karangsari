@@ -81,7 +81,6 @@
                       <label for="status" class="form-label">Status</label>
                       <select id="status" name="status" class="form-select" required>
                         <option value="tersedia">Tersedia</option>
-                        <option value="dipesan">Dipesan</option>
                         <option value="dihuni">Dihuni</option>
                       </select>
                     </div>

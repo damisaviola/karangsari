@@ -50,12 +50,6 @@
                   <input type="email" id="email" name="email" class="form-control" placeholder="Masukkan email" required>
                 </div>
 
-                <!-- Password -->
-                <div class="col-12">
-                  <label for="password" class="form-label">Password</label>
-                  <input type="password" id="password" name="password" class="form-control" placeholder="Minimal 6 karakter" required>
-                </div>
-
                 <!-- Alamat -->
                 <div class="col-12">
                   <label for="alamat" class="form-label">Alamat</label>
@@ -79,6 +73,9 @@
 
               </div>
             </form>
+            <small class="text-muted">
+              * Password akan otomatis tergenerate oleh sistem.
+            </small>
           </div>
         </div>
       </div>

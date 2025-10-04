@@ -59,7 +59,7 @@
                 <h5 class="card-title">
                     Data Pemesanan
                 </h5>
-                <a href="<?= site_url('admin/kamar/tambah_kamar') ?>" 
+                <a href="<?= site_url('admin/pemesanan/tambah_pemesanan') ?>" 
            class="btn-modern">
             <i class="bi bi-plus-lg"></i> Tambah
         </a>

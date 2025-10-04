@@ -21,7 +21,7 @@ class Login extends CI_Controller {
         $this->load->view('user/auth/auth-login');
     }
 
-  public function login_action() 
+ public function login_action() 
 {
     if ($this->session->userdata('id_penghuni')) {
         redirect('user/dashboard'); 
@@ -38,7 +38,7 @@ class Login extends CI_Controller {
         return;
     }
 
- 
+    // Validasi Captcha
     $recaptcha = $this->input->post('g-recaptcha-response');
     if (empty($recaptcha)) {
         $this->session->set_flashdata('error','Silakan centang captcha terlebih dahulu.');
@@ -66,14 +66,14 @@ class Login extends CI_Controller {
         return;
     }
 
-
+    // Cek login
     $email_input    = $this->security->xss_clean($this->input->post('email', TRUE));
     $password_input = $this->security->xss_clean($this->input->post('password', TRUE));
     $ip_address     = $this->input->ip_address();
-    $penghuni = $this->User_model->get_by_email($email_input);
+    $penghuni       = $this->User_model->get_by_email($email_input);
 
     $max_attempts = 5;
-    $lockout_time = 15 * 60; 
+    $lockout_time = 15 * 60; // 15 menit
 
     if ($penghuni) {
         if ($penghuni->failed_attempts >= $max_attempts &&
@@ -83,7 +83,7 @@ class Login extends CI_Controller {
             return;
         }
 
-        if (md5($password_input) === $penghuni->password && $penghuni->status === 'aktif') {
+        if ($password_input === $penghuni->password && $penghuni->status === 'aktif') {
             $this->session->sess_regenerate(TRUE);
 
             $this->session->set_userdata([
@@ -113,6 +113,7 @@ class Login extends CI_Controller {
     $this->session->set_flashdata('error', 'Email atau password salah.');
     redirect('user/auth/login');
 }
+
 
 
     public function login_whatsapp() {
