@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/compiled/css/app.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/compiled/css/app-dark.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/compiled/css/auth.css') ?>">
+    
 </head>
 
 <body>
@@ -44,6 +45,13 @@
                                 <i class="bi bi-shield-lock"></i>
                             </div>
                         </div>
+
+
+                        <label for="">Captcha : </label>
+                        <div class="form-group mt-3">
+                            <div class="g-recaptcha" data-sitekey="6LfMpNorAAAAAL8ExfzyifLLO_FMR60LnUp1K1l2"></div>
+                        </div>
+
                         <div class="form-check form-check-lg d-flex align-items-end">
                             <input class="form-check-input me-2" type="checkbox" name="remember" id="flexCheckDefault">
                             <label class="form-check-label text-gray-600" for="flexCheckDefault">
@@ -59,6 +67,8 @@
             </div>
         </div>
     </div>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 </body>
 
 </html>

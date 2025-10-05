@@ -3,15 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Booking_model extends CI_Model {
 
-    private $table = 'pemesanan';
+    private $table = 'booking';
 
-    // Ambil kamar yang tersedia berdasarkan tanggal
+   
     public function getAvailableRooms($check_in, $check_out) {
         $this->db->select('*');
         $this->db->from('kamar');
         $this->db->where('status', 'tersedia');
 
-        // Hindari kamar yang sedang dipesan pada rentang tanggal tersebut
         $this->db->where("id_kamar NOT IN (
             SELECT id_kamar FROM {$this->table} 
             WHERE status IN ('dipesan', 'dihuni')
@@ -26,14 +25,44 @@ class Booking_model extends CI_Model {
         return $query->result();
     }
 
-    // Ambil data kamar berdasarkan ID
+    public function get_all() {
+            $this->db->select('
+                booking.*, 
+                penghuni.nama AS nama_penghuni, 
+                kamar.nomor_kamar, 
+                kamar.harga
+            ');
+            $this->db->from($this->table);
+            $this->db->join('penghuni', 'penghuni.id_penghuni = booking.id_penghuni');
+            $this->db->join('kamar', 'kamar.id_kamar = booking.id_kamar');
+            $this->db->order_by('booking.created_at', 'DESC');
+            return $this->db->get()->result();
+        }
+
+         public function get_by_id($id_booking) {
+        $this->db->select('
+            booking.*, 
+            penghuni.nama AS nama_penghuni, 
+            kamar.nomor_kamar, 
+            kamar.harga
+        ');
+        $this->db->from($this->table);
+        $this->db->join('penghuni', 'penghuni.id_penghuni = booking.id_penghuni');
+        $this->db->join('kamar', 'kamar.id_kamar = booking.id_kamar');
+        $this->db->where('booking.id_booking', $id_booking);
+        return $this->db->get()->row();
+    }
+
+    public function insert($data) {
+        return $this->db->insert('booking', $data);
+    }
+
     public function getRoomById($id_kamar) {
         $this->db->where('id_kamar', $id_kamar);
         $room = $this->db->get('kamar')->row_array();
 
         if (!$room) return null;
 
-        // Ambil fasilitas kamar
         $this->db->select('f.nama_fasilitas');
         $this->db->from('kamar_fasilitas kf');
         $this->db->join('fasilitas_kos f', 'kf.id_fasilitas = f.id_fasilitas', 'left');
@@ -44,13 +73,11 @@ class Booking_model extends CI_Model {
         return $room;
     }
 
-    // Simpan data pemesanan baru
     public function insertBooking($data) {
         $this->db->insert($this->table, $data);
         return $this->db->insert_id();
     }
 
-    // Update status penghuni jadi aktif
     public function activateTenant($id_penghuni) {
         $this->db->where('id_penghuni', $id_penghuni);
         $this->db->update('penghuni', ['status' => 'aktif']);

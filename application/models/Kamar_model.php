@@ -15,4 +15,19 @@ class Kamar_model extends CI_Model {
     {
         $this->db->insert_batch('kamar_fasilitas', $data);
     }
+
+    public function update_status($id_kamar, $status)
+    {
+        $this->db->where('id_kamar', $id_kamar);
+        return $this->db->update('kamar', ['status' => $status]);
+    }
+
+    public function get_kamar_tersedia()
+{
+    $this->db->select('*');
+    $this->db->from('kamar');
+    $this->db->where('status !=', 'dihuni'); 
+    return $this->db->get()->result();
+}
+
 }

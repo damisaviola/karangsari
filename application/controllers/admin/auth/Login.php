@@ -46,13 +46,33 @@ class Login extends CI_Controller {
     $username   = $this->security->xss_clean($this->input->post('username', TRUE));
     $password   = $this->security->xss_clean($this->input->post('password', TRUE));
     $ip_address = $this->input->ip_address();
+    $captchaResponse = $this->input->post('g-recaptcha-response');
 
-    // Ambil data admin berdasarkan username
+    // Cek apakah captcha diisi
+    if (empty($captchaResponse)) {
+        $this->session->set_flashdata('error', 'Silakan verifikasi captcha terlebih dahulu.');
+        redirect('admin/login');
+        return;
+    }
+
+    $secretKey = '6LfMpNorAAAAABG4Z5bBxmgyp-DnpZQjLiRDF1WB'; // Ganti dengan secret key dari Google reCAPTCHA
+    $verifyResponse = file_get_contents(
+        "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$captchaResponse}"
+    );
+    $responseData = json_decode($verifyResponse);
+
+    if (!$responseData || !$responseData->success) {
+        $this->session->set_flashdata('error', 'Verifikasi captcha gagal. Silakan coba lagi.');
+        redirect('admin/login');
+        return;
+    }
+
+
     $admin = $this->admin->get_by_username($username);
 
     if ($admin && $admin->status === 'aktif') {
 
-        // Cek apakah akun terkunci
+
         if ($admin->failed_attempts >= $this->max_attempts && 
             (time() - strtotime($admin->last_failed_attempt)) < $this->lockout_time) {
             
@@ -61,9 +81,7 @@ class Login extends CI_Controller {
             return;
         }
 
-        // Cek password MD5 saja
         if ($admin->password === md5($password)) {
-            // Reset failed attempt
             $this->admin->reset_failed_attempt($admin->id_admin);
 
             $this->session->sess_regenerate(TRUE);
@@ -77,13 +95,11 @@ class Login extends CI_Controller {
                 'ip_address'   => $ip_address
             ]);
 
-            // Update last login
             $this->admin->update_last_login($admin->id_admin);
 
             redirect('admin/dashboard');
             return;
         } else {
-            // Password salah → tambah failed attempt
             $this->admin->set_failed_attempt($admin->id_admin);
         }
     }
@@ -91,6 +107,7 @@ class Login extends CI_Controller {
     $this->session->set_flashdata('error','Username atau password salah.');
     redirect('admin/login');
 }
+
 
 
     public function logout() {

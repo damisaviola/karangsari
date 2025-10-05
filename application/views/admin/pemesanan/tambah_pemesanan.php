@@ -75,34 +75,35 @@
                   <div class="col-12">
                     <div class="form-group">
                       <label for="id_kamar" class="form-label">Pilih Kamar</label>
-                     <select id="id_kamar" name="id_kamar" class="form-select" required>
+                      <select id="id_kamar" name="id_kamar" class="form-select" required>
                         <option value="">-- Pilih Kamar --</option>
                         <?php foreach ($kamar as $k): ?>
-                            <option 
+                          <option 
                             value="<?= $k->id_kamar ?>"
                             data-harga="<?= $k->harga ?>"
                             data-lantai="<?= $k->lantai ?>"
-                            >
-                            Kamar <?= $k->nomor_kamar ?> 
-                            </option>
+                          >
+                            Kamar <?= $k->nomor_kamar ?>
+                          </option>
                         <?php endforeach; ?>
-                        </select>
+                      </select>
                     </div>
                   </div>
 
-                                    <div class="col-md-6">
+                  <!-- Harga dan Lantai -->
+                  <div class="col-md-6">
                     <div class="form-group">
-                        <label for="harga" class="form-label">Harga Kamar</label>
-                        <input type="text" id="harga" name="harga" class="form-control" readonly>
+                      <label for="harga" class="form-label">Harga Kamar</label>
+                      <input type="text" id="harga" class="form-control" readonly>
                     </div>
-                    </div>
+                  </div>
 
-                    <div class="col-md-6">
+                  <div class="col-md-6">
                     <div class="form-group">
-                        <label for="lantai" class="form-label">Lantai</label>
-                        <input type="text" id="lantai" name="lantai" class="form-control" readonly>
+                      <label for="lantai" class="form-label">Lantai</label>
+                      <input type="text" id="lantai" class="form-control" readonly>
                     </div>
-                    </div>
+                  </div>
 
                   <!-- Bulan Masuk -->
                   <div class="col-md-6">
@@ -112,7 +113,7 @@
                     </div>
                   </div>
 
-                  <!-- Bulan Keluar -->
+                  <!-- Bulan Akhir -->
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="bulan_akhir" class="form-label">Bulan Akhir</label>
@@ -125,7 +126,7 @@
                     <div class="form-group">
                       <label for="status_pembayaran" class="form-label">Status Pembayaran</label>
                       <select id="status_pembayaran" name="status_pembayaran" class="form-select" required>
-                        <option value="belum">Belum Lunas</option>
+                        <option value="belum">Belum Bayar</option>
                         <option value="lunas">Lunas</option>
                       </select>
                     </div>
@@ -139,13 +140,14 @@
                     </div>
                   </div>
 
+                  <!-- Total Harga -->
                   <div class="col-md-6">
-        <div class="form-group">
-            <label for="total_harga" class="form-label">Total Harga</label>
-            <input type="text" id="total_harga" name="total_harga" class="form-control" readonly>
-        </div>
-        </div>
-
+                    <div class="form-group">
+                      <label for="total_harga" class="form-label">Total Harga</label>
+                      <input type="text" id="total_harga_display" class="form-control" readonly>
+                      <input type="hidden" id="total_harga" name="total_harga"> <!-- nilai murni tanpa Rp -->
+                    </div>
+                  </div>
 
                   <!-- Tombol -->
                   <div class="col-12 d-flex justify-content-end mt-4">
@@ -167,29 +169,17 @@
   </div>
 
   <script>
- 
-  document.getElementById('id_kamar').addEventListener('change', function() {
-    const selected = this.options[this.selectedIndex];
-    const harga = selected.getAttribute('data-harga');
-    const lantai = selected.getAttribute('data-lantai');
-
-    document.getElementById('harga').value = harga ? 'Rp' + parseInt(harga).toLocaleString('id-ID') : '';
-    document.getElementById('lantai').value = lantai || '';
-  });
-</script>
-
-
-<script>
   const selectKamar = document.getElementById('id_kamar');
   const hargaInput = document.getElementById('harga');
   const lantaiInput = document.getElementById('lantai');
   const totalHargaInput = document.getElementById('total_harga');
+  const totalHargaDisplay = document.getElementById('total_harga_display');
   const bulanMulai = document.getElementById('bulan_mulai');
   const bulanAkhir = document.getElementById('bulan_akhir');
 
   let hargaPerBulan = 0;
 
-  // Saat kamar dipilih, isi harga dan lantai otomatis
+  // Ketika kamar dipilih
   selectKamar.addEventListener('change', function() {
     const selected = this.options[this.selectedIndex];
     const harga = selected.getAttribute('data-harga');
@@ -198,11 +188,10 @@
 
     hargaInput.value = harga ? 'Rp' + hargaPerBulan.toLocaleString('id-ID') : '';
     lantaiInput.value = lantai || '';
-
     hitungTotalHarga();
   });
 
-  // Fungsi hitung total harga
+  // Fungsi menghitung total
   function hitungTotalHarga() {
     const mulai = bulanMulai.value;
     const akhir = bulanAkhir.value;
@@ -211,22 +200,20 @@
       const [mulaiTahun, mulaiBulan] = mulai.split('-').map(Number);
       const [akhirTahun, akhirBulan] = akhir.split('-').map(Number);
 
-      let selisihBulan = (akhirTahun - mulaiTahun) * 12 + (akhirBulan - mulaiBulan);
+      let selisihBulan = (akhirTahun - mulaiTahun) * 12 + (akhirBulan - mulaiBulan) + 1;
       if (selisihBulan <= 0) selisihBulan = 1;
 
       const total = hargaPerBulan * selisihBulan;
-      totalHargaInput.value = 'Rp' + total.toLocaleString('id-ID');
+
+      totalHargaDisplay.value = 'Rp' + total.toLocaleString('id-ID');
+      totalHargaInput.value = total; // nilai murni tanpa format
     } else {
+      totalHargaDisplay.value = '';
       totalHargaInput.value = '';
     }
   }
 
-  // Jalankan saat bulan mulai atau akhir berubah
   bulanMulai.addEventListener('change', hitungTotalHarga);
   bulanAkhir.addEventListener('change', hitungTotalHarga);
-</script>
-
-
-
   </script>
 </body>
