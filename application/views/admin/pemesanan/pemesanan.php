@@ -67,17 +67,17 @@
              <div class="card-body">
                             <table class="table table-striped" id="table1">
                                 <thead>
-                                    <tr>
-                                        <th>ID Booking</th>
-                                        <th>Nama Penghuni</th>
-                                        <th>No. Kamar</th>
-                                        <th>Bulan Mulai</th>
-                                        <th>Bulan Akhir</th>
-                                        <th>Status Pembayaran</th>
-                                        <th>Total Harga</th>
-                                        <th>Dibuat Pada</th>
-                                        <th>Aksi</th>
-                                    </tr>
+                                     <tr>
+                                    <th style="width: 7%;">ID</th>
+                                    <th style="width: 15%;">Nama</th>
+                                    <th style="width: 10%;">No. Kamar</th>
+                                    <th style="width: 12%;">Mulai</th>
+                                    <th style="width: 12%;">Akhir</th>
+                                    <th style="width: 13%;">Status</th>
+                                    <th style="width: 13%;">Total</th>
+                                    <th style="width: 13%;">Dibuat</th>
+                                    <th style="width: 10%;">Aksi</th>
+                                </tr>
                                 </thead>
 
                                 <tbody>

@@ -241,45 +241,27 @@
                 </a>
             </li>
 
-            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pemesanan') ? 'active' : '' ?>">
-                <a href="<?= base_url('admin/pemesanan') ?>" class="sidebar-link">
-                    <i class="bi-wallet-fill"></i>
-                    <span>Tagihan</span>
-                </a>
-            </li>
 
-            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pemesanan') ? 'active' : '' ?>">
-                <a href="<?= base_url('admin/pemesanan') ?>" class="sidebar-link">
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pembayaran') ? 'active' : '' ?>">
+                <a href="<?= base_url('admin/pembayaran') ?>" class="sidebar-link">
                     <i class="bi bi-calendar-check-fill"></i>
                     <span>Pembayaran</span>
                 </a>
             </li>
+
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pembayaran/bayar_admin') ? 'active' : '' ?>">
+                <a href="<?= site_url('admin/pembayaran/bayar_admin') ?>" class="sidebar-link">
+                    <i class="bi bi-list-check"></i>
+                    <span>Pembayaran (Admin)</span>
+                </a>
+            </li>
+
 
 
             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/kamar' || $this->uri->uri_string() == 'admin/kamar/tambah_kamar') ? 'active' : '' ?>">
                 <a href="<?= site_url('admin/kamar') ?>" class="sidebar-link">
                     <i class="bi bi-house-door-fill"></i>
                     <span>Kamar</span>
-                </a>
-            </li>
-
-
-            
-
-                <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/mail') ? 'active' : '' ?>">
-                        <a class="sidebar-link show-chat-sidebar">
-                            <i class="bi bi-envelope-fill"></i>
-                            <span>Inbox</span>
-                        </a>
-                    </li>
-
-
-                </li>
-
-            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/inventory') ? 'active' : '' ?>">
-                <a href="<?= site_url('admin/inventory') ?>" class="sidebar-link">
-                    <i class="bi bi-box-seam-fill"></i>
-                    <span>Inventory / Aset Kost </span>
                 </a>
             </li>
 
@@ -315,163 +297,19 @@
                 </li>
 
 
-            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/auth/login/logout') ? 'active' : '' ?>">
-                <a href="<?= site_url('admin/auth/login/logout') ?>" class="sidebar-link">
+           <li class="sidebar-item">
+                <a href="#" class="sidebar-link" onclick="confirmLogout(event)">
                     <i class="bi bi-door-open-fill"></i>
                     <span>Logout</span>
                 </a>
             </li>
 
 
-            <li
-                class="sidebar-item  has-sub">
-                <a href="#" class='sidebar-link'>
-                     <i class="bi bi-people-fill"></i>
-
-                    <span>Penghuni</span>
-                </a>
-                
-                <ul class="submenu ">
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-accordion.html" class="submenu-link">Daftar Penghuni</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-alert.html" class="submenu-link">Alert</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-badge.html" class="submenu-link">Badge</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-breadcrumb.html" class="submenu-link">Breadcrumb</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-button.html" class="submenu-link">Button</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-card.html" class="submenu-link">Card</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-carousel.html" class="submenu-link">Carousel</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-collapse.html" class="submenu-link">Collapse</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-dropdown.html" class="submenu-link">Dropdown</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-list-group.html" class="submenu-link">List Group</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-modal.html" class="submenu-link">Modal</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-navs.html" class="submenu-link">Navs</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-pagination.html" class="submenu-link">Pagination</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-progress.html" class="submenu-link">Progress</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-spinner.html" class="submenu-link">Spinner</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-toasts.html" class="submenu-link">Toasts</a>
-                        
-                    </li>
-                    
-                    <li class="submenu-item  ">
-                        <a href="component-tooltip.html" class="submenu-link">Tooltip</a>
-                        
-                    </li>
-                    
-                </ul>
-                
-
-            </li>
-
          
     </div>
 </div>
 
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const chatSidebar = document.getElementById('chatbox-sidebar');
-    const chatBtn = document.querySelector('.chat-btn'); // tombol chat, jika ada
-    const chatMenuItems = document.querySelectorAll('.show-chat-sidebar');
 
-    // Simpan menu halaman yang aktif sebelumnya
-    const currentActiveMenu = document.querySelector('.sidebar-item.active');
-
-    chatMenuItems.forEach(item => {
-        item.addEventListener('click', e => {
-            e.preventDefault();
-
-            // tampilkan sidebar chat
-            chatSidebar.classList.add('show');
-
-            // sembunyikan tombol chat jika ada
-            if(chatBtn) chatBtn.classList.add('hide');
-
-            // nonaktifkan active menu halaman sebelumnya
-            if(currentActiveMenu) currentActiveMenu.classList.remove('active');
-
-            // beri active ke item yang diklik
-            item.parentElement.classList.add('active');
-        });
-    });
-
-    // saat close sidebar
-    const chatClose = chatSidebar.querySelector('.chat-close-icon');
-    if(chatClose){
-        chatClose.addEventListener('click', () => {
-            chatSidebar.classList.remove('show');
-
-            // tampilkan tombol chat lagi
-            if(chatBtn) chatBtn.classList.remove('hide');
-
-            // hapus active dari menu chat
-            chatMenuItems.forEach(i => i.parentElement.classList.remove('active'));
-
-            // kembalikan active menu halaman sebelumnya
-            if(currentActiveMenu) currentActiveMenu.classList.add('active');
-        });
-    }
-});
-</script>
 
 

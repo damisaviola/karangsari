@@ -178,7 +178,6 @@
   checkIn.addEventListener('change', () => {
     if(!checkIn.value) return;
 
-    // Hitung tanggal satu bulan berikutnya
     const inDate = new Date(checkIn.value);
     const outDate = new Date(inDate);
     outDate.setMonth(outDate.getMonth() + 1); // tambah 1 bulan

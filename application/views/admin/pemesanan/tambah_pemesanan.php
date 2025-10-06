@@ -75,35 +75,34 @@
                   <div class="col-12">
                     <div class="form-group">
                       <label for="id_kamar" class="form-label">Pilih Kamar</label>
-                      <select id="id_kamar" name="id_kamar" class="form-select" required>
+                     <select id="id_kamar" name="id_kamar" class="form-select" required>
                         <option value="">-- Pilih Kamar --</option>
                         <?php foreach ($kamar as $k): ?>
-                          <option 
+                            <option 
                             value="<?= $k->id_kamar ?>"
                             data-harga="<?= $k->harga ?>"
                             data-lantai="<?= $k->lantai ?>"
-                          >
-                            Kamar <?= $k->nomor_kamar ?>
-                          </option>
+                            >
+                            Kamar <?= $k->nomor_kamar ?> 
+                            </option>
                         <?php endforeach; ?>
-                      </select>
+                        </select>
                     </div>
                   </div>
 
-                  <!-- Harga dan Lantai -->
-                  <div class="col-md-6">
+                                    <div class="col-md-6">
                     <div class="form-group">
-                      <label for="harga" class="form-label">Harga Kamar</label>
-                      <input type="text" id="harga" class="form-control" readonly>
+                        <label for="harga" class="form-label">Harga Kamar</label>
+                        <input type="text" id="harga" name="harga" class="form-control" readonly>
                     </div>
-                  </div>
+                    </div>
 
-                  <div class="col-md-6">
+                    <div class="col-md-6">
                     <div class="form-group">
-                      <label for="lantai" class="form-label">Lantai</label>
-                      <input type="text" id="lantai" class="form-control" readonly>
+                        <label for="lantai" class="form-label">Lantai</label>
+                        <input type="text" id="lantai" name="lantai" class="form-control" readonly>
                     </div>
-                  </div>
+                    </div>
 
                   <!-- Bulan Masuk -->
                   <div class="col-md-6">
@@ -113,7 +112,7 @@
                     </div>
                   </div>
 
-                  <!-- Bulan Akhir -->
+                  <!-- Bulan Keluar -->
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="bulan_akhir" class="form-label">Bulan Akhir</label>
@@ -122,15 +121,16 @@
                   </div>
 
                   <!-- Status Pembayaran -->
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="status_pembayaran" class="form-label">Status Pembayaran</label>
-                      <select id="status_pembayaran" name="status_pembayaran" class="form-select" required>
-                        <option value="belum">Belum Bayar</option>
-                        <option value="lunas">Lunas</option>
-                      </select>
-                    </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="status_pembayaran" class="form-label">Status Pembayaran</label>
+                    <select id="status_pembayaran" name="status_pembayaran" class="form-select" required>
+                      <option value="belum bayar">Belum Bayar</option>
+                      <option value="lunas">Lunas</option>
+                    </select>
                   </div>
+                </div>
+
 
                   <!-- Catatan -->
                   <div class="col-md-6">
@@ -140,14 +140,18 @@
                     </div>
                   </div>
 
-                  <!-- Total Harga -->
                   <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="total_harga" class="form-label">Total Harga</label>
-                      <input type="text" id="total_harga_display" class="form-control" readonly>
-                      <input type="hidden" id="total_harga" name="total_harga"> <!-- nilai murni tanpa Rp -->
-                    </div>
-                  </div>
+        <div class="form-group">
+            <label for="total_harga" class="form-label">Total Harga</label>
+            <input type="text" id="total_harga" name="total_harga" class="form-control" readonly>
+        </div>
+        </div>
+
+<!-- Input hidden untuk nilai murni, benar-benar tidak terlihat -->
+<input type="hidden" name="total_harga" id="total_harga_hidden">
+
+
+
 
                   <!-- Tombol -->
                   <div class="col-12 d-flex justify-content-end mt-4">
@@ -169,51 +173,83 @@
   </div>
 
   <script>
-  const selectKamar = document.getElementById('id_kamar');
-  const hargaInput = document.getElementById('harga');
-  const lantaiInput = document.getElementById('lantai');
-  const totalHargaInput = document.getElementById('total_harga');
-  const totalHargaDisplay = document.getElementById('total_harga_display');
-  const bulanMulai = document.getElementById('bulan_mulai');
-  const bulanAkhir = document.getElementById('bulan_akhir');
-
-  let hargaPerBulan = 0;
-
-  // Ketika kamar dipilih
-  selectKamar.addEventListener('change', function() {
+ 
+  document.getElementById('id_kamar').addEventListener('change', function() {
     const selected = this.options[this.selectedIndex];
     const harga = selected.getAttribute('data-harga');
     const lantai = selected.getAttribute('data-lantai');
-    hargaPerBulan = parseInt(harga) || 0;
 
+    document.getElementById('harga').value = harga ? 'Rp' + parseInt(harga).toLocaleString('id-ID') : '';
+    document.getElementById('lantai').value = lantai || '';
+  });
+</script>
+
+
+<script>
+const selectKamar = document.getElementById('id_kamar');
+const hargaInput = document.getElementById('harga');
+const lantaiInput = document.getElementById('lantai');
+const totalHargaInput = document.getElementById('total_harga'); // untuk tampilan
+const totalHargaHidden = document.getElementById('total_harga_hidden'); // input hidden angka murni
+const bulanMulai = document.getElementById('bulan_mulai');
+const bulanAkhir = document.getElementById('bulan_akhir');
+
+let hargaPerBulan = 0;
+
+// Fungsi update harga dan lantai saat kamar dipilih
+function updateKamar() {
+    const selected = selectKamar.options[selectKamar.selectedIndex];
+    const harga = selected.getAttribute('data-harga');
+    const lantai = selected.getAttribute('data-lantai');
+
+    hargaPerBulan = parseInt(harga) || 0;
     hargaInput.value = harga ? 'Rp' + hargaPerBulan.toLocaleString('id-ID') : '';
     lantaiInput.value = lantai || '';
-    hitungTotalHarga();
-  });
 
-  // Fungsi menghitung total
-  function hitungTotalHarga() {
+    hitungTotalHarga();
+}
+
+// Fungsi hitung total harga sesuai logika khusus
+function hitungTotalHarga() {
     const mulai = bulanMulai.value;
     const akhir = bulanAkhir.value;
 
     if (mulai && akhir && hargaPerBulan > 0) {
-      const [mulaiTahun, mulaiBulan] = mulai.split('-').map(Number);
-      const [akhirTahun, akhirBulan] = akhir.split('-').map(Number);
+        const [mulaiTahun, mulaiBulan] = mulai.split('-').map(Number);
+        const [akhirTahun, akhirBulan] = akhir.split('-').map(Number);
 
-      let selisihBulan = (akhirTahun - mulaiTahun) * 12 + (akhirBulan - mulaiBulan) + 1;
-      if (selisihBulan <= 0) selisihBulan = 1;
+        let selisihBulan = (akhirTahun - mulaiTahun) * 12 + (akhirBulan - mulaiBulan);
 
-      const total = hargaPerBulan * selisihBulan;
+        let totalBulan = 1; // default 1 bulan
+        if (selisihBulan === 1) {
+            totalBulan = 1;
+        } else if (selisihBulan >= 2) {
+            totalBulan = selisihBulan - 1 + 1;
+        }
 
-      totalHargaDisplay.value = 'Rp' + total.toLocaleString('id-ID');
-      totalHargaInput.value = total; // nilai murni tanpa format
+        const total = hargaPerBulan * totalBulan;
+        totalHargaInput.value = 'Rp' + total.toLocaleString('id-ID'); // untuk tampilan
+        totalHargaHidden.value = total; // angka murni untuk dikirim ke server
     } else {
-      totalHargaDisplay.value = '';
-      totalHargaInput.value = '';
+        totalHargaInput.value = '';
+        totalHargaHidden.value = '';
     }
-  }
+}
 
-  bulanMulai.addEventListener('change', hitungTotalHarga);
-  bulanAkhir.addEventListener('change', hitungTotalHarga);
+// Event listener
+selectKamar.addEventListener('change', updateKamar);
+bulanMulai.addEventListener('change', hitungTotalHarga);
+bulanAkhir.addEventListener('change', hitungTotalHarga);
+
+// Jalankan sekali jika sudah ada kamar terpilih
+if (selectKamar.value) updateKamar();
+
+</script>
+
+
+
+
+
+
   </script>
 </body>

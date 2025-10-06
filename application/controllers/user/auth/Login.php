@@ -146,9 +146,21 @@ class Login extends CI_Controller {
     }
 
         public function logout() {
-            $this->session->sess_destroy();
-            session_regenerate_id(true);
-            redirect('user/auth/login');
-    }
+    // Hancurkan session
+    $this->session->sess_destroy();
+
+    // Regenerate session id
+    session_regenerate_id(true);
+
+    // Set header untuk mencegah caching browser
+    $this->output
+        ->set_header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0')
+        ->set_header('Cache-Control: post-check=0, pre-check=0', false)
+        ->set_header('Pragma: no-cache');
+
+    // Redirect ke halaman login
+    redirect('user/auth/login');
+}
+
     
 }

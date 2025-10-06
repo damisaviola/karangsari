@@ -23,7 +23,6 @@ class Pemesanan extends CI_Controller {
 
     public function tambah_pemesanan() {
         $data['penghuni'] = $this->db->get('penghuni')->result();
-        $data['kamar'] = $this->db->get('kamar')->result();
         $data['kamar'] = $this->Kamar_model->get_kamar_tersedia();
 
 

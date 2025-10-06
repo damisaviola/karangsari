@@ -42,20 +42,20 @@
         <li class="sidebar-title">Menu</li>
 
     
-        <li class="sidebar-item active">
-            <a href="<?= site_url('user/dashboard') ?>" class="sidebar-link">
-                <i class="bi bi-grid-fill"></i>
-                <span>Dashboard</span>
-            </a>
-        </li>
+        <li class="sidebar-item <?= ($this->uri->uri_string() == 'user/dashboard') ? 'active' : '' ?>">
+                <a href="<?= base_url('user/dashboard') ?>" class="sidebar-link">
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
         <!-- Tagihan -->
-        <li class="sidebar-item">
-            <a href="<?= site_url('user/tagihan') ?>" class="sidebar-link">
-                <i class="bi bi-wallet-fill"></i>
-                <span>Tagihan</span>
-            </a>
-        </li>
+         <li class="sidebar-item <?= ($this->uri->uri_string() == 'user/pembayaran_user') ? 'active' : '' ?>">
+                <a href="<?= base_url('user/pembayaran_user') ?>" class="sidebar-link">
+                    <i class="bi bi-calendar-check-fill"></i>
+                    <span>Pembayaran</span>
+                </a>
+            </li>
 
         <!-- Riwayat -->
         <li class="sidebar-item">
@@ -78,7 +78,7 @@
             <a href="<?= site_url('user/notifikasi') ?>" class="sidebar-link">
                 <i class="bi bi-bell-fill"></i>
                 <span>Notifikasi</span>
-            </a>
+              </a>
         </li>
 
         <!-- Pengaturan -->

@@ -25,6 +25,10 @@ class Booking_model extends CI_Model {
         return $query->result();
     }
 
+    public function get_booking_by_id($id_booking) {
+        return $this->db->get_where('booking', ['id_booking' => $id_booking])->row();
+    }
+
     public function get_all() {
             $this->db->select('
                 booking.*, 

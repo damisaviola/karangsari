@@ -26,7 +26,6 @@ class Penghuni extends CI_Controller {
    public function simpan() {
     $this->load->library('form_validation');
 
-    // Aturan validasi + custom messages
     $this->form_validation->set_rules('nama', 'Nama', 'required', [
         'required' => 'Nama wajib diisi.'
     ]);
@@ -49,7 +48,6 @@ class Penghuni extends CI_Controller {
         return;
     }
 
-    // Generate password otomatis
     $password = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'), 0, 8);
 
     $data = [
