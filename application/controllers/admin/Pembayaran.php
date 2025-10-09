@@ -9,6 +9,9 @@ class Pembayaran extends CI_Controller {
         $this->load->model('Booking_model');
         $this->load->model('Pembayaran_user_model');
         $this->load->library(['form_validation', 'session']);
+         if (!$this->session->userdata('id_admin')) {
+            redirect('admin/auth/login');
+        }
     }
 
     public function index() {

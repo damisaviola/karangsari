@@ -21,11 +21,6 @@
     }
 </style>
 
-
-<a href="<?= site_url('admin/chat') ?>" class="chat-btn">
-  <i class="bi bi-chat-dots-fill"></i>
-</a>
-
 <style>
   .chat-btn {
     position: fixed;
@@ -102,58 +97,52 @@
             </div>
             <div class="card-body">
                <table class="table table-striped" id="table1">
-    <thead>
-        <tr class="text-center">
-            <th>No.</th>
-            <th>Nomor Kamar</th>
-            <th>Lantai</th>
-            <th>Harga</th>
-            <th>Status</th>
-            <th>Dibuat</th>
-            <th>Aksi</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php if (!empty($kamar)) : ?>
-            <?php $no = 1; foreach ($kamar as $k) : ?>
-                <tr class="text-center">
-                    <td><?= $no++ ?></td>
-                    <td><?= $k->nomor_kamar ?></td>
-                    <td><?= $k->lantai ?></td>
-                    <td>Rp <?= number_format($k->harga ?? 0, 0, ',', '.') ?></td>
-                    <td>
-                        <?php if ($k->status == 'tersedia') : ?>
-                            <span class="badge bg-success">Tersedia</span>
-                        <?php elseif ($k->status == 'dihuni') : ?>
-                            <span class="badge bg-warning text-dark">Dihuni</span>
-                        <?php else : ?>
-                            <span class="badge bg-secondary">Tidak Aktif</span>
-                        <?php endif; ?>
-                    </td>
-                    <td><?= !empty($k->created_at) ? date('d-m-Y H:i', strtotime($k->created_at)) : '-' ?></td>
-                    <td>
-                        <a href="<?= base_url('kamar/edit/'.$k->id_kamar) ?>" 
-                        class="btn btn-sm btn-warning" 
-                        title="Edit">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-
-                        <a href="<?= base_url('kamar/delete/'.$k->id_kamar) ?>" 
-                        class="btn btn-sm btn-danger" 
-                        title="Hapus" 
-                        onclick="return confirm('Apakah yakin ingin menghapus kamar ini?')">
-                            <i class="bi bi-trash-fill"></i>
-                        </a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else : ?>
-            <tr>
-                <td colspan="8" class="text-center">Belum ada data kamar</td>
+          <thead>
+            <tr class="text-center">
+              <th>No</th>
+              <th>Nama Penghuni</th>
+              <th>Pesan Keluhan</th>
+              <th>Status</th>
+              <th>Dikirim Pada</th>
+              <th>Aksi</th>
             </tr>
-        <?php endif; ?>
-    </tbody>
-</table>
+          </thead>
+          <tbody>
+            <?php if (!empty($keluhan)) : ?>
+              <?php $no = 1; foreach ($keluhan as $k) : ?>
+                <tr class="text-center">
+                  <td><?= $no++ ?></td>
+                  <td><?= $k->nama_penghuni ?></td>
+                  <td><?= $k->pesan ?></td>
+                  <td>
+                    <?php if ($k->status == 'Menunggu') : ?>
+                      <span class="badge bg-warning text-dark">Menunggu</span>
+                    <?php elseif ($k->status == 'Diproses') : ?>
+                      <span class="badge bg-primary">Diproses</span>
+                    <?php elseif ($k->status == 'Selesai') : ?>
+                      <span class="badge bg-success">Selesai</span>
+                    <?php elseif ($k->status == 'Ditolak') : ?>
+                      <span class="badge bg-danger">Ditolak</span>
+                    <?php endif; ?>
+                  </td>
+                  <td><?= date('d-m-Y H:i', strtotime($k->created_at)) ?></td>
+                  <td>
+                    <a href="<?= base_url('keluhan/hapus/'.$k->id_keluhan) ?>" 
+                      class="btn btn-sm btn-danger" 
+                      title="Hapus" 
+                      onclick="return confirm('Yakin ingin menghapus keluhan ini?')">
+                      <i class="bi bi-trash-fill"></i>
+                    </a>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            <?php else : ?>
+              <tr>
+                <td colspan="6" class="text-center">Belum ada keluhan yang dikirim.</td>
+              </tr>
+            <?php endif; ?>
+          </tbody>
+        </table>
 
             </div>
         </div>

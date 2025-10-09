@@ -10,6 +10,9 @@ class Pemesanan extends CI_Controller {
         $this->load->model('Kamar_model');
         $this->load->helper(['url', 'form']);
         $this->load->library('form_validation');
+         if (!$this->session->userdata('id_admin')) {
+            redirect('admin/auth/login');
+        }
     }
 
     public function index() {
@@ -65,7 +68,8 @@ class Pemesanan extends CI_Controller {
     }
 
 
-    $data = [
+        $data = [
+        'id_admin'          => $this->session->userdata('id_admin'),
         'id_penghuni'       => $id_penghuni,
         'id_kamar'          => $id_kamar,
         'bulan_mulai'       => $bulan_mulai,
@@ -75,6 +79,7 @@ class Pemesanan extends CI_Controller {
         'created_at'        => date('Y-m-d H:i:s'),
         'updated_at'        => date('Y-m-d H:i:s')
     ];
+
 
     if ($this->Booking_model->insert($data)) {
 

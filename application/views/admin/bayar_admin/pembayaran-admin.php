@@ -24,10 +24,6 @@
 <body>
     <script src="<?= base_url('assets/dist/assets/static/js/initTheme.js') ?>"></script>
 
-        <a href="#" class="chat-btn">
-    <i class="bi bi-chat-dots-fill"></i>
-    </a>
-
     <div id="app">
         <div id="main">
             <header class="mb-3">
@@ -82,58 +78,66 @@
     </thead>
 
     <tbody>
-        <?php if (!empty($pembayaran)) : ?>
-            <?php $no = 1; foreach ($pembayaran as $p) : 
-                $status = isset($p->status_pembayaran_detail) ? $p->status_pembayaran_detail : (isset($p->status_booking) ? $p->status_booking : 'Belum Bayar');
-                if ($status == 'Diterima') $status = 'Lunas';
-            ?>
-            <tr class="text-center">
-                <td><?= $no++ ?></td>
-                <td><?= $p->id_booking ?></td>
-                <td><?= $p->nama_penghuni ?></td>
-                <td><?= !empty($p->tanggal_bayar) ? date('d-m-Y', strtotime($p->tanggal_bayar)) : '<span class="text-muted">-</span>' ?></td>
-                <td>Rp <?= number_format($p->jumlah_bayar ?? 0, 0, ',', '.') ?></td>
-                <td><?= ucfirst($p->metode_pembayaran ?? '-') ?></td>
-                <td>
-                    <?php if ($status == 'Lunas') : ?>
-                        <span class="badge bg-success">Lunas</span>
-                    <?php elseif (strtolower($status) == 'menunggu verifikasi') : ?>
-                        <span class="badge bg-warning text-dark">Menunggu</span>
-                    <?php elseif (strtolower($status) == 'ditolak') : ?>
-                        <span class="badge bg-danger">Ditolak</span>
-                    <?php else : ?>
-                        <span class="badge bg-secondary">Belum Bayar</span>
-                    <?php endif; ?>
-                </td>
-                <td>
-                    <?php if (!empty($p->bukti_transfer)) : ?>
-                        <a href="<?= base_url('uploads/bukti_transfer/'.$p->bukti_transfer) ?>" target="_blank" class="btn btn-sm btn-outline-primary">
-                            <i class="bi bi-eye"></i> Lihat
-                        </a>
-                    <?php else : ?>
-                        <span class="text-muted">Belum Ada</span>
-                    <?php endif; ?>
-                </td>
-                <td><?= !empty($p->pembayaran_created_at) ? date('d-m-Y H:i', strtotime($p->pembayaran_created_at)) : (!empty($p->booking_created_at) ? date('d-m-Y H:i', strtotime($p->booking_created_at)) : '-') ?></td>
-                <td>
-                    <?php if ($status == 'Lunas') : ?>
-                        <button type="button" class="btn btn-sm btn-success" disabled>
-                            <i class="bi bi-check-circle-fill"></i> Lunas
-                        </button>
-                    <?php else: ?>
-                        <button type="button" class="btn btn-sm btn-primary" onclick="openUploadPopup('<?= $p->id_booking ?>')">
-                            <i class="bi bi-cloud-arrow-up-fill"></i> Upload
-                        </button>
-                    <?php endif; ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        <?php else : ?>
+    <?php if (!empty($pembayaran)) : ?>
+        <?php $no = 1; foreach ($pembayaran as $p) : 
+            $status = isset($p->status_pembayaran_detail) ? $p->status_pembayaran_detail : (isset($p->status_booking) ? $p->status_booking : 'Belum Bayar');
+            if ($status == 'Diterima') $status = 'Lunas';
+
+            // Lewati yang sudah Lunas
+            if ($status == 'Lunas') continue;
+        ?>
+        <tr class="text-center">
+            <td><?= $no++ ?></td>
+            <td><?= $p->id_booking ?></td>
+            <td><?= $p->nama_penghuni ?></td>
+            <td><?= !empty($p->tanggal_bayar) ? date('d-m-Y', strtotime($p->tanggal_bayar)) : '<span class="text-muted">-</span>' ?></td>
+            <td>Rp <?= number_format($p->jumlah_bayar ?? 0, 0, ',', '.') ?></td>
+            <td><?= ucfirst($p->metode_pembayaran ?? '-') ?></td>
+            <td>
+                <?php if (strtolower($status) == 'menunggu verifikasi') : ?>
+                    <span class="badge bg-warning text-dark">Menunggu</span>
+                <?php elseif (strtolower($status) == 'ditolak') : ?>
+                    <span class="badge bg-danger">Ditolak</span>
+                <?php else : ?>
+                    <span class="badge bg-secondary">Belum Bayar</span>
+                <?php endif; ?>
+            </td>
+            <td>
+                <?php if (!empty($p->bukti_transfer)) : ?>
+                    <a href="<?= base_url('uploads/bukti_transfer/'.$p->bukti_transfer) ?>" target="_blank" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-eye"></i> Lihat
+                    </a>
+                <?php else : ?>
+                    <span class="text-muted">Belum Ada</span>
+                <?php endif; ?>
+            </td>
+            <td><?= !empty($p->pembayaran_created_at) ? date('d-m-Y H:i', strtotime($p->pembayaran_created_at)) : (!empty($p->booking_created_at) ? date('d-m-Y H:i', strtotime($p->booking_created_at)) : '-') ?></td>
+            <td>
+                <?php if (strtolower($status) == 'menunggu verifikasi') : ?>
+                    <button type="button" class="btn btn-sm btn-secondary" disabled>
+                        <i class="bi bi-hourglass-split"></i> Menunggu
+                    </button>
+                <?php else: ?>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="openUploadPopup('<?= $p->id_booking ?>')">
+                        <i class="bi bi-cloud-arrow-up-fill"></i> Upload
+                    </button>
+                <?php endif; ?>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+        <?php if ($no == 1) : ?>
             <tr>
                 <td colspan="10" class="text-center">Belum ada data pembayaran</td>
             </tr>
         <?php endif; ?>
-    </tbody>
+    <?php else : ?>
+        <tr>
+            <td colspan="10" class="text-center">Belum ada data pembayaran</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
+
+
 </table>
 
 
@@ -176,9 +180,12 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-        <button type="submit" class="btn btn-primary">Kirim Bukti</button>
-      </div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" id="btnKirim" class="btn btn-primary">
+                <span id="spinnerKirim" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                <span id="textKirim">Kirim Bukti</span>
+            </button>
+            </div>
     </form>
   </div>
 </div>
@@ -224,4 +231,20 @@ function openUploadPopup(idBooking) {
     modal.show();
 }
 
+</script>
+
+<script>
+  const formModal = document.querySelector('#formUploadBukti'); // ganti dengan id form kamu di modal
+  const btnKirim = document.getElementById('btnKirim');
+  const spinnerKirim = document.getElementById('spinnerKirim');
+  const textKirim = document.getElementById('textKirim');
+
+  if (formModal) {
+    formModal.addEventListener('submit', function () {
+      // Tampilkan spinner dan ubah teks tombol
+      spinnerKirim.classList.remove('d-none');
+      textKirim.textContent = 'Mengirim...';
+      btnKirim.disabled = true;
+    });
+  }
 </script>

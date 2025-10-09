@@ -66,13 +66,12 @@
         </li>
 
         <!-- Komplain -->
-        <li class="sidebar-item">
-            <a href="<?= site_url('user/komplain') ?>" class="sidebar-link">
-                <i class="bi bi-chat-left-dots-fill"></i>
-                <span>Komplain</span>
-            </a>
-        </li>
-
+         <li class="sidebar-item <?= ($this->uri->uri_string() == 'user/keluhan') ? 'active' : '' ?>">
+                <a href="<?= base_url('user/keluhan') ?>" class="sidebar-link">
+                    <i class="bi bi-chat-left-dots-fill"></i>
+                    <span>Keluhan</span>
+                </a>
+            </li>
         <!-- Notifikasi -->
         <li class="sidebar-item">
             <a href="<?= site_url('user/notifikasi') ?>" class="sidebar-link">

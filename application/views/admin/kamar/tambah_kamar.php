@@ -115,9 +115,14 @@
                   </div>
                   <!-- Tombol -->
                   <div class="col-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary me-2">Simpan</button>
-                    <button type="reset" class="btn btn-secondary">Reset</button>
-                  </div>
+  <button type="submit" id="btnSimpan" class="btn btn-primary me-2">
+    <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+    <span id="btnText">Simpan</span>
+  </button>
+  <button type="reset" class="btn btn-secondary">Reset</button>
+</div>
+
+
 
                 </div>
               </form>
@@ -127,6 +132,20 @@
       </div>
     </section>
   </div>
+
+  <script>
+  const form = document.querySelector('form'); // pastikan ini di dalam form
+  const btnSimpan = document.getElementById('btnSimpan');
+  const btnSpinner = document.getElementById('btnSpinner');
+  const btnText = document.getElementById('btnText');
+
+  form.addEventListener('submit', function() {
+    // tampilkan spinner dan ubah teks
+    btnSpinner.classList.remove('d-none');
+    btnText.textContent = 'Menyimpan...';
+    btnSimpan.disabled = true;
+  });
+</script>
 </body>
 
 

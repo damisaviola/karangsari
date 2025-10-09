@@ -30,4 +30,15 @@ class Kamar_model extends CI_Model {
     return $this->db->get()->result();
 }
 
+
+public function get_all() {
+    $this->db->select('*');
+    $this->db->from('kamar');
+    $this->db->order_by('nomor_kamar', 'ASC');
+    return $this->db->get()->result();
+
+}
+
+
+
 }

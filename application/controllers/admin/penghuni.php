@@ -6,6 +6,9 @@ class Penghuni extends CI_Controller {
         parent::__construct();
         $this->load->model('User_model');
         $this->load->helper(['url', 'form']);
+         if (!$this->session->userdata('id_admin')) {
+            redirect('admin/auth/login');
+        }
     }
 
     public function index() {

@@ -9,11 +9,15 @@ class Kamar extends CI_Controller {
         $this->load->model('Fasilitas_model');
         $this->load->helper(['url', 'form']);
         $this->load->library('form_validation');
+        if (!$this->session->userdata('id_admin')) {
+            redirect('admin/auth/login');
+        }
     }
 
     public function index() {
+        $data['kamar'] = $this->Kamar_model->get_all();
        $this->load->view('admin/kamar/header');
-       $this->load->view('admin/kamar/kamar');
+       $this->load->view('admin/kamar/kamar', $data);
        $this->load->view('admin/dashboard/sidebar');
        $this->load->view('admin/kamar/footer');
     }
@@ -66,7 +70,7 @@ class Kamar extends CI_Controller {
     }
 
     $this->session->set_flashdata('success', 'Kamar berhasil disimpan!');
-    redirect('admin/kamar/tambah_kamar');
+    redirect('admin/kamar');
 }
 
 
