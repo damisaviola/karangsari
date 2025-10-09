@@ -61,83 +61,96 @@
 
     <div class="card-body">
   <table class="table table-striped" id="table1">
-<thead>
-    <tr>
-        <th>#</th>
-        <th>ID Booking</th>
-        <th>Nama</th>
-        <th>Nomor Kamar</th>
-        <th>Mulai</th>
-        <th>Akhir</th>
-        <th>Total Harga</th>
-        <th>Status</th>
-        <th>Aksi</th>
+  <thead>
+    <tr class="text-center">
+      <th>#</th>
+      <th>ID Booking</th>
+      <th>Nama</th>
+      <th>Nomor Kamar</th>
+      <th>Mulai</th>
+      <th>Akhir</th>
+      <th>Total Harga</th>
+      <th>Status</th>
+      <th>Aksi</th>
     </tr>
-</thead>
-<tbody>
-<?php if(!empty($pembayaran)) : ?>
-    <?php $no = 1; foreach($pembayaran as $p) : 
-        // Tentukan status
-        if(!empty($p->status_pembayaran_detail)) {
-            $status = $p->status_pembayaran_detail;
-        } elseif(!empty($p->status_booking)) {
-            $status = $p->status_booking;
-        } else {
-            $status = 'Belum Bayar';
-        }
+  </thead>
 
-        // Normalisasi status
-        if(strtolower($status) == 'diterima') $status = 'Menunggu Verifikasi';
-    ?>
-    <tr>
+  <tbody>
+    <?php if (!empty($pembayaran)) : ?>
+      <?php $no = 1; foreach ($pembayaran as $p) : 
+        // Ambil status dari tabel booking dan pembayaran
+        $status_booking = strtolower($p->status_booking ?? '');
+        $status_pembayaran = strtolower($p->status_pembayaran ?? '');
+
+        // Tentukan status akhir berdasarkan kondisi enum baru
+        if ($status_booking == 'lunas' && $status_pembayaran == 'diterima') {
+          $status = 'Lunas';
+        } elseif ($status_pembayaran == 'diterima') {
+          $status = 'Lunas';
+        } elseif ($status_pembayaran == 'menunggu verifikasi') {
+          $status = 'Menunggu Verifikasi';
+        } elseif ($status_pembayaran == 'ditolak') {
+          $status = 'Ditolak';
+        } elseif (!empty($p->id_pembayaran)) {
+          // Jika ada data pembayaran tapi status belum di-set, anggap menunggu
+          $status = 'Menunggu Verifikasi';
+        } else {
+          $status = 'Belum Bayar';
+        }
+      ?>
+      <tr class="text-center">
         <td><?= $no++ ?></td>
         <td><?= $p->id_booking ?></td>
         <td><?= $p->nama_penghuni ?></td>
         <td><?= $p->nomor_kamar ?></td>
         <td><?= $p->bulan_mulai ?></td>
         <td><?= $p->bulan_akhir ?></td>
-        <td>Rp <?= number_format($p->total_harga,0,',','.') ?></td>
+        <td>Rp <?= number_format($p->total_harga, 0, ',', '.') ?></td>
         <td>
-            <?php if(strtolower($status) == 'lunas') : ?>
-                <span class="badge bg-success">Lunas</span>
-            <?php elseif(strtolower($status) == 'menunggu verifikasi') : ?>
-                <span class="badge bg-warning text-dark">Menunggu</span>
-            <?php elseif(strtolower($status) == 'ditolak') : ?>
-                <span class="badge bg-danger">Ditolak</span>
-            <?php else : ?>
-                <span class="badge bg-secondary">Belum Bayar</span>
-            <?php endif; ?>
+          <?php if ($status == 'Lunas') : ?>
+            <span class="badge bg-success">Lunas</span>
+          <?php elseif ($status == 'Menunggu Verifikasi') : ?>
+            <span class="badge bg-warning text-dark">Menunggu Verifikasi</span>
+          <?php elseif ($status == 'Ditolak') : ?>
+            <span class="badge bg-danger">Ditolak</span>
+          <?php else : ?>
+            <span class="badge bg-secondary">Belum Bayar</span>
+          <?php endif; ?>
         </td>
-        <td class="text-center">
-            <?php if(strtolower($status) == 'belum bayar') : ?>
-                <button class="btn btn-sm btn-primary" 
-                        onclick="openUploadPopup('<?= $p->id_booking ?>','')">
-                    <i class="bi bi-cloud-arrow-up-fill"></i> Upload
-                </button>
-            <?php elseif(strtolower($status) == 'ditolak') : ?>
-                <button class="btn btn-sm btn-warning" 
-                        onclick="openUploadPopup('<?= $p->id_booking ?>','<?= $p->id_pembayaran ?>')">
-                    <i class="bi bi-cloud-arrow-up-fill"></i> Upload Ulang
-                </button>
-            <?php elseif(strtolower($status) == 'menunggu verifikasi') : ?>
-                <button class="btn btn-sm btn-warning text-dark" disabled>
-                    <i class="bi bi-hourglass-split"></i> Menunggu
-                </button>
-            <?php else : ?>
-                <button class="btn btn-sm btn-success" disabled>
-                    <i class="bi bi-check-circle-fill"></i> Lunas
-                </button>
-            <?php endif; ?>
+        <td>
+          <?php if ($status == 'Belum Bayar') : ?>
+            <button class="btn btn-sm btn-primary"
+                    onclick="openUploadPopup('<?= $p->id_booking ?>','')">
+              <i class="bi bi-cloud-arrow-up-fill"></i> Upload
+            </button>
+
+          <?php elseif ($status == 'Ditolak') : ?>
+            <button class="btn btn-sm btn-warning"
+                    onclick="openUploadPopup('<?= $p->id_booking ?>','<?= $p->id_pembayaran ?>')">
+              <i class="bi bi-cloud-arrow-up-fill"></i> Upload Ulang
+            </button>
+
+          <?php elseif ($status == 'Menunggu Verifikasi') : ?>
+            <button class="btn btn-sm btn-warning text-dark" disabled>
+              <i class="bi bi-hourglass-split"></i> Menunggu Verifikasi
+            </button>
+
+          <?php else : ?>
+            <button class="btn btn-sm btn-success" disabled>
+              <i class="bi bi-check-circle-fill"></i> Lunas
+            </button>
+          <?php endif; ?>
         </td>
-    </tr>
-    <?php endforeach; ?>
-<?php else: ?>
-<tr>
-    <td colspan="9" class="text-center text-muted">Belum ada data pembayaran</td>
-</tr>
-<?php endif; ?>
-</tbody>
+      </tr>
+      <?php endforeach; ?>
+    <?php else : ?>
+      <tr>
+        <td colspan="9" class="text-center text-muted">Belum ada data pembayaran</td>
+      </tr>
+    <?php endif; ?>
+  </tbody>
 </table>
+
 
 
     </div>

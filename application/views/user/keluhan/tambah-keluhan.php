@@ -17,11 +17,10 @@
 <?php endif; ?>
         <div class="row">
           <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Tambah Kamar</h3>
-            <p class="text-muted">
-              Silakan lengkapi form di bawah ini untuk menambahkan data kamar baru.
-            </p>
+              <h3>Data Keluhan</h3>
+              <p class="text-subtitle text-muted">Gunakan form di bawah ini untuk menambahkan keluhan baru berdasarkan pengalaman penghuni.</p>
           </div>
+
           <div class="col-12 col-md-6 order-md-2 order-first">
             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
               <ol class="breadcrumb">

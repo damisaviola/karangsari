@@ -20,18 +20,23 @@
         <script src="<?= base_url('assets/dist/assets/extensions/toastify-js/src/toastify.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/static/js/pages/filepond.js') ?>"></script>
 
+        <!-- Load JS -->
         <script src="<?= base_url('assets/dist/assets/static/js/components/dark.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') ?>"></script>
-       <?php if ($this->uri->uri_string() == 'admin/penghuni' || $this->uri->uri_string() == 'admin/kamar/tambah_kamar') : ?>
+       <?php if ($this->uri->uri_string() == 'admin/pembayaran' || $this->uri->uri_string() == 'admin/kamar/tambah_kamar') : ?>
             <script src="<?= base_url('assets/dist/assets/compiled/js/app.js') ?>"></script>
         <?php endif; ?>
 
-        <?php if ($this->uri->uri_string() == 'admin/penghuni') : ?>
+        <?php if ($this->uri->uri_string() == 'admin/pembayaran') : ?>
             <script src="<?= base_url('assets/dist/assets/extensions/simple-datatables/umd/simple-datatables.js') ?>"></script>
             <script src="<?= base_url('assets/dist/assets/static/js/pages/simple-datatables.js') ?>"></script>
         <?php endif; ?>
 
+        
 
+
+        
+        <!-- Load JS untuk halaman add kamar -->
         <script src="<?= base_url('assets/dist/assets/extensions/jquery/jquery.min.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/extensions/parsleyjs/parsley.min.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/static/js/pages/parsley.js') ?>"></script>
@@ -39,51 +44,7 @@
 
 
 
-<script>
-  const chatBtn = document.querySelector('.chat-btn'); 
-  const chatSidebar = document.getElementById('chatbox-sidebar');
 
-  chatBtn.addEventListener('click', function(e){
-    e.preventDefault();
-    chatSidebar.classList.add('show');
-  });
-
-  const chatClose = chatSidebar.querySelector('.chat-close-icon');
-  chatClose.addEventListener('click', function() {
-    chatSidebar.classList.remove('show');
-  });
-  
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const chatBtn = document.querySelector('.chat-btn');
-    const chatSidebar = document.getElementById('chatbox-sidebar');
-    const chatClose = chatSidebar.querySelector('.chat-close-icon');
-
-    // Sidebar menu Mail (misal Inbox) yang ingin diberi active
-    const inboxMenu = document.getElementById('inbox-menu');
-
-    // Tampilkan sidebar & sembunyikan tombol chat
-    chatBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        chatSidebar.classList.add('show');
-        chatBtn.style.display = 'none'; // sembunyikan tombol
-
-        // Aktifkan menu Inbox
-        inboxMenu.classList.add('active');
-    });
-
-    // Tutup sidebar & tampilkan tombol chat lagi
-    chatClose.addEventListener('click', function() {
-        chatSidebar.classList.remove('show');
-        chatBtn.style.display = 'block'; // tampilkan tombol
-
-        // Hilangkan active dari menu Inbox
-        inboxMenu.classList.remove('active');
-    });
-});
-</script>
 
 </body>
 

@@ -1,26 +1,3 @@
-
-<style>
-    .btn-modern {
-        background: linear-gradient(135deg, #4f46e5, #3b82f6);
-        color: #fff;
-        padding: 10px 18px;
-        border-radius: 12px;
-        font-weight: 600;
-        text-decoration: none;
-        box-shadow: 0 4px 10px rgba(59,130,246,0.3);
-        transition: all 0.3s ease;
-    }
-    .btn-modern:hover {
-        background: linear-gradient(135deg, #3b82f6, #2563eb);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 14px rgba(59,130,246,0.4);
-        color: #fff;
-    }
-    .btn-modern i {
-        margin-right: 6px;
-    }
-</style>
-
 <body>
     <script src="<?= base_url('assets/dist/assets/static/js/initTheme.js') ?>"></script>
 
@@ -43,7 +20,7 @@
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Pemesanan</li>
+                        <li class="breadcrumb-item active" aria-current="page">Pembayaran (Admin)</li>
                     </ol>
                 </nav>
             </div>
@@ -55,27 +32,23 @@
                 <h5 class="card-title">
                     Data Pemesanan
                 </h5>
-                <a href="<?= site_url('admin/pemesanan/tambah_pemesanan') ?>" 
-           class="btn-modern">
-            <i class="bi bi-plus-lg"></i> Tambah
-        </a>
             </div>
              <div class="card-body">
-                        <table class="table table-striped" id="table1">
-    <thead>
-        <tr class="text-center">
-            <th style="width: 4%;">#</th>
-            <th style="width: 10%;">ID Booking</th>
-            <th style="width: 15%;">Nama Penghuni</th>
-            <th style="width: 12%;">Tanggal Bayar</th>
-            <th style="width: 12%;">Jumlah</th>
-            <th style="width: 10%;">Metode</th>
-            <th style="width: 10%;">Status</th>
-            <th style="width: 12%;">Bukti</th>
-            <th style="width: 12%;">Dibuat</th>
-            <th style="width: 15%;">Aksi</th>
-        </tr>
-    </thead>
+            <table class="table table-striped" id="table1">
+            <thead>
+                <tr class="text-center">
+                    <th style="width: 4%;">#</th>
+                    <th style="width: 10%;">ID Booking</th>
+                    <th style="width: 15%;">Nama Penghuni</th>
+                    <th style="width: 12%;">Tanggal Bayar</th>
+                    <th style="width: 12%;">Jumlah</th>
+                    <th style="width: 10%;">Metode</th>
+                    <th style="width: 10%;">Status</th>
+                    <th style="width: 12%;">Bukti</th>
+                    <th style="width: 12%;">Dibuat</th>
+                    <th style="width: 15%;">Aksi</th>
+                </tr>
+            </thead>
 
     <tbody>
     <?php if (!empty($pembayaran)) : ?>
@@ -83,7 +56,6 @@
             $status = isset($p->status_pembayaran_detail) ? $p->status_pembayaran_detail : (isset($p->status_booking) ? $p->status_booking : 'Belum Bayar');
             if ($status == 'Diterima') $status = 'Lunas';
 
-            // Lewati yang sudah Lunas
             if ($status == 'Lunas') continue;
         ?>
         <tr class="text-center">
@@ -91,7 +63,14 @@
             <td><?= $p->id_booking ?></td>
             <td><?= $p->nama_penghuni ?></td>
             <td><?= !empty($p->tanggal_bayar) ? date('d-m-Y', strtotime($p->tanggal_bayar)) : '<span class="text-muted">-</span>' ?></td>
-            <td>Rp <?= number_format($p->jumlah_bayar ?? 0, 0, ',', '.') ?></td>
+            <td>
+                <?php if (!empty($p->total_harga)) : ?>
+                    Rp <?= number_format($p->total_harga, 0, ',', '.') ?>
+                <?php else : ?>
+                    <span class="text-muted">Belum Bayar</span>
+                <?php endif; ?>
+                </td>
+
             <td><?= ucfirst($p->metode_pembayaran ?? '-') ?></td>
             <td>
                 <?php if (strtolower($status) == 'menunggu verifikasi') : ?>

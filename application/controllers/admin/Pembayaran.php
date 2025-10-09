@@ -36,7 +36,6 @@ public function upload_bukti_admin() {
     $keterangan = $this->input->post('keterangan');
     $metode_pembayaran = $this->input->post('metode_pembayaran');
 
-    // Ambil data booking
     $booking = $this->Booking_model->get_booking_by_id($id_booking);
 
     if (!$booking) {
@@ -45,7 +44,7 @@ public function upload_bukti_admin() {
         return;
     }
 
-    // Ambil id admin dari session
+
     $id_admin = $this->session->userdata('id_admin'); 
 
     $data = [
@@ -57,7 +56,6 @@ public function upload_bukti_admin() {
         'id_admin' => $id_admin, 
     ];
 
-    // Upload bukti jika bukan tunai
     if ($metode_pembayaran !== 'Tunai') {
         $config['upload_path'] = './uploads/bukti_transfer/';
         $config['allowed_types'] = 'jpg|jpeg|png';
@@ -82,27 +80,23 @@ public function upload_bukti_admin() {
     $existing = $this->db->get('pembayaran')->row();
 
     if ($existing) {
-        // update record lama
+     
         $this->db->where('id_pembayaran', $existing->id_pembayaran);
         $this->db->update('pembayaran', $data);
     } else {
-        // insert baru
+     
         $data['id_booking'] = $id_booking;
         $data['created_at'] = date('Y-m-d H:i:s');
         $this->db->insert('pembayaran', $data);
     }
 
-    // update status booking langsung Lunas
+
     $this->db->where('id_booking', $id_booking);
     $this->db->update('booking', ['status_pembayaran' => 'Lunas']);
 
     $this->session->set_flashdata('success', 'Bukti pembayaran berhasil dikirim oleh admin dan status pembayaran langsung Lunas.');
     redirect('admin/pembayaran');
 }
-
-
-
-
 
 
      public function verifikasi($id_pembayaran) {

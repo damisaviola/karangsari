@@ -10,6 +10,8 @@ class Pembayaran_user extends CI_Controller {
         $this->load->model('Booking_model');
         $this->load->library('session');
         $this->load->helper(array('url', 'form'));
+        $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate');
+
     }
 
     public function index() {

@@ -22,7 +22,7 @@ class Pembayaran_user_model extends CI_Model {
             pembayaran.metode_pembayaran,
             pembayaran.keterangan,
             pembayaran.bukti_transfer,
-            pembayaran.status AS status_pembayaran_detail,
+            pembayaran.status AS status_pembayaran,
             pembayaran.created_at AS pembayaran_created_at
         ');
         $this->db->from('booking');

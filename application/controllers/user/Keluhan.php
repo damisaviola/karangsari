@@ -9,6 +9,10 @@ class Keluhan extends CI_Controller {
         $this->load->model('Keluhan_model');
         $this->load->library('session');
         $this->load->helper(['url', 'form']);
+
+        if (!$this->session->userdata('id_penghuni')) {
+            redirect('user/auth/login');
+        }
     }
 
     public function index()

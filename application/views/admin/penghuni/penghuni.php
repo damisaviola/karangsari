@@ -91,7 +91,7 @@
                         <?php endif; ?>
                     </td>
                     <td>
-                        <!-- Detail -->
+
                         <a href="<?= base_url('penghuni/detail/'.$row->id_penghuni) ?>" 
                            class="btn btn-sm btn-info" title="Detail">
                             <i class="fas fa-eye"></i>

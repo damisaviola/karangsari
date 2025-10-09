@@ -61,6 +61,23 @@
 
     <div id="app">
         <div id="main">
+
+          <!-- Pesan Error -->
+        <?php if ($this->session->flashdata('error')): ?>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= $this->session->flashdata('error'); ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <?php endif; ?>
+
+        <!-- Pesan Sukses -->
+        <?php if ($this->session->flashdata('success')): ?>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?= $this->session->flashdata('success'); ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <?php endif; ?>
+        
             <header class="mb-3">
                 <a href="#" class="burger-btn d-block d-xl-none">
                     <i class="bi bi-justify fs-3"></i>
@@ -90,7 +107,7 @@
                 <h5 class="card-title">
                     Data Kamar
                 </h5>
-                <a href="<?= site_url('admin/kamar/tambah_kamar') ?>" 
+                <a href="<?= site_url('user/keluhan/tambah') ?>" 
            class="btn-modern">
             <i class="bi bi-plus-lg"></i> Tambah
         </a>

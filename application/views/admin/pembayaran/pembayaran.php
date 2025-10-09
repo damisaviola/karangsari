@@ -40,6 +40,20 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
+                <?php if ($this->session->flashdata('error')): ?>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= $this->session->flashdata('error'); ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <?php endif; ?>
+
+        <!-- Pesan Sukses -->
+        <?php if ($this->session->flashdata('success')): ?>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?= $this->session->flashdata('success'); ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <?php endif; ?>
                 <h3>Data Pembayaran</h3>
                 <p class="text-subtitle text-muted">Tabel daftar pembayaran yang dapat diurutkan, dicari, dan dipaginasi secara interaktif oleh admin.</p>
             </div>
