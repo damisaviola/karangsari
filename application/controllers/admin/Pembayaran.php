@@ -1,13 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+use Dompdf\Dompdf;
+use Dompdf\Helpers;
 
 class Pembayaran extends CI_Controller {
+    
 
     public function __construct() {
         parent::__construct();
         $this->load->model('Pembayaran_model');
         $this->load->model('Booking_model');
         $this->load->model('Pembayaran_user_model');
+        $this->load->helper('pdf_helper');
+        $this->load->helper('url');
         $this->load->library(['form_validation', 'session']);
          if (!$this->session->userdata('id_admin')) {
             redirect('admin/auth/login');
@@ -74,7 +79,7 @@ public function upload_bukti_admin() {
         $data['bukti_transfer'] = $upload_data['file_name'];
     }
 
-    // Cek pembayaran ditolak sebelumnya
+  
     $this->db->where('id_booking', $id_booking);
     $this->db->where('status', 'Ditolak');
     $existing = $this->db->get('pembayaran')->row();
@@ -159,4 +164,22 @@ public function upload_bukti_admin() {
             redirect('admin/pembayaran');
         }
     }
+
+
+    public function print_pdf($id_pembayaran)
+{
+    $this->load->helper('pdf');
+    $data['pembayaran'] = $this->Pembayaran_model->get_by_id($id_pembayaran);
+
+    if (!$data['pembayaran']) {
+        show_404();
+    }
+
+    $html = $this->load->view('admin/pembayaran/bukti_pdf', $data, true);
+    $filename = 'Bukti_Pembayaran_' . $data['pembayaran']->id_pembayaran . '.pdf';
+
+    generate_pdf($html, $filename);
+}
+
+
 }

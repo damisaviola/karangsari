@@ -17,6 +17,10 @@ class User_model extends CI_Model
         return $this->db->get('penghuni')->result();
     }
 
+    public function get_by_email($email) {
+    return $this->db->get_where('penghuni', ['email' => $email])->row();
+}
+
     public function checkDuplicate($email, $no_hp) 
     {
         $this->db->where('email', $email);
@@ -37,12 +41,11 @@ class User_model extends CI_Model
         return null;
     }
 
-    public function get_by_email($email) 
-{
-    $this->db->where('email', $email); // harus plain email
-    return $this->db->get($this->table)->row();
+    public function insert($data) {
+    return $this->db->insert('penghuni', $data);
 }
 
+ 
 
     public function update_last_login($id_penghuni, $ip_address) 
     {

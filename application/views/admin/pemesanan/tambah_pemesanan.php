@@ -59,17 +59,52 @@
                 <div class="row g-3">
 
                   <!-- Nama Penghuni -->
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="id_penghuni" class="form-label">Nama Penghuni</label>
-                      <select id="id_penghuni" name="id_penghuni" class="form-select" required>
-                        <option value="">-- Pilih Penghuni --</option>
-                        <?php foreach ($penghuni as $p): ?>
-                          <option value="<?= $p->id_penghuni ?>"><?= $p->nama ?></option>
-                        <?php endforeach; ?>
-                      </select>
-                    </div>
-                  </div>
+                
+                  <!-- Nama Penghuni -->
+<div class="col-12">
+  <div class="form-group">
+    <label for="id_penghuni" class="form-label">Nama Penghuni</label>
+    <select id="id_penghuni" name="id_penghuni" class="form-select">
+      <option value="">-- Pilih Penghuni yang Sudah Ada --</option>
+      <?php foreach ($penghuni as $p): ?>
+        <option value="<?= $p->id_penghuni ?>"><?= $p->nama ?></option>
+      <?php endforeach; ?>
+      <option value="baru">+ Tambah Penghuni Baru</option>
+    </select>
+  </div>
+</div>
+
+<!-- Form Penghuni Baru (hidden secara default) -->
+<div id="form_penghuni_baru" class="row mt-3" style="display: none;">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="nama_penghuni_baru" class="form-label">Nama Lengkap</label>
+      <input type="text" id="nama_penghuni_baru" name="nama_penghuni_baru" class="form-control" placeholder="Masukkan nama lengkap">
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="no_hp_penghuni_baru" class="form-label">Nomor HP</label>
+      <input type="text" id="no_hp_penghuni_baru" name="no_hp_penghuni_baru" class="form-control" placeholder="08xxxxxxxxxx">
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="email_penghuni_baru" class="form-label">Email</label>
+      <input type="email" id="email_penghuni_baru" name="email_penghuni_baru" class="form-control" placeholder="email@example.com">
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="alamat_penghuni_baru" class="form-label">Alamat</label>
+      <input type="text" id="alamat_penghuni_baru" name="alamat_penghuni_baru" class="form-control" placeholder="Masukkan alamat">
+    </div>
+  </div>
+</div>
+
 
                   <!-- Pilih Kamar -->
                   <div class="col-12">
@@ -183,6 +218,18 @@
     document.getElementById('lantai').value = lantai || '';
   });
 </script>
+
+<script>
+document.getElementById('id_penghuni').addEventListener('change', function() {
+  const formBaru = document.getElementById('form_penghuni_baru');
+  if (this.value === 'baru') {
+    formBaru.style.display = 'flex';
+  } else {
+    formBaru.style.display = 'none';
+  }
+});
+</script>
+
 
 
 <script>

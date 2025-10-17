@@ -13,6 +13,15 @@ class Keluhan_model extends CI_Model {
         return $this->db->get()->result();
     }
 
+     public function get_keluhan_notifikasi() {
+    $this->db->select('keluhan.*, penghuni.nama as nama_penghuni');
+    $this->db->from('keluhan');
+    $this->db->join('penghuni', 'keluhan.id_penghuni = penghuni.id_penghuni');
+    $this->db->where_in('keluhan.status', ['Menunggu', 'Diproses']);
+    $this->db->order_by('keluhan.created_at', 'DESC');
+    return $this->db->get()->result();
+  }
+
     public function get_by_penghuni($id_penghuni)
     {
         $this->db->select('keluhan.*, penghuni.nama AS nama_penghuni');
@@ -38,6 +47,17 @@ class Keluhan_model extends CI_Model {
         $this->db->where('id_keluhan', $id_keluhan);
         return $this->db->delete('keluhan');
     }
+
+ public function get_all_user()
+{
+    $this->db->select('keluhan.*, penghuni.nama as nama_penghuni');
+    $this->db->from('keluhan');
+    $this->db->join('penghuni', 'penghuni.id_penghuni = keluhan.id_penghuni', 'left');
+    $this->db->order_by('keluhan.created_at', 'DESC');
+    return $this->db->get()->result();
+}
+
+
 
 
 }

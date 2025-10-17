@@ -55,7 +55,7 @@ class Keluhan extends CI_Controller {
         $data = [
             'id_penghuni' => $id_penghuni,
             'pesan'       => $pesan,
-            'status'      => 'Menunggu',
+            'status'      => 'Diproses',
             'created_at'  => date('Y-m-d H:i:s')
         ];
 

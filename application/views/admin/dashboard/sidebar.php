@@ -198,7 +198,7 @@
                 </a>
             </li>
 
-            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/penghuni' || $this->uri->uri_string() == 'admin/kamar/tambah_kamarrr') ? 'active' : '' ?>">
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/penghuni' || $this->uri->uri_string() == 'admin/penghuni/tambah_penghuni') ? 'active' : '' ?>">
                 <a href="<?= site_url('admin/penghuni') ?>" class="sidebar-link">
                     <i class="bi bi bi-people-fill"></i>
                     <span>Penghuni</span>
@@ -237,12 +237,46 @@
                 </a>
             </li>
 
-            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/notifikasi') ? 'active' : '' ?>">
-                <a href="<?= site_url('admin/notifikasi') ?>" class="sidebar-link">
-                    <i class="bi bi-bell-fill"></i>
-                    <span>Notifikasi</span>
+             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/fasil') ? 'active' : '' ?>">
+                <a href="<?= base_url('admin/pemesanan') ?>" class="sidebar-link">
+                    <i class="bi bi-calendar-check-fill"></i>
+                    <span>Fasilitas</span>
                 </a>
             </li>
+
+
+             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/keluhan') ? 'active' : '' ?>">
+                <a href="<?= site_url('admin/keluhan') ?>" class="sidebar-link">
+                    <i class="bi bi-chat-dots-fill"></i>
+                    <span>Keluhan</span>
+                </a>
+            </li>
+
+
+            <?php
+        $this->db->where('status', 'Diproses');
+        $jumlah_keluhan = $this->db->count_all_results('keluhan');
+
+        $this->db->where('status', 'Menunggu Verifikasi');
+        $jumlah_pembayaran = $this->db->count_all_results('pembayaran');
+
+        $total_notifikasi = $jumlah_keluhan + $jumlah_pembayaran;
+        ?>
+
+        <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/notifikasi') ? 'active' : '' ?>">
+        <a href="<?= site_url('admin/notifikasi') ?>" class="sidebar-link">
+            <div class="d-flex justify-content-between align-items-center w-100">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-bell-fill"></i>
+                <span>Notifikasi</span>
+            </div>
+            <?php if ($total_notifikasi > 0): ?>
+                <span class="badge bg-danger rounded-pill px-2"><?= $total_notifikasi ?></span>
+            <?php endif; ?>
+            </div>
+        </a>
+        </li>
+
 
 
             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pengumuman') ? 'active' : '' ?>">
@@ -267,6 +301,7 @@
                         <span>Pengaturan</span>
                     </a>
                 </li>
+                
 
 
            <li class="sidebar-item">

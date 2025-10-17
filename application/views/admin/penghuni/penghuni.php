@@ -56,7 +56,7 @@
                 <h5 class="card-title">
                     Data Penghuni kos
                 </h5>
-                <a href="<?= site_url('admin/kamar/tambah_kamar') ?>" 
+                <a href="<?= site_url('admin/penghuni/tambah_penghuni') ?>" 
            class="btn-modern">
             <i class="bi bi-plus-lg"></i> Tambah
         </a>

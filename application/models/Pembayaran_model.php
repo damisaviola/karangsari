@@ -170,6 +170,46 @@ public function getAllTagihan()
     return $this->db->get()->result();
 }
 
+public function get_pembayaran_notifikasi() {
+    $this->db->select('pembayaran.*, penghuni.nama as nama_penghuni');
+    $this->db->from('pembayaran');
+    $this->db->join('booking', 'pembayaran.id_booking = booking.id_booking', 'left');
+    $this->db->join('penghuni', 'booking.id_penghuni = penghuni.id_penghuni', 'left');
+    $this->db->where('pembayaran.status', 'Menunggu Verifikasi');
+    $this->db->order_by('pembayaran.tanggal_bayar', 'DESC');
+    return $this->db->get()->result();
+}
+
+
+public function getById($id) {
+        return $this->db->get_where('pembayaran', ['id_pembayaran' => $id])->row();
+    }
+
+
+    public function get_by_id($id_pembayaran)
+{
+    $this->db->select('
+        pembayaran.id_pembayaran,
+        pembayaran.jumlah_bayar,
+        pembayaran.tanggal_bayar,
+        pembayaran.metode_pembayaran,
+        pembayaran.bukti_transfer,
+        pembayaran.keterangan,
+        pembayaran.status,
+        booking.id_booking,
+        penghuni.nama AS nama_penghuni,
+        penghuni.alamat
+    ');
+    $this->db->from('pembayaran');
+    $this->db->join('booking', 'booking.id_booking = pembayaran.id_booking', 'left');
+    $this->db->join('penghuni', 'penghuni.id_penghuni = booking.id_penghuni', 'left');
+    $this->db->where('pembayaran.id_pembayaran', $id_pembayaran);
+    return $this->db->get()->row();
+}
+
+
+
+
 
 
 
