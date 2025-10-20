@@ -52,13 +52,9 @@
                             <div class="g-recaptcha" data-sitekey="6LfMpNorAAAAAL8ExfzyifLLO_FMR60LnUp1K1l2"></div>
                         </div>
 
-                        <div class="form-check form-check-lg d-flex align-items-end">
-                            <input class="form-check-input me-2" type="checkbox" name="remember" id="flexCheckDefault">
-                            <label class="form-check-label text-gray-600" for="flexCheckDefault">
-                                Keep me logged in
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Masuk</button>
+    
+                        <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5" onclick="this.disabled=true;this.form.submit();">Masuk</button>
+
                     </form>
                 </div>
             </div>

@@ -51,6 +51,19 @@
                     </ol>
                 </nav>
             </div>
+             <?php if ($this->session->flashdata('error')): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <?= $this->session->flashdata('error'); ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php endif; ?>
+
+          <?php if ($this->session->flashdata('success')): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <?= $this->session->flashdata('success'); ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php endif; ?>
         </div>
     </div>
     <section class="section">
@@ -89,15 +102,18 @@
                                                 <td><?= $b->nomor_kamar ?></td>
                                                 <td><?= date('Y-m', strtotime($b->bulan_mulai)) ?></td>
                                                 <td><?= date('Y-m', strtotime($b->bulan_akhir)) ?></td>
-                                                <td>
-                                                    <?php if ($b->status_pembayaran == 'lunas') : ?>
-                                                        <span class="badge bg-success">Lunas</span>
-                                                    <?php elseif ($b->status_pembayaran == 'pending') : ?>
-                                                        <span class="badge bg-warning">Pending</span>
-                                                    <?php else : ?>
-                                                        <span class="badge bg-danger">Belum Bayar</span>
-                                                    <?php endif; ?>
-                                                </td>
+                                               <td>
+    <?php if ($b->status_pembayaran == 'lunas') : ?>
+        <span class="badge bg-success">Lunas</span>
+    <?php elseif ($b->status_pembayaran == 'pending') : ?>
+        <span class="badge bg-warning text-dark">Pending</span>
+    <?php elseif ($b->status_pembayaran == 'selesai') : ?>
+        <span class="badge bg-secondary">Selesai</span>
+    <?php else : ?>
+        <span class="badge bg-danger">Belum Bayar</span>
+    <?php endif; ?>
+</td>
+
                                                 <td>Rp <?= number_format($b->total_harga, 0, ',', '.') ?></td>
                                                 <td><?= date('d-m-Y H:i', strtotime($b->created_at)) ?></td>
                                                 <td>
@@ -112,6 +128,13 @@
                                                        onclick="return confirm('Yakin ingin menghapus data ini?')">
                                                         <i class="bi bi-trash"></i> Hapus
                                                     </a>
+                                                    <?php if ($b->status_pembayaran == 'lunas') : ?>
+        <a href="<?= site_url('admin/pemesanan/selesai/'.$b->id_booking) ?>"
+           class="btn btn-sm btn-success"
+           onclick="return confirm('Tandai booking ini sebagai selesai? Kamar akan otomatis tersedia kembali.')">
+            <i class="bi bi-check-circle"></i> Selesai
+        </a>
+    <?php endif; ?>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

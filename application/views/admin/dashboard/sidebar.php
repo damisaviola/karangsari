@@ -252,6 +252,14 @@
                 </a>
             </li>
 
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/refund') ? 'active' : '' ?>">
+    <a href="<?= site_url('admin/refund') ?>" class="sidebar-link">
+        <i class="bi bi-arrow-repeat"></i>
+        <span>Refund</span>
+    </a>
+</li>
+
+
 
             <?php
         $this->db->where('status', 'Diproses');
@@ -277,14 +285,6 @@
         </a>
         </li>
 
-
-
-            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pengumuman') ? 'active' : '' ?>">
-                <a href="<?= site_url('admin/pengumuman') ?>" class="sidebar-link">
-                    <i class="bi bi-megaphone-fill"></i>
-                    <span>Pengumuman</span>
-                </a>
-            </li>
 
 
             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/backup') ? 'active' : '' ?>">

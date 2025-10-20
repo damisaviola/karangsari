@@ -26,7 +26,11 @@ class Login extends CI_Controller {
         if ($this->session->userdata('id_admin')) {
             redirect('admin/dashboard');
         }
-        $this->load->view('admin/auth/login-admin');
+
+        $data['csrf_name'] = $this->security->get_csrf_token_name();
+        $data['csrf_hash'] = $this->security->get_csrf_hash();
+
+        $this->load->view('admin/auth/login-admin', $data);
     }
 
   public function login_action() {
