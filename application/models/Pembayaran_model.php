@@ -53,6 +53,14 @@ class Pembayaran_model extends CI_Model {
     return $this->db->get()->result();
 }
 
+    public function insert($data) {
+        $this->db->insert('pembayaran', $data);
+        return $this->db->insert_id(); // opsional
+    }
+
+
+
+
 
    public function insert_pembayaran($data) {
     if ($this->db->insert('pembayaran', $data)) {

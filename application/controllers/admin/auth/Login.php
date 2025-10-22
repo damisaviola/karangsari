@@ -53,14 +53,13 @@ class Login extends CI_Controller {
     $ip_address = $this->input->ip_address();
     $captchaResponse = $this->input->post('g-recaptcha-response');
 
-    // Cek apakah captcha diisi
     if (empty($captchaResponse)) {
         $this->session->set_flashdata('error', 'Silakan verifikasi captcha terlebih dahulu.');
         redirect('admin/login');
         return;
     }
 
-    $secretKey = '6LfMpNorAAAAABG4Z5bBxmgyp-DnpZQjLiRDF1WB'; // Ganti dengan secret key dari Google reCAPTCHA
+    $secretKey = '6LfMpNorAAAAABG4Z5bBxmgyp-DnpZQjLiRDF1WB'; 
     $verifyResponse = file_get_contents(
         "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$captchaResponse}"
     );
@@ -112,8 +111,6 @@ class Login extends CI_Controller {
     $this->session->set_flashdata('error','Username atau password salah.');
     redirect('admin/login');
 }
-
-
 
     public function logout() {
         $this->session->sess_destroy();

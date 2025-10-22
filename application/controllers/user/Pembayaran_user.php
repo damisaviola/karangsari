@@ -19,18 +19,16 @@ class Pembayaran_user extends CI_Controller {
         
 
         $data['pembayaran'] = $this->Pembayaran_user_model->getTagihanByUser($id_penghuni);
-
+       
         $this->load->view('user/pembayaran_user/header');
         $this->load->view('user/pembayaran_user/data-pembayaran', $data);
         $this->load->view('user/dashboard/sidebar');
         $this->load->view('user/pembayaran_user/footer');
     }
 
-    public function upload_bukti() {
+   public function upload_bukti() {
     $id_booking = $this->input->post('id_booking');
     $keterangan = $this->input->post('keterangan');
-
-    // Ambil data booking
     $booking = $this->Booking_model->get_booking_by_id($id_booking);
 
     if (!$booking) {
@@ -39,10 +37,24 @@ class Pembayaran_user extends CI_Controller {
         return;
     }
 
-    // Konfigurasi upload
+    if (empty($_FILES['bukti_transfer']['name'])) {
+        $this->session->set_flashdata('error', 'Silakan pilih file bukti transfer terlebih dahulu.');
+        redirect('user/pembayaran_user');
+        return;
+    }
+
+    $allowed_types = ['jpg', 'jpeg', 'png'];
+    $file_ext = strtolower(pathinfo($_FILES['bukti_transfer']['name'], PATHINFO_EXTENSION));
+
+    if (!in_array($file_ext, $allowed_types)) {
+        $this->session->set_flashdata('error', 'Format file tidak valid. Hanya diperbolehkan JPG, JPEG, atau PNG.');
+        redirect('user/pembayaran_user');
+        return;
+    }
+
     $config['upload_path'] = './uploads/bukti_transfer/';
     $config['allowed_types'] = 'jpg|jpeg|png';
-    $config['max_size'] = 2048;
+    $config['max_size'] = 2048; // 2MB
     $config['file_name'] = 'bukti_' . time();
 
     $this->upload->initialize($config);
@@ -55,7 +67,6 @@ class Pembayaran_user extends CI_Controller {
 
     $upload_data = $this->upload->data();
 
-    // Cek apakah sebelumnya ada pembayaran yang ditolak untuk booking ini
     $this->db->where('id_booking', $id_booking);
     $this->db->where('status', 'Ditolak');
     $existing = $this->db->get('pembayaran')->row();
@@ -70,23 +81,36 @@ class Pembayaran_user extends CI_Controller {
     ];
 
     if ($existing) {
-        // update record lama yang ditolak
         $this->db->where('id_pembayaran', $existing->id_pembayaran);
         $this->db->update('pembayaran', $data);
     } else {
-        // insert baru jika tidak ada pembayaran ditolak
         $data['id_booking'] = $id_booking;
         $data['created_at'] = date('Y-m-d H:i:s');
         $this->db->insert('pembayaran', $data);
     }
 
-    // update status booking
     $this->db->where('id_booking', $id_booking);
     $this->db->update('booking', ['status_pembayaran' => 'Menunggu Verifikasi']);
 
     $this->session->set_flashdata('success', 'Bukti pembayaran berhasil dikirim dan menunggu verifikasi admin.');
     redirect('user/pembayaran_user');
 }
+
+public function print_pdf($id_pembayaran)
+{
+    $this->load->helper('pdf');
+    $data['pembayaran'] = $this->Pembayaran_model->get_by_id($id_pembayaran);
+
+    if (!$data['pembayaran']) {
+        show_404();
+    }
+
+    $html = $this->load->view('admin/pembayaran/bukti_pdf', $data, true);
+    $filename = 'Bukti_Pembayaran_' . $data['pembayaran']->id_pembayaran . '.pdf';
+
+    generate_pdf($html, $filename);
+}
+
 
 }
 

@@ -236,14 +236,13 @@ document.getElementById('id_penghuni').addEventListener('change', function() {
 const selectKamar = document.getElementById('id_kamar');
 const hargaInput = document.getElementById('harga');
 const lantaiInput = document.getElementById('lantai');
-const totalHargaInput = document.getElementById('total_harga'); // untuk tampilan
-const totalHargaHidden = document.getElementById('total_harga_hidden'); // input hidden angka murni
+const totalHargaInput = document.getElementById('total_harga'); 
+const totalHargaHidden = document.getElementById('total_harga_hidden');
 const bulanMulai = document.getElementById('bulan_mulai');
 const bulanAkhir = document.getElementById('bulan_akhir');
 
 let hargaPerBulan = 0;
 
-// Fungsi update harga dan lantai saat kamar dipilih
 function updateKamar() {
     const selected = selectKamar.options[selectKamar.selectedIndex];
     const harga = selected.getAttribute('data-harga');
@@ -256,7 +255,7 @@ function updateKamar() {
     hitungTotalHarga();
 }
 
-// Fungsi hitung total harga sesuai logika khusus
+
 function hitungTotalHarga() {
     const mulai = bulanMulai.value;
     const akhir = bulanAkhir.value;
@@ -267,7 +266,7 @@ function hitungTotalHarga() {
 
         let selisihBulan = (akhirTahun - mulaiTahun) * 12 + (akhirBulan - mulaiBulan);
 
-        let totalBulan = 1; // default 1 bulan
+        let totalBulan = 1; 
         if (selisihBulan === 1) {
             totalBulan = 1;
         } else if (selisihBulan >= 2) {
@@ -275,8 +274,8 @@ function hitungTotalHarga() {
         }
 
         const total = hargaPerBulan * totalBulan;
-        totalHargaInput.value = 'Rp' + total.toLocaleString('id-ID'); // untuk tampilan
-        totalHargaHidden.value = total; // angka murni untuk dikirim ke server
+        totalHargaInput.value = 'Rp' + total.toLocaleString('id-ID'); 
+        totalHargaHidden.value = total; 
     } else {
         totalHargaInput.value = '';
         totalHargaHidden.value = '';

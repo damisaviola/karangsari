@@ -165,21 +165,20 @@ public function upload_bukti_admin() {
         }
     }
 
+            public function print_pdf($id_pembayaran)
+        {
+            $this->load->helper('pdf');
+            $data['pembayaran'] = $this->Pembayaran_model->get_by_id($id_pembayaran);
 
-    public function print_pdf($id_pembayaran)
-{
-    $this->load->helper('pdf');
-    $data['pembayaran'] = $this->Pembayaran_model->get_by_id($id_pembayaran);
+            if (!$data['pembayaran']) {
+                show_404();
+            }
 
-    if (!$data['pembayaran']) {
-        show_404();
-    }
+            $html = $this->load->view('admin/pembayaran/bukti_pdf', $data, true);
+            $filename = 'Bukti_Pembayaran_' . $data['pembayaran']->id_pembayaran . '.pdf';
 
-    $html = $this->load->view('admin/pembayaran/bukti_pdf', $data, true);
-    $filename = 'Bukti_Pembayaran_' . $data['pembayaran']->id_pembayaran . '.pdf';
-
-    generate_pdf($html, $filename);
-}
+            generate_pdf($html, $filename);
+        }
 
 
 }

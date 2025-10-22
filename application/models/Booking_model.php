@@ -86,4 +86,19 @@ class Booking_model extends CI_Model {
         $this->db->where('id_penghuni', $id_penghuni);
         $this->db->update('penghuni', ['status' => 'aktif']);
     }
+
+    public function get_by_id1($id)
+{
+    return $this->db->get_where('booking', ['id_booking' => $id])->row();
+}
+
+ public function getById($id_booking) {
+        return $this->db->get_where('booking', ['id_booking' => $id_booking])->row();
+    }
+
+     public function update($id_booking, $data) {
+        $this->db->where('id_booking', $id_booking);
+        return $this->db->update('booking', $data);
+    }
+
 }
