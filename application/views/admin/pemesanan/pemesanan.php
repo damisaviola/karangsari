@@ -172,11 +172,16 @@
               </a>
             <?php endif; ?>
 
-            <a href="<?= site_url('admin/pemesanan/hapus/'.$b->id_booking) ?>"
-               class="btn btn-sm btn-secondary"
-               onclick="return confirm('Yakin ingin menghapus data ini?')">
-              <i class="bi bi-trash"></i> Hapus
-            </a>
+           <?php if(!empty($b->parent_booking_id) && strtolower($b->status_pembayaran) === 'belum bayar'): ?>
+    <a href="<?= site_url('admin/pemesanan/hapus_booking/'.$b->id_booking) ?>"
+       class="btn btn-sm btn-secondary"
+       onclick="return confirm('Yakin ingin membatalkan booking perpanjangan ini?')">
+       <i class="bi bi-trash"></i> Hapus
+    </a>
+<?php else: ?>
+    
+<?php endif; ?>
+
           </td>
         </tr>
       <?php endforeach; ?>

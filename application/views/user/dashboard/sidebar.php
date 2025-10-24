@@ -73,13 +73,38 @@
                 </a>
             </li>
 
-        <!-- Notifikasi -->
-        <li class="sidebar-item">
-            <a href="<?= site_url('user/notifikasi') ?>" class="sidebar-link">
+<?php
+$id_penghuni = $this->session->userdata('id_penghuni');
+
+// Hitung jumlah tagihan dengan status 'belum bayar' atau kosong
+$this->db->where('id_penghuni', $id_penghuni);
+$this->db->group_start();
+$this->db->where('status_pembayaran', 'belum bayar');
+$this->db->or_where('status_pembayaran', ''); // status kosong
+$this->db->group_end();
+
+$jumlah_tagihan = $this->db->count_all_results('booking');
+
+$total_notifikasi = $jumlah_tagihan;
+?>
+
+<li class="sidebar-item <?= ($this->uri->uri_string() == 'user/notif_penghuni') ? 'active' : '' ?>">
+    <a href="<?= site_url('user/notif_penghuni') ?>" class="sidebar-link">
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <div class="d-flex align-items-center">
                 <i class="bi bi-bell-fill"></i>
                 <span>Notifikasi</span>
-              </a>
-        </li>
+            </div>
+            <?php if ($total_notifikasi > 0): ?>
+                <span class="badge bg-danger rounded-pill px-2"><?= $total_notifikasi ?></span>
+            <?php endif; ?>
+        </div>
+    </a>
+</li>
+
+
+
+
 
         <!-- Pengaturan -->
         <li class="sidebar-item">

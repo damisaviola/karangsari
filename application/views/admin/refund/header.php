@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notifikasi</title>
+    <title>Refund</title>
     
     
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/extensions/filepond/filepond.css') ?>">
@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/compiled/css/table-datatable.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/compiled/css/app.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/compiled/css/app-dark.css') ?>">
+    <!-- Font Awesome 6 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 </head>
     

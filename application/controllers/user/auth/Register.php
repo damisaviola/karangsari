@@ -94,7 +94,7 @@ class Register extends CI_Controller {
             return;
         }
 
-        $secretKey = ""; 
+        $secretKey = "="; 
         $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret="
             . $secretKey . "&response=" . $recaptcha . "&remoteip=" . $this->input->ip_address());
         $responseKeys = json_decode($response, true);

@@ -25,6 +25,20 @@ class Booking_model extends CI_Model {
         return $query->result();
     }
 
+    public function update_status_pembayaran($id_booking, $status)
+{
+    $this->db->where('id_booking', $id_booking);
+    return $this->db->update('booking', ['status_pembayaran' => $status]);
+}
+
+
+public function delete($id_booking)
+{
+    $this->db->where('id_booking', $id_booking);
+    return $this->db->delete($this->table);
+}
+
+
     public function get_booking_by_id($id_booking) {
         return $this->db->get_where('booking', ['id_booking' => $id_booking])->row();
     }
@@ -43,6 +57,22 @@ class Booking_model extends CI_Model {
             return $this->db->get()->result();
         }
 
+
+       public function get_bookings_lunas()
+{
+    $this->db->select('
+        booking.id_booking,
+        booking.total_harga,
+        booking.created_at AS tanggal_booking,
+        penghuni.nama AS nama_penghuni
+    ');
+    $this->db->from('booking');
+    $this->db->join('penghuni', 'penghuni.id_penghuni = booking.id_penghuni', 'left');
+    $this->db->where('booking.status_pembayaran', 'lunas');
+    return $this->db->get()->result();
+}
+
+
          public function get_by_id($id_booking) {
         $this->db->select('
             booking.*, 
@@ -56,6 +86,16 @@ class Booking_model extends CI_Model {
         $this->db->where('booking.id_booking', $id_booking);
         return $this->db->get()->row();
     }
+
+
+    public function get_detail_booking($id_booking)
+{
+    $this->db->select('booking.*, penghuni.nama AS nama_penghuni');
+    $this->db->from('booking');
+    $this->db->join('penghuni', 'penghuni.id_penghuni = booking.id_penghuni', 'left');
+    $this->db->where('booking.id_booking', $id_booking);
+    return $this->db->get()->row();
+}
 
     public function insert($data) {
         return $this->db->insert('booking', $data);

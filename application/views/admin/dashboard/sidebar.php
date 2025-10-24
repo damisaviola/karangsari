@@ -206,7 +206,7 @@
             </li>
             
 
-            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pemesanan') ? 'active' : '' ?>">
+            <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/pemesanan' || $this->uri->uri_string() == 'admin/pemesanan/tambah_pemesanan') ? 'active' : '' ?>">
                 <a href="<?= base_url('admin/pemesanan') ?>" class="sidebar-link">
                     <i class="bi bi-calendar-check-fill"></i>
                     <span>Pemesanan</span>

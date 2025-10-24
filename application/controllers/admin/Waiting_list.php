@@ -25,7 +25,7 @@ class Waiting_list extends CI_Controller
 
     public function simpan()
 {
-    // Aturan validasi
+
     $this->form_validation->set_rules(
         'nama_lengkap',
         'Nama Lengkap',
