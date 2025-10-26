@@ -5,6 +5,7 @@ class Penghuni extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('User_model');
+        $this->load->model('Booking_model');
         $this->load->helper(['url', 'form']);
          if (!$this->session->userdata('id_admin')) {
             redirect('admin/auth/login');
@@ -71,6 +72,40 @@ class Penghuni extends CI_Controller {
         $this->session->set_flashdata('error', 'Gagal menyimpan data penghuni. Silakan coba lagi.');
         redirect('admin/penghuni/tambah_penghuni');
     }
+
+
+    
 }
+
+public function delete($id_penghuni) {
+    // Ambil data penghuni
+    $penghuni = $this->User_model->get_penghuni_by_id($id_penghuni);
+
+    if (!$penghuni) {
+        $this->session->set_flashdata('error', 'Penghuni tidak ditemukan.');
+        redirect('admin/penghuni');
+        return;
+    }
+
+    // Cek histori booking
+    $hasBooking = $this->Booking_model->checkBookingByPenghuni($id_penghuni);
+    if ($hasBooking) {
+        $this->session->set_flashdata('error', 'Penghuni tidak bisa dihapus karena memiliki histori pemesanan.');
+        redirect('admin/penghuni');
+        return;
+    }
+
+    // Hapus penghuni jika tidak ada histori
+    $hapus = $this->User_model->delete_penghuni($id_penghuni);
+
+    if ($hapus) {
+        $this->session->set_flashdata('success', 'Akun penghuni berhasil dihapus.');
+    } else {
+        $this->session->set_flashdata('error', 'Gagal menghapus akun penghuni.');
+    }
+
+    redirect('admin/penghuni');
+}
+
 
 }

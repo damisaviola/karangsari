@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pemesanan</title>
+    <title>Penghuni</title>
     
     
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/extensions/filepond/filepond.css') ?>">
@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/compiled/css/app.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/compiled/css/app-dark.css') ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    
 
 </head>
     

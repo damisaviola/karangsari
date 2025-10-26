@@ -12,6 +12,15 @@ class User_model extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
+    public function delete_penghuni($id_penghuni) {
+        return $this->db->delete('penghuni', ['id_penghuni' => $id_penghuni]);
+    }
+
+
+     public function get_penghuni_by_id($id_penghuni) {
+        return $this->db->get_where('penghuni', ['id_penghuni' => $id_penghuni])->row();
+    }
+
     public function get_all() {
         $this->db->order_by('id_penghuni', 'DESC');
         return $this->db->get('penghuni')->result();

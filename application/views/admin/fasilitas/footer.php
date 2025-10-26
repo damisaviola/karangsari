@@ -1,10 +1,10 @@
            <footer>
-    <div class="footer clearfix mb-0 text-muted">
-        <div class="float-start">
-            <p>2025 &copy; Karangsari</p>
-        </div>
-    </div>
-</footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>2025 &copy; Karangsari</p>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 
@@ -22,54 +22,22 @@
 
         <script src="<?= base_url('assets/dist/assets/static/js/components/dark.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') ?>"></script>
-       <?php if ($this->uri->uri_string() == 'admin/penghuni' || $this->uri->uri_string() == 'admin/kamar/tambah_kamar') : ?>
+       <?php if ($this->uri->uri_string() == 'admin/fasilitas' || $this->uri->uri_string() == 'admin/fasilitas') : ?>
             <script src="<?= base_url('assets/dist/assets/compiled/js/app.js') ?>"></script>
         <?php endif; ?>
 
-        <?php if ($this->uri->uri_string() == 'admin/penghuni') : ?>
+        <?php if ($this->uri->uri_string() == 'admin/fasilitas') : ?>
             <script src="<?= base_url('assets/dist/assets/extensions/simple-datatables/umd/simple-datatables.js') ?>"></script>
             <script src="<?= base_url('assets/dist/assets/static/js/pages/simple-datatables.js') ?>"></script>
         <?php endif; ?>
 
-
+        
+        <!-- Load JS untuk halaman add kamar -->
         <script src="<?= base_url('assets/dist/assets/extensions/jquery/jquery.min.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/extensions/parsleyjs/parsley.min.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/static/js/pages/parsley.js') ?>"></script>
-         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-            <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const tombolHapus = document.querySelectorAll('.btn-hapus');
-
-    tombolHapus.forEach(button => {
-        button.addEventListener('click', function() {
-            const id = this.dataset.id;
-            const nama = this.dataset.nama;
-
-            Swal.fire({
-                title: 'Apakah Anda yakin?',
-                text: `Data penghuni "${nama}" akan dihapus!`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Redirect ke controller untuk hapus
-                    window.location.href = "<?= base_url('admin/penghuni/delete/') ?>" + id;
-                }
-            });
-        });
-    });
-});
-</script>
-
-
-
+        
 </body>
 
 </html>

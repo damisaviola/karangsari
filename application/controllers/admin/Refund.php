@@ -86,27 +86,41 @@ class Refund extends CI_Controller
         }
 
 
-        public function selesai($id_refund)
-        {
-            $refund = $this->Refund_model->getRefundById($id_refund);
+                public function selesai($id_refund) {
 
-            if (!$refund) {
-                $this->session->set_flashdata('error', 'Data refund tidak ditemukan.');
+                $refund = $this->Refund_model->getRefundById($id_refund);
+
+                if (!$refund) {
+                    $this->session->set_flashdata('error', 'Data refund tidak ditemukan.');
+                    redirect('admin/refund');
+                    return;
+                }
+
+                $this->Refund_model->updateStatus($id_refund, 'Selesai');
+                $booking = $this->Booking_model->get_detail_booking($refund->id_booking);
+
+                if ($booking) {
+            
+                    if (!empty($booking->parent_booking_id)) {
+
+                        $this->Booking_model->update_status_pembayaran($booking->id_booking, 'dibatalkan');
+                        $this->Booking_model->reset_jumlah_perpanjangan($booking->parent_booking_id);
+                        $this->Booking_model->update_status_pembayaran($booking->parent_booking_id, 'lunas');
+
+                        $this->session->set_flashdata('success', 'Refund perpanjangan berhasil diselesaikan dan parent booking diperbarui.');
+                    } else {
+                        $this->Booking_model->update_status_pembayaran($booking->id_booking, 'dibatalkan');
+                        $this->Booking_model->update_status_kamar($booking->id_kamar, 'tersedia'); 
+                        $this->Booking_model->nonaktifkan_penghuni($booking->id_penghuni); 
+
+                        $this->session->set_flashdata('success', 'Refund reguler berhasil diselesaikan, kamar tersedia kembali, dan akun penghuni dinonaktifkan.');
+                    }
+                } else {
+                    $this->session->set_flashdata('error', 'Detail booking tidak ditemukan.');
+                }
+
                 redirect('admin/refund');
-                return;
             }
-
-            $this->Refund_model->updateStatus($id_refund, 'Selesai');
-            $this->Booking_model->update_status_pembayaran($refund->id_booking, 'dibatalkan');
-            $booking = $this->Booking_model->get_detail_booking($refund->id_booking);
-            if (!empty($booking->parent_booking_id)) {
-                $this->Booking_model->update_status_pembayaran($booking->parent_booking_id, 'lunas');
-            }
-
-            $this->session->set_flashdata('success', 'Refund berhasil diselesaikan dan status booking diperbarui.');
-            redirect('admin/refund');
-        }
-
 
             public function update_status($id_refund)
             {

@@ -14,6 +14,11 @@ class Admin_model extends CI_Model
     return $this->db->get_where($this->table, ['username' => $username])->row();
 }
 
+  public function getAdminById($id_admin)
+    {
+        return $this->db->get_where('admin', ['id_admin' => $id_admin])->row();
+    }
+
 
     public function update_password($id_admin, $new_password) {
         $hashed = md5($new_password);
@@ -39,6 +44,18 @@ class Admin_model extends CI_Model
                 'last_failed_attempt' => date('Y-m-d H:i:s')
             ]);
         }
+    }
+
+    public function updateProfile($id_admin, $data)
+{
+    $this->db->where('id_admin', $id_admin);
+    return $this->db->update('admin', $data);
+}
+
+
+    public function updatePassword($id, $hashed_password) {
+        $this->db->where('id_admin', $id);
+        return $this->db->update('admin', ['password' => $hashed_password]);
     }
 
     public function reset_failed_attempt($id_admin) {

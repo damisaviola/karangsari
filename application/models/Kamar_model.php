@@ -39,6 +39,17 @@ public function get_all() {
 
 }
 
+public function getFasilitasByKamar($id_kamar)
+{
+    $this->db->select('f.*');
+    $this->db->from('fasilitas_kos f');
+    $this->db->join('kamar_fasilitas kf', 'kf.id_fasilitas = f.id_fasilitas');
+    $this->db->where('kf.id_kamar', $id_kamar);
+    $query = $this->db->get();
+    return $query->result();
+}
+
+
 
 
 }

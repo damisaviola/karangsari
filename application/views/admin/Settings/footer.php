@@ -23,11 +23,11 @@
         <!-- Load JS -->
         <script src="<?= base_url('assets/dist/assets/static/js/components/dark.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') ?>"></script>
-       <?php if ($this->uri->uri_string() == 'admin/pembayaran' || $this->uri->uri_string() == 'admin/kamar/tambah_kamar') : ?>
+       <?php if ($this->uri->uri_string() == 'admin/pengaturan' || $this->uri->uri_string() == 'admin/pengaturan') : ?>
             <script src="<?= base_url('assets/dist/assets/compiled/js/app.js') ?>"></script>
         <?php endif; ?>
 
-        <?php if ($this->uri->uri_string() == 'admin/pembayaran') : ?>
+        <?php if ($this->uri->uri_string() == 'admin/pengaturan') : ?>
             <script src="<?= base_url('assets/dist/assets/extensions/simple-datatables/umd/simple-datatables.js') ?>"></script>
             <script src="<?= base_url('assets/dist/assets/static/js/pages/simple-datatables.js') ?>"></script>
         <?php endif; ?>
@@ -40,8 +40,17 @@
         <script src="<?= base_url('assets/dist/assets/extensions/jquery/jquery.min.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/extensions/parsleyjs/parsley.min.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/static/js/pages/parsley.js') ?>"></script>
-
-
+        
+     <script>
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            if(input.type === "password") {
+                input.type = "text";
+            } else {
+                input.type = "password";
+            }
+        }
+    </script>
 
 
 

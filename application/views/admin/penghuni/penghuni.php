@@ -43,6 +43,19 @@
                             </ol>
                         </nav>
                     </div>
+                      <?php if ($this->session->flashdata('error')): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <?= $this->session->flashdata('error'); ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php endif; ?>
+
+          <?php if ($this->session->flashdata('success')): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <?= $this->session->flashdata('success'); ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php endif; ?>
                 </div>
             </div>
 
@@ -87,15 +100,11 @@
                                                     <i class="fas fa-eye"></i>
                                                 </button>
 
-                                                <!-- Edit -->
-                                                <a href="<?= base_url('penghuni/edit/'.$row->id_penghuni) ?>" class="btn btn-sm btn-warning">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-
                                                 <!-- Hapus -->
-                                                <a href="<?= base_url('penghuni/delete/'.$row->id_penghuni) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus penghuni ini?');">
+                                                <button type="button" class="btn btn-sm btn-danger btn-hapus" data-id="<?= $row->id_penghuni ?>" data-nama="<?= $row->nama ?>">
                                                     <i class="fas fa-trash"></i>
-                                                </a>
+                                                </button>
+
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

@@ -107,7 +107,6 @@
                     <i class="fas fa-eye"></i>
                 </button>
 
-                <!-- Tombol Selesai (hanya untuk yang Diproses) -->
                 <?php if($row->status == 'Diproses'): ?>
                     <a href="<?= site_url('admin/refund/selesai/'.$row->id_refund) ?>" 
                        class="btn btn-sm btn-success" 
@@ -115,7 +114,7 @@
                        <i class="fas fa-check"></i> Selesai
                     </a>
                 <?php else: ?>
-                    <span class="text-muted">Tidak bisa diubah</span>
+          
                 <?php endif; ?>
 
                 <!-- Hapus (opsional, bisa dihapus jika tidak diperlukan) -->

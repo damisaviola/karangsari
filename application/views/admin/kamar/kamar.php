@@ -21,11 +21,6 @@
     }
 </style>
 
-
-<a href="<?= site_url('admin/chat') ?>" class="chat-btn">
-  <i class="bi bi-chat-dots-fill"></i>
-</a>
-
 <style>
   .chat-btn {
     position: fixed;
@@ -119,10 +114,8 @@
         <tr class="text-center">
             <th>No.</th>
             <th>Nomor Kamar</th>
-            <th>Lantai</th>
             <th>Harga</th>
             <th>Status</th>
-            <th>Dibuat</th>
             <th>Aksi</th>
         </tr>
     </thead>
@@ -132,7 +125,6 @@
                 <tr class="text-center">
                     <td><?= $no++ ?></td>
                     <td><?= $k->nomor_kamar ?></td>
-                    <td><?= $k->lantai ?></td>
                     <td>Rp <?= number_format($k->harga ?? 0, 0, ',', '.') ?></td>
                     <td>
                         <?php if ($k->status == 'tersedia') : ?>
@@ -143,8 +135,13 @@
                             <span class="badge bg-secondary">Tidak Aktif</span>
                         <?php endif; ?>
                     </td>
-                    <td><?= !empty($k->created_at) ? date('d-m-Y H:i', strtotime($k->created_at)) : '-' ?></td>
                     <td>
+
+
+                    <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailKamar<?= $k->id_kamar ?>">
+        <i class="bi bi-eye"></i>
+    </button>
+
                         <a href="<?= base_url('kamar/edit/'.$k->id_kamar) ?>" 
                         class="btn btn-sm btn-warning" 
                         title="Edit">
@@ -167,6 +164,84 @@
         <?php endif; ?>
     </tbody>
 </table>
+
+
+<?php foreach ($kamar as $k) : ?>
+<div class="modal fade" id="detailKamar<?= $k->id_kamar ?>" tabindex="-1" aria-labelledby="detailKamarLabel<?= $k->id_kamar ?>" aria-hidden="true">
+    <div class="modal-dialog modal-l"> <!-- lebih lebar agar nyaman untuk tabel -->
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="detailKamarLabel<?= $k->id_kamar ?>">Detail Kamar <?= $k->nomor_kamar ?></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-hover table-striped table-sm">
+                    <tbody>
+                        <tr>
+                            <th style="width: 200px;">Nomor Kamar</th>
+                            <td><?= $k->nomor_kamar ?></td>
+                        </tr>
+                        <tr>
+                            <th>Lantai</th>
+                            <td><?= $k->lantai ?></td>
+                        </tr>
+                        <tr>
+                            <th>Harga</th>
+                            <td>Rp <?= number_format($k->harga, 0, ',', '.') ?></td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>
+                                <?php if ($k->status == 'tersedia') : ?>
+                                    <span class="badge bg-success">Tersedia</span>
+                                <?php elseif ($k->status == 'dihuni') : ?>
+                                    <span class="badge bg-warning text-dark">Dihuni</span>
+                                <?php else : ?>
+                                    <span class="badge bg-secondary">Tidak Aktif</span>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Deskripsi</th>
+                            <td><?= $k->deskripsi ?></td>
+                        </tr>
+                        <tr>
+                            <th>Fasilitas</th>
+                            <td>
+                                <?php 
+                                $fasilitas = $this->Kamar_model->getFasilitasByKamar($k->id_kamar);
+                                if(!empty($fasilitas)){
+                                    echo '<ul class="mb-0">';
+                                    foreach($fasilitas as $f){
+                                        echo '<li>'.$f->nama_fasilitas.'</li>';
+                                    }
+                                    echo '</ul>';
+                                } else {
+                                    echo 'Tidak ada fasilitas';
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Dibuat</th>
+                            <td><?= $k->created_at ?></td>
+                        </tr>
+                        <tr>
+                            <th>Diubah</th>
+                            <td><?= $k->updated_at ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>
+
+
 
             </div>
         </div>

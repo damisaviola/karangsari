@@ -237,9 +237,9 @@
                 </a>
             </li>
 
-             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/fasil') ? 'active' : '' ?>">
-                <a href="<?= base_url('admin/pemesanan') ?>" class="sidebar-link">
-                    <i class="bi bi-calendar-check-fill"></i>
+             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/fasilitas') ? 'active' : '' ?>">
+                <a href="<?= base_url('admin/fasilitas') ?>" class="sidebar-link">
+                    <i class="bi bi-house-gear-fill"></i>
                     <span>Fasilitas</span>
                 </a>
             </li>

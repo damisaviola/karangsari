@@ -123,10 +123,7 @@
           <td><?= date('d-m-Y H:i', strtotime($b->created_at)) ?></td>
 
           <td>
-            <a href="<?= site_url('admin/pemesanan/edit/'.$b->id_booking) ?>" 
-               class="btn btn-sm btn-warning">
-              <i class="bi bi-pencil"></i> Edit
-            </a>
+           
 
           <a href="javascript:void(0);" 
    class="btn btn-sm btn-info btn-detail"
