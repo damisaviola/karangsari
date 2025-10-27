@@ -17,23 +17,21 @@
   const chatBtn = document.querySelector('.chat-btn'); 
   const chatSidebar = document.getElementById('chatbox-sidebar');
 
-  // tombol untuk membuka sidebar
   chatBtn.addEventListener('click', function(e){
     e.preventDefault();
     chatSidebar.classList.add('show');
   });
 
-  // tombol close di sidebar
   const chatClose = chatSidebar.querySelector('.chat-close-icon');
   chatClose.addEventListener('click', function() {
     chatSidebar.classList.remove('show');
   });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
 function confirmLogout(e) {
-    e.preventDefault(); // mencegah default href
+    e.preventDefault(); 
 
     Swal.fire({
         title: 'Apakah Anda yakin?',
@@ -50,6 +48,42 @@ function confirmLogout(e) {
         }
     });
 }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const chartData = <?php echo $chart_data; ?>;
+
+    const namaBulan = [
+        'Januari', 'Februari', 'Maret', 'April',
+        'Mei', 'Juni', 'Juli', 'Agustus',
+        'September', 'Oktober', 'November', 'Desember'
+    ];
+
+    const labels = chartData.map(item => namaBulan[item.bulan - 1]);
+    const data = chartData.map(item => item.total);
+
+    const ctx = document.getElementById('bookingChart').getContext('2d');
+    const bookingChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Total Booking per Bulan',
+                data: data,
+                borderWidth: 1,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)'
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 </script>
 
 </body>

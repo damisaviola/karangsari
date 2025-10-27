@@ -12,9 +12,39 @@ class User_model extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
+     public function get_latest($limit = 5)
+    {
+        // urutkan berdasarkan ID terbesar (terbaru)
+        $this->db->order_by('id_penghuni', 'DESC');
+        $this->db->limit($limit);
+        return $this->db->get('penghuni')->result();
+    }
+
     public function delete_penghuni($id_penghuni) {
         return $this->db->delete('penghuni', ['id_penghuni' => $id_penghuni]);
     }
+
+    public function count_penghuni_aktif() {
+    $this->db->where('status', 'aktif');
+    return $this->db->count_all_results('penghuni');
+}
+
+
+public function get_jumlah_penghuni_by_status($status)
+{
+    return $this->db->where('status', $status)
+                    ->from('penghuni')
+                    ->count_all_results();
+}
+
+public function get_jumlah_kamar_by_status($status)
+{
+    return $this->db->where('status', $status)
+                    ->from('kamar')
+                    ->count_all_results();
+}
+
+
 
 
      public function get_penghuni_by_id($id_penghuni) {

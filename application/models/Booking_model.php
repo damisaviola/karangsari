@@ -163,9 +163,24 @@ public function delete($id_booking)
             public function checkBookingByPenghuni($id_penghuni)
             {
                 $this->db->where('id_penghuni', $id_penghuni);
-                $query = $this->db->get('booking'); // ganti 'booking' sesuai nama tabel booking
+                $query = $this->db->get('booking'); 
                 return $query->num_rows() > 0;
             }
+
+            public function get_belum_bayar_count()
+            {
+                $this->db->where('status_pembayaran', 'Belum Bayar');
+                return $this->db->count_all_results('booking');
+            }
+
+            public function getBookingPerBulan()
+{
+    $this->db->select('MONTH(created_at) as bulan, COUNT(id_booking) as total');
+    $this->db->from('booking');
+    $this->db->group_by('MONTH(created_at)');
+    $this->db->order_by('bulan', 'ASC');
+    return $this->db->get()->result();
+}
 
 
 
