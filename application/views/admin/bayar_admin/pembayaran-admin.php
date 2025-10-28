@@ -57,10 +57,9 @@
     foreach ($pembayaran as $p) : 
         $status = isset($p->status_pembayaran_detail) ? $p->status_pembayaran_detail : (isset($p->status_booking) ? $p->status_booking : 'Belum Bayar');
 
-        // Normalisasi status
         if (strtolower($status) == 'diterima') $status = 'Lunas';
-        if (strtolower($status) == 'dibatalkan') continue; // <-- Tambahkan baris ini agar booking batal tidak ditampilkan
-        if (strtolower($status) == 'lunas') continue; // Booking lunas juga tidak ditampilkan
+        if (strtolower($status) == 'dibatalkan') continue; 
+        if (strtolower($status) == 'lunas') continue; 
     ?>
     <tr class="text-center">
         <td><?= $no++ ?></td>

@@ -174,15 +174,80 @@ public function delete($id_booking)
             }
 
             public function getBookingPerBulan()
-{
-    $this->db->select('MONTH(created_at) as bulan, COUNT(id_booking) as total');
-    $this->db->from('booking');
-    $this->db->group_by('MONTH(created_at)');
-    $this->db->order_by('bulan', 'ASC');
-    return $this->db->get()->result();
-}
+            {
+                $this->db->select('MONTH(created_at) as bulan, COUNT(id_booking) as total');
+                $this->db->from('booking');
+                $this->db->group_by('MONTH(created_at)');
+                $this->db->order_by('bulan', 'ASC');
+                return $this->db->get()->result();
+            }
+
+            public function get_tingkat_hunian_per_bulan()
+            {
+
+                $total_kamar = $this->db->count_all('kamar');
+                $query = $this->db->query("
+                    SELECT 
+                        MONTH(STR_TO_DATE(bulan_mulai, '%Y-%m')) AS bulan,
+                        COUNT(DISTINCT id_kamar) AS kamar_terisi
+                    FROM booking
+                    WHERE status_pembayaran IN ('lunas', 'selesai')
+                    GROUP BY MONTH(STR_TO_DATE(bulan_mulai, '%Y-%m'))
+                    ORDER BY bulan ASC
+                ");
+
+                $data = $query->result();
+
+                $hasil = [];
+                for ($i = 1; $i <= 12; $i++) {
+                    $hasil[$i] = [
+                        'bulan' => $i,
+                        'persentase' => 0
+                    ];
+                }
+
+                foreach ($data as $row) {
+                    $persentase = 0;
+                    if ($total_kamar > 0) {
+                        $persentase = ($row->kamar_terisi / $total_kamar) * 100;
+                    }
+                    $hasil[$row->bulan]['persentase'] = round($persentase, 2);
+                }
+
+                $chart_data = [];
+                foreach ($hasil as $item) {
+                    $chart_data[] = $item['persentase'];
+                }
+
+                return $chart_data;
+            }
+
+            public function get_tingkat_hunian()
+                {
+                
+                    $this->db->select('COUNT(*) as total_kamar');
+                    $total_kamar = $this->db->get('kamar')->row()->total_kamar;
 
 
+                    $this->db->select('COUNT(DISTINCT b.id_kamar) as kamar_terisi');
+                    $this->db->from('booking b');
+                    $this->db->where('b.status_pembayaran', 'lunas');
+                    $kamar_terisi = $this->db->get()->row()->kamar_terisi;
 
+                
+                    $kamar_kosong = $total_kamar - $kamar_terisi;
+                    if ($kamar_kosong < 0) $kamar_kosong = 0;
+
+                    return [$kamar_terisi, $kamar_kosong];
+                }
+
+                public function get_latest($limit = 3) {
+                    $this->db->select('booking.*, penghuni.nama_penghuni');
+                    $this->db->from('booking');
+                    $this->db->join('penghuni', 'booking.id_penghuni = penghuni.id_penghuni', 'left');
+                    $this->db->order_by('booking.tanggal_booking', 'DESC');
+                    $this->db->limit($limit);
+                    return $this->db->get()->result();
+                }
 
         }

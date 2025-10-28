@@ -29,13 +29,17 @@ class Dashboard extends CI_Controller {
         ];
     }
 
+    $data['tingkat_hunian'] = $this->Booking_model->get_tingkat_hunian_per_bulan();
     $data['chart_data'] = json_encode($chartData);
-        $data['penghuni'] = $this->User_model->get_latest(3);
+    $data['penghuni'] = $this->User_model->get_latest(3);
     $data['jumlah_belum_bayar'] = $this->Booking_model->get_belum_bayar_count();
-    
+    $tingkat_hunian = $this->Booking_model->get_tingkat_hunian();
+    $data['tingkat_hunian'] = $tingkat_hunian;
     $data['jumlah_penghuni_aktif'] = $this->User_model->count_penghuni_aktif();
     $data['jumlah_penghuni_nonaktif'] = $this->User_model->get_jumlah_penghuni_by_status('nonaktif');
     $data['jumlah_kamar_tersedia'] = $this->User_model->get_jumlah_kamar_by_status('tersedia');
+    $all_booking = $this->Booking_model->get_all();
+    $data['latest_booking'] = array_slice($all_booking, 0, 5);
 
        $this->load->view('admin/dashboard/header');
        $this->load->view('admin/dashboard/dashboard', $data);

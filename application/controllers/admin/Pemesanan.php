@@ -18,33 +18,6 @@ class Pemesanan extends CI_Controller {
     }
 
 
-   public function hapus_booking($id_booking)
-{
-    $booking = $this->Booking_model->get_by_id($id_booking);
-    if (!$booking) {
-        $this->session->set_flashdata('error', 'Booking tidak ditemukan.');
-        redirect('admin/pemesanan');
-        return;
-    }
-
-    // Khusus booking perpanjangan dengan status belum bayar
-    if (!empty($booking->parent_booking_id) && strtolower($booking->status_pembayaran) === 'belum bayar') {
-        // Kembalikan status parent booking menjadi 'lunas'
-        $this->Booking_model->update_status_pembayaran($booking->parent_booking_id, 'lunas');
-    }
-
-    // Hapus booking perpanjangan
-    $this->Booking_model->delete($id_booking);
-
-    $this->session->set_flashdata('success', 'Booking berhasil dibatalkan.');
-    redirect('admin/pemesanan');
-}
-
-
-
-
-    
-
     public function index() {
         $data['title'] = 'Data Pemesanan Kamar';
         $data['booking'] = $this->Booking_model->get_all();
@@ -64,6 +37,28 @@ class Pemesanan extends CI_Controller {
         $this->load->view('admin/dashboard/sidebar');
         $this->load->view('admin/pemesanan/footer');
     }
+
+       public function hapus_booking($id_booking)
+        {
+            $booking = $this->Booking_model->get_by_id($id_booking);
+            if (!$booking) {
+                $this->session->set_flashdata('error', 'Booking tidak ditemukan.');
+                redirect('admin/pemesanan');
+                return;
+            }
+
+            // Khusus booking perpanjangan dengan status belum bayar
+            if (!empty($booking->parent_booking_id) && strtolower($booking->status_pembayaran) === 'belum bayar') {
+                // Kembalikan status parent booking menjadi 'lunas'
+                $this->Booking_model->update_status_pembayaran($booking->parent_booking_id, 'lunas');
+            }
+
+            // Hapus booking perpanjangan
+            $this->Booking_model->delete($id_booking);
+
+            $this->session->set_flashdata('success', 'Booking berhasil dibatalkan.');
+            redirect('admin/pemesanan');
+        }
 
  public function simpan() {
     $this->load->library(['form_validation', 'session', 'mail']);

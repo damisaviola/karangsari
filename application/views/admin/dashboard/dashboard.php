@@ -170,53 +170,94 @@
                     </div>
                 </div>
                 <div class="col-12 col-xl-8">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Latest Comments</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-lg">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Comment</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="col-3">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar avatar-md">
-                                                        <img src="<?= base_url('assets/dist/assets/compiled/jpg/5.jpg') ?>" alt="Face 5">
-                                                    </div>
-                                                    <p class="font-bold ms-3 mb-0">Si Cantik</p>
-                                                </div>
-                                            </td>
-                                            <td class="col-auto">
-                                                <p class=" mb-0">Congratulations on your graduation!</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="col-3">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar avatar-md">
-                                                        <img src="<?= base_url('assets/dist/assets/compiled/jpg/2.jpg') ?>" alt="Face 2">
-                                                    </div>
-                                                    <p class="font-bold ms-3 mb-0">Si Ganteng</p>
-                                                </div>
-                                            </td>
-                                            <td class="col-auto">
-                                                <p class=" mb-0">Wow amazing design! Can you make another tutorial for
-                                                    this design?</p>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+   <div class="card">
+    <div class="card-header">
+        <h4>Pemesanan Terbaru</h4>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover table-lg">
+                <thead>
+                    <tr class="text-center">
+                        <th>Nama Penghuni</th>
+                        <th>Nomor Kamar</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($latest_booking)) : ?>
+                        <?php foreach ($latest_booking as $b) : ?>
+                            <tr class="text-center">
+                                <td class="text-start">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-md">
+                                            <img src="<?= base_url('assets/dist/assets/compiled/jpg/' . rand(1, 6) . '.jpg') ?>" alt="avatar">
+                                        </div>
+                                        <p class="font-bold ms-3 mb-0"><?= htmlspecialchars($b->nama_penghuni) ?></p>
+                                    </div>
+                                </td>
+                                <td><?= htmlspecialchars($b->nomor_kamar) ?></td>
+                                <td>
+                                    <?php if ($b->status_pembayaran == 'lunas') : ?>
+                                        <span class="badge bg-success">Lunas</span>
+                                    <?php elseif ($b->status_pembayaran == 'pending') : ?>
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    <?php elseif ($b->status_pembayaran == 'selesai') : ?>
+                                        <span class="badge bg-secondary">Selesai</span>
+                                    <?php elseif ($b->status_pembayaran == 'perpanjang') : ?>
+                                        <span class="badge bg-info text-dark">Perpanjangan</span>
+                                    <?php elseif ($b->status_pembayaran == 'dibatalkan') : ?>
+                                        <span class="badge bg-danger">Dibatalkan</span>
+                                    <?php else : ?>
+                                        <span class="badge bg-danger">Belum Bayar</span>
+                                    <?php endif; ?>
+                                </td>
+
+                                <td class="text-center">
+
+                                    <!-- Tombol Batalkan -->
+                                    <?php if ($b->status_pembayaran == 'belum bayar') : ?>
+                                        <a href="<?= site_url('admin/pemesanan/batalkan/'.$b->id_booking) ?>"
+                                           class="btn btn-sm btn-danger mt-1"
+                                           onclick="return confirm('Yakin ingin membatalkan pemesanan ini?')">
+                                            <i class="bi bi-x-circle"></i> Batalkan
+                                        </a>
+                                    <?php endif; ?>
+
+                                    <!-- Tombol Selesai -->
+                                    <?php if ($b->status_pembayaran == 'lunas') : ?>
+                                        <a href="<?= site_url('admin/pemesanan/selesai/'.$b->id_booking) ?>"
+                                           class="btn btn-sm btn-success mt-1"
+                                           onclick="return confirm('Tandai booking ini sebagai selesai? Kamar akan otomatis tersedia kembali.')">
+                                            <i class="bi bi-check-circle"></i> Selesai
+                                        </a>
+                                    <?php endif; ?>
+
+                                    <!-- Tombol Hapus (khusus perpanjangan belum bayar) -->
+                                    <?php if (!empty($b->parent_booking_id) && strtolower($b->status_pembayaran) === 'belum bayar'): ?>
+                                        <a href="<?= site_url('admin/pemesanan/hapus_booking/'.$b->id_booking) ?>"
+                                           class="btn btn-sm btn-secondary mt-1"
+                                           onclick="return confirm('Yakin ingin membatalkan booking perpanjangan ini?')">
+                                            <i class="bi bi-trash"></i> Hapus
+                                        </a>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">Belum ada pemesanan terbaru</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</div>
+
             </div>
         </div>
         <div class="col-12 col-lg-3">
@@ -269,14 +310,15 @@
     </div>
 </div>
 
-            <div class="card">
+    <div class="card">
                 <div class="card-header">
-                    <h4>Visitors Profile</h4>
+                    <h4>Tingkat Hunian</h4>
                 </div>
                 <div class="card-body">
-                    <div id="chart-visitors-profile"></div>
+                    <canvas id="chartTingkatHunian" width="100%" height="350"></canvas>
                 </div>
-            </div>
+</div>
+
         </div>
     </section>
 </div>
