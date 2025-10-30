@@ -118,11 +118,12 @@
                 <?php endif; ?>
 
                 <!-- Hapus (opsional, bisa dihapus jika tidak diperlukan) -->
-                <a href="<?= site_url('admin/refund/delete/'.$row->id_refund) ?>" 
-                   class="btn btn-sm btn-danger" 
-                   onclick="return confirm('Yakin ingin menghapus refund ini?');">
-                   <i class="fas fa-trash"></i>
-                </a>
+                <?php if (strtolower($row->status) === 'diproses'): ?>
+                    <button class="btn btn-sm btn-danger btn-hapus-refund" data-id="<?= $row->id_refund ?>">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                <?php endif; ?>
+
             </td>
         </tr>
     <?php endforeach; ?>
@@ -134,6 +135,39 @@
 </tbody>
 
                         </table>
+
+                        <?php if (!empty($refunds)): ?>
+  <?php foreach ($refunds as $row): ?>
+    <div class="modal fade" id="detailRefund<?= $row->id_refund ?>" tabindex="-1" aria-labelledby="detailRefundLabel<?= $row->id_refund ?>" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="detailRefundLabel<?= $row->id_refund ?>">Detail Refund #<?= $row->id_refund ?></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-bordered">
+              <tr><th>ID Refund</th><td><?= $row->id_refund ?></td></tr>
+              <tr><th>ID Booking</th><td><?= $row->id_booking ?></td></tr>
+              <tr><th>ID Admin</th><td><?= $row->id_admin ?></td></tr>
+              <tr><th>Nama Penghuni</th><td><?= htmlspecialchars($row->nama_penghuni) ?></td></tr>
+              <tr><th>Jumlah Refund</th><td>Rp<?= number_format($row->jumlah_refund, 0, ',', '.') ?></td></tr>
+              <tr><th>Metode Refund</th><td><?= htmlspecialchars($row->metode_refund) ?></td></tr>
+              <tr><th>Status</th><td><?= htmlspecialchars($row->status) ?></td></tr>
+              <tr><th>Alasan</th><td><?= nl2br(htmlspecialchars($row->alasan)) ?></td></tr>
+              <tr><th>Tanggal Refund</th><td><?= date('d M Y, H:i', strtotime($row->tanggal_refund)) ?></td></tr>
+              <tr><th>Terakhir Diperbarui</th><td><?= date('d M Y, H:i', strtotime($row->updated_at)) ?></td></tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <?php endforeach; ?>
+<?php endif; ?>
+
                     </div>
                 </div>
             </section>

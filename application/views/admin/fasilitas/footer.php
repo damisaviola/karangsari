@@ -37,7 +37,47 @@
         <script src="<?= base_url('assets/dist/assets/extensions/parsleyjs/parsley.min.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/static/js/pages/parsley.js') ?>"></script>
 
-        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function hapusFasilitas(id) {
+    Swal.fire({
+        title: 'Yakin ingin menghapus?',
+        text: 'Data fasilitas ini akan dihapus permanen!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('<?= base_url('admin/fasilitas/hapus/') ?>' + id, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: '<?= $this->security->get_csrf_token_name(); ?>=<?= $this->security->get_csrf_hash(); ?>'
+            })
+            .then(res => {
+                if (res.ok) {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'Fasilitas telah dihapus.',
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => location.reload());
+                } else {
+                    Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus.', 'error');
+                }
+            })
+            .catch(() => {
+                Swal.fire('Error!', 'Tidak dapat terhubung ke server.', 'error');
+            });
+        }
+    });
+}
+</script>
 </body>
 
 </html>

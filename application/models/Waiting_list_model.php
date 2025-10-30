@@ -10,6 +10,18 @@ class Waiting_list_model extends CI_Model {
         parent::__construct();
     }
 
+
+     public function get_all_waiting()
+    {
+        return $this->db->get_where('waiting_list', ['status' => 'menunggu'])->result();
+    }
+
+
+    public function get_waiting_by_id($id_waiting)
+    {
+        return $this->db->get_where('waiting_list', ['id_waiting' => $id_waiting])->row();
+    }
+
     public function insert_waiting($data)
     {
         return $this->db->insert($this->table, $data);
@@ -37,5 +49,16 @@ class Waiting_list_model extends CI_Model {
     public function delete_waiting($id_waiting)
     {
         return $this->db->delete($this->table, ['id_waiting' => $id_waiting]);
+    }
+
+     public function delete($id_waiting)
+    {
+        
+        $waiting = $this->get_waiting_by_id($id_waiting);
+        if (!$waiting) {
+            return false;
+        }
+        $this->db->where('id_waiting', $id_waiting);
+        return $this->db->delete($this->table);
     }
 }

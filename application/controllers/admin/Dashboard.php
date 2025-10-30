@@ -40,6 +40,8 @@ class Dashboard extends CI_Controller {
     $data['jumlah_kamar_tersedia'] = $this->User_model->get_jumlah_kamar_by_status('tersedia');
     $all_booking = $this->Booking_model->get_all();
     $data['latest_booking'] = array_slice($all_booking, 0, 5);
+    $data['booking_trend'] = $this->Booking_model->get_booking_trend();
+
 
        $this->load->view('admin/dashboard/header');
        $this->load->view('admin/dashboard/dashboard', $data);

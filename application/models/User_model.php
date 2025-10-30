@@ -153,4 +153,38 @@ public function get_jumlah_kamar_by_status($status)
         $this->db->where('id_penghuni', $id_penghuni);
         return $this->db->get($this->table)->row();
     }
+
+    public function get_active_bookings_users($id_penghuni)
+    {
+
+        $this->db->select('b.*, k.nomor_kamar, k.lantai, k.harga, k.deskripsi');
+        $this->db->from('booking b');
+        $this->db->join('kamar k', 'b.id_kamar = k.id_kamar', 'left');
+        $this->db->where('b.id_penghuni', $id_penghuni);
+        $this->db->where_in('b.status_pembayaran', ['belum bayar', 'lunas', 'perpanjang']);
+        $this->db->order_by('b.bulan_mulai', 'ASC');
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+     public function get_active_bookings($id_penghuni) {
+        $this->db->where('id_penghuni', $id_penghuni);
+        $this->db->where_in('status_pembayaran', ['belum bayar', 'lunas', 'selesai']);
+        $query = $this->db->get('booking');
+        return $query->result();
+    }
+
+    public function count_booking_by_status($id_penghuni, $status) {
+        $this->db->where('id_penghuni', $id_penghuni);
+        $this->db->where('status_pembayaran', $status);
+        return $this->db->count_all_results('booking');
+    }
+
+    // Statistik jumlah booking perpanjangan
+    public function count_perpanjangan($id_penghuni) {
+        $this->db->where('id_penghuni', $id_penghuni);
+        $this->db->where('jumlah_perpanjangan >', 0);
+        return $this->db->count_all_results('booking');
+    }
 }

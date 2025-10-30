@@ -65,11 +65,32 @@
   <div class="form-group">
     <label for="id_penghuni" class="form-label">Nama Penghuni</label>
     <select id="id_penghuni" name="id_penghuni" class="form-select">
-      <option value="">-- Pilih Penghuni yang Sudah Ada --</option>
-      <?php foreach ($penghuni as $p): ?>
-        <option value="<?= $p->id_penghuni ?>"><?= $p->nama ?></option>
-      <?php endforeach; ?>
-      <option value="baru">+ Tambah Penghuni Baru</option>
+      <option value="">-- Pilih Penghuni --</option>
+
+      <optgroup label="Penghuni Terdaftar">
+        <?php foreach ($penghuni as $p): ?>
+          <option value="penghuni_<?= $p->id_penghuni ?>" data-tipe="penghuni">
+            <?= $p->nama ?>
+          </option>
+        <?php endforeach; ?>
+      </optgroup>
+
+      <optgroup label="Waiting List">
+        <?php foreach ($waiting as $w): ?>
+          <option 
+            value="waiting_<?= $w->id_waiting ?>" 
+            data-tipe="waiting"
+            data-nama="<?= $w->nama_lengkap ?>"
+            data-email="<?= $w->email ?>"
+            data-hp="<?= $w->no_hp ?>">
+            <?= $w->nama_lengkap ?> (<?= $w->email ?>)
+          </option>
+        <?php endforeach; ?>
+      </optgroup>
+
+      <optgroup label="Lainnya">
+        <option value="baru" data-tipe="baru">+ Tambah Penghuni Baru</option>
+      </optgroup>
     </select>
   </div>
 </div>
@@ -291,6 +312,53 @@ bulanAkhir.addEventListener('change', hitungTotalHarga);
 if (selectKamar.value) updateKamar();
 
 </script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const selectPenghuni = document.getElementById('id_penghuni');
+  const formBaru = document.getElementById('form_penghuni_baru');
+
+  const inputNama = document.getElementById('nama_penghuni_baru');
+  const inputHP = document.getElementById('no_hp_penghuni_baru');
+  const inputEmail = document.getElementById('email_penghuni_baru');
+  const inputAlamat = document.getElementById('alamat_penghuni_baru');
+
+  selectPenghuni.addEventListener('change', function() {
+    const selected = this.options[this.selectedIndex];
+    const tipe = selected.getAttribute('data-tipe');
+
+    if (tipe === 'baru') {
+      formBaru.style.display = 'flex';
+      inputNama.value = '';
+      inputHP.value = '';
+      inputEmail.value = '';
+      inputAlamat.value = '';
+    } 
+    else if (tipe === 'waiting') {
+      const nama = selected.getAttribute('data-nama');
+      const hp = selected.getAttribute('data-hp');
+      const email = selected.getAttribute('data-email');
+      const alamat = selected.getAttribute('data-alamat');
+
+      formBaru.style.display = 'flex';
+      inputNama.value = nama || '';
+      inputHP.value = hp || '';
+      inputEmail.value = email || '';
+      inputAlamat.value = alamat || '';
+    } 
+    else {
+
+      formBaru.style.display = 'none';
+      inputNama.value = '';
+      inputHP.value = '';
+      inputEmail.value = '';
+      inputAlamat.value = '';
+    }
+  });
+});
+</script>
+
 
 
 

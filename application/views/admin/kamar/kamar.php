@@ -142,18 +142,14 @@
         <i class="bi bi-eye"></i>
     </button>
 
-                        <a href="<?= base_url('kamar/edit/'.$k->id_kamar) ?>" 
-                        class="btn btn-sm btn-warning" 
-                        title="Edit">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
+                        <a href="javascript:void(0)" 
+   class="btn btn-sm btn-danger"
+   onclick="hapusKamar(<?= $k->id_kamar ?>)">
+   <i class="bi bi-trash-fill"></i> Hapus
+</a>
 
-                        <a href="<?= base_url('kamar/delete/'.$k->id_kamar) ?>" 
-                        class="btn btn-sm btn-danger" 
-                        title="Hapus" 
-                        onclick="return confirm('Apakah yakin ingin menghapus kamar ini?')">
-                            <i class="bi bi-trash-fill"></i>
-                        </a>
+                        
+
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -168,7 +164,7 @@
 
 <?php foreach ($kamar as $k) : ?>
 <div class="modal fade" id="detailKamar<?= $k->id_kamar ?>" tabindex="-1" aria-labelledby="detailKamarLabel<?= $k->id_kamar ?>" aria-hidden="true">
-    <div class="modal-dialog modal-l"> <!-- lebih lebar agar nyaman untuk tabel -->
+    <div class="modal-dialog modal-l"> 
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="detailKamarLabel<?= $k->id_kamar ?>">Detail Kamar <?= $k->nomor_kamar ?></h5>

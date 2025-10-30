@@ -134,4 +134,19 @@ class Refund extends CI_Controller
                 $this->session->set_flashdata('success', 'Status refund berhasil diperbarui.');
                 redirect('admin/refund');
             }
+        public function delete($id_refund) {
+                $refund = $this->Refund_model->get_by_id($id_refund);
+                if (!$refund) {
+                    echo json_encode(['status' => 'error', 'message' => 'Data refund tidak ditemukan.']);
+                    return;
+                }
+
+                if (strtolower($refund->status) !== 'diproses') {
+                    echo json_encode(['status' => 'error', 'message' => 'Refund hanya bisa dihapus jika statusnya masih Diproses.']);
+                    return;
+                }
+
+                $this->Refund_model->delete($id_refund);
+                echo json_encode(['status' => 'success', 'message' => 'Refund berhasil dihapus.']);
+            }
         }

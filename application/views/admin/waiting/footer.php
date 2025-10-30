@@ -41,9 +41,27 @@
         <script src="<?= base_url('assets/dist/assets/extensions/parsleyjs/parsley.min.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/static/js/pages/parsley.js') ?>"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-
+            <script>
+function hapusWaiting(id) {
+  Swal.fire({
+    title: 'Yakin ingin menghapus?',
+    text: 'Data waiting list ini akan dihapus secara permanen.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Ya, hapus!',
+    cancelButtonText: 'Batal'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = '<?= site_url('admin/waiting_list/hapus/') ?>' + id;
+    }
+  });
+}
+</script>
 
 
 </body>

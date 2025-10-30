@@ -245,12 +245,13 @@
             </li>
 
 
-             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/keluhan') ? 'active' : '' ?>">
-                <a href="<?= site_url('admin/keluhan') ?>" class="sidebar-link">
-                    <i class="bi bi-chat-dots-fill"></i>
-                    <span>Keluhan</span>
+             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/waiting_list') ? 'active' : '' ?>">
+                <a href="<?= site_url('admin/waiting_list') ?>" class="sidebar-link">
+                    <i class="bi bi-clock-history"></i>
+                    <span>Waiting List</span>
                 </a>
             </li>
+
 
             <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/refund') ? 'active' : '' ?>">
     <a href="<?= site_url('admin/refund') ?>" class="sidebar-link">

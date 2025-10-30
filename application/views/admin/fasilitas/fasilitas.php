@@ -108,42 +108,79 @@
 
         </div>
         <div class="card-body">
-            <table class="table table-striped" id="table1">
-                <thead>
-                    <tr class="text-center">
-                        <th>No.</th>
-                        <th>Nama Fasilitas</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($fasilitas)) : ?>
-                        <?php $no = 1; foreach ($fasilitas as $f) : ?>
-                            <tr class="text-center">
-                                <td><?= $no++ ?></td>
-                                <td><?= $f->nama_fasilitas ?></td>
-                                <td>
-                                    <a href="<?= site_url('admin/fasilitas/edit/'.$f->id_fasilitas) ?>" 
-                                       class="btn btn-sm btn-warning" title="Edit">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
+           <table class="table table-striped" id="table1">
+    <thead>
+        <tr class="text-center">
+            <th>No.</th>
+            <th>Nama Fasilitas</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (!empty($fasilitas)) : ?>
+            <?php $no = 1; foreach ($fasilitas as $f) : ?>
+                <tr class="text-center">
+                    <td><?= $no++ ?></td>
+                    <td><?= htmlspecialchars($f->nama_fasilitas) ?></td>
+                    <td>
+                        <!-- Tombol Edit -->
+                        <button 
+                            class="btn btn-sm btn-warning" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#modalEditFasilitas<?= $f->id_fasilitas ?>">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
 
-                                    <a href="<?= site_url('admin/fasilitas/hapus/'.$f->id_fasilitas) ?>" 
-                                       class="btn btn-sm btn-danger" 
-                                       title="Hapus"
-                                       onclick="return confirm('Yakin ingin menghapus fasilitas ini?')">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <tr>
-                            <td colspan="3" class="text-center">Belum ada data fasilitas</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                        <!-- Tombol Hapus -->
+                          <button 
+                            class="btn btn-sm btn-danger" 
+                            onclick="hapusFasilitas(<?= $f->id_fasilitas ?>)">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <!-- Modal Edit Fasilitas -->
+                <div class="modal fade" id="modalEditFasilitas<?= $f->id_fasilitas ?>" tabindex="-1" aria-labelledby="modalEditFasilitasLabel<?= $f->id_fasilitas ?>" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form action="<?= site_url('admin/fasilitas/update') ?>" method="post">
+                            <div class="modal-content">
+                                <div class="modal-header bg-warning text-white">
+                                    <h5 class="modal-title" id="modalEditFasilitasLabel<?= $f->id_fasilitas ?>">Edit Fasilitas</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" 
+                                           value="<?= $this->security->get_csrf_hash(); ?>">
+
+                                    <input type="hidden" name="id_fasilitas" value="<?= $f->id_fasilitas ?>">
+
+                                    <div class="form-group mb-3">
+                                        <label for="nama_fasilitas_<?= $f->id_fasilitas ?>" class="form-label">Nama Fasilitas</label>
+                                        <input type="text" name="nama_fasilitas" 
+                                               id="nama_fasilitas_<?= $f->id_fasilitas ?>" 
+                                               class="form-control"
+                                               value="<?= htmlspecialchars($f->nama_fasilitas) ?>"
+                                               required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-warning text-white">Update</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else : ?>
+            <tr>
+                <td colspan="3" class="text-center">Belum ada data fasilitas</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+
         </div>
     </div>
 </section>

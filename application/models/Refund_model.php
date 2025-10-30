@@ -40,7 +40,7 @@ public function get_booking_detail($id_booking)
     $this->db->from('booking');
     $this->db->join('penghuni', 'penghuni.id_penghuni = booking.id_penghuni', 'left');
     $this->db->where('booking.id_booking', $id_booking);
-    $this->db->where('booking.status_pembayaran', 'lunas'); // hanya ambil yang lunas
+    $this->db->where('booking.status_pembayaran', 'lunas'); 
     return $this->db->get()->row();
 }
 
@@ -54,6 +54,11 @@ public function get_booking_detail($id_booking)
     return $this->db->get()->result();
 }
 
+ public function delete($id) {
+        $this->db->where('id_refund', $id);
+        return $this->db->delete('refund');
+    }
+
 
 
 public function insert_refund($data)
@@ -61,7 +66,6 @@ public function insert_refund($data)
     return $this->db->insert('refund', $data);
 }
 
-    // Ambil refund berdasarkan penghuni (user)
     public function getRefundByUser($id_penghuni)
     {
         $this->db->select('
@@ -102,5 +106,9 @@ public function insert_refund($data)
         $this->db->join('penghuni', 'penghuni.id_penghuni = booking.id_penghuni', 'left');
         $this->db->where('refund.id_refund', $id_refund);
         return $this->db->get()->row();
+    }
+
+     public function get_by_id($id) {
+        return $this->db->where('id_refund', $id)->get('refund')->row();
     }
 }

@@ -57,30 +57,18 @@
                 </a>
             </li>
 
-        <!-- Riwayat -->
-        <li class="sidebar-item">
-            <a href="<?= site_url('user/history') ?>" class="sidebar-link">
-                <i class="bi bi-clock-fill"></i>
-                <span>Riwayat</span>
-            </a>
-        </li>
+      
 
-        <!-- Komplain -->
-         <li class="sidebar-item <?= ($this->uri->uri_string() == 'user/keluhan' || $this->uri->uri_string() == 'user/keluhan/tambah') ? 'active' : '' ?>">
-                <a href="<?= base_url('user/keluhan') ?>" class="sidebar-link">
-                    <i class="bi bi-chat-left-dots-fill"></i>
-                    <span>Keluhan</span>
-                </a>
-            </li>
+      
 
 <?php
 $id_penghuni = $this->session->userdata('id_penghuni');
 
-// Hitung jumlah tagihan dengan status 'belum bayar' atau kosong
+
 $this->db->where('id_penghuni', $id_penghuni);
 $this->db->group_start();
 $this->db->where('status_pembayaran', 'belum bayar');
-$this->db->or_where('status_pembayaran', ''); // status kosong
+$this->db->or_where('status_pembayaran', ''); 
 $this->db->group_end();
 
 $jumlah_tagihan = $this->db->count_all_results('booking');

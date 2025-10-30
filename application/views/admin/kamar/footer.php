@@ -43,8 +43,76 @@
         <script src="<?= base_url('assets/dist/assets/extensions/jquery/jquery.min.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/extensions/parsleyjs/parsley.min.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/static/js/pages/parsley.js') ?>"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+function hapusKamar(id) {
+    // Pertama, ambil data status kamar dari server
+    fetch('<?= base_url('admin/kamar/get_status/') ?>' + id)
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'dihuni') {
+                Swal.fire({
+                    title: 'Tidak dapat dihapus!',
+                    text: 'Kamar ini masih dihuni. Silakan kosongkan terlebih dahulu sebelum menghapus.',
+                    icon: 'warning',
+                    confirmButtonColor: '#d33',
+                    confirmButtonText: 'Mengerti'
+                });
+            } else {
+                // Jika kamar tidak dihuni, baru tampilkan konfirmasi hapus
+                Swal.fire({
+                    title: 'Yakin ingin menghapus kamar ini?',
+                    text: "Data kamar yang dihapus tidak dapat dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch('<?= base_url('admin/kamar/delete/') ?>' + id, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: '<?= $this->security->get_csrf_token_name(); ?>=<?= $this->security->get_csrf_hash(); ?>'
+                        })
+                        .then(res => res.ok ? res.text() : Promise.reject(res))
+                        .then(() => {
+                            Swal.fire({
+                                title: 'Terhapus!',
+                                text: 'Kamar berhasil dihapus.',
+                                icon: 'success',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                            setTimeout(() => location.reload(), 2000);
+                        })
+                        .catch(() => {
+                            Swal.fire({
+                                title: 'Gagal!',
+                                text: 'Terjadi kesalahan saat menghapus kamar.',
+                                icon: 'error',
+                                confirmButtonColor: '#d33'
+                            });
+                        });
+                    }
+                });
+            }
+        })
+        .catch(() => {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal memeriksa status kamar.',
+                icon: 'error'
+            });
+        });
+}
+</script>
 
 
 

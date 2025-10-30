@@ -24,10 +24,6 @@
 <body>
     <script src="<?= base_url('assets/dist/assets/static/js/initTheme.js') ?>"></script>
 
-        <a href="#" class="chat-btn">
-    <i class="bi bi-chat-dots-fill"></i>
-    </a>
-
     <div id="app">
         <div id="main">
             <header class="mb-3">
@@ -126,20 +122,20 @@
            
 
           <a href="javascript:void(0);" 
-   class="btn btn-sm btn-info btn-detail"
-   data-id="<?= $b->id_booking ?>"
-   data-nama="<?= htmlspecialchars($b->nama_penghuni) ?>"
-   data-kamar="<?= htmlspecialchars($b->nomor_kamar) ?>"
-   data-mulai="<?= date('Y-m', strtotime($b->bulan_mulai)) ?>"
-   data-akhir="<?= date('Y-m', strtotime($b->bulan_akhir)) ?>"
-   data-total="<?= $b->total_harga ?>"
-   data-status="<?= $b->status_pembayaran ?>"
-   data-dibuat="<?= date('d-m-Y H:i', strtotime($b->created_at)) ?>"
-   data-diperbarui="<?= date('d-m-Y H:i', strtotime($b->updated_at)) ?>"
-   data-parent="<?= $b->parent_booking_id ?>"
-   data-perpanjang="<?= $b->jumlah_perpanjangan ?>">
-  <i class="bi bi-eye"></i> Detail
-</a>
+              class="btn btn-sm btn-info btn-detail"
+              data-id="<?= $b->id_booking ?>"
+              data-nama="<?= htmlspecialchars($b->nama_penghuni) ?>"
+              data-kamar="<?= htmlspecialchars($b->nomor_kamar) ?>"
+              data-mulai="<?= date('Y-m', strtotime($b->bulan_mulai)) ?>"
+              data-akhir="<?= date('Y-m', strtotime($b->bulan_akhir)) ?>"
+              data-total="<?= $b->total_harga ?>"
+              data-status="<?= $b->status_pembayaran ?>"
+              data-dibuat="<?= date('d-m-Y H:i', strtotime($b->created_at)) ?>"
+              data-diperbarui="<?= date('d-m-Y H:i', strtotime($b->updated_at)) ?>"
+              data-parent="<?= $b->parent_booking_id ?>"
+              data-perpanjang="<?= $b->jumlah_perpanjangan ?>">
+              <i class="bi bi-eye"></i> Detail
+            </a>
 
 
 
@@ -153,13 +149,14 @@
               </a>
             <?php endif; ?>
 
-            <?php if ($b->status_pembayaran == 'belum bayar') : ?>
-              <a href="<?= site_url('admin/pemesanan/batalkan/'.$b->id_booking) ?>"
-                 class="btn btn-sm btn-danger"
-                 onclick="return confirm('Yakin ingin membatalkan pemesanan ini?')">
-                <i class="bi bi-x-circle"></i> Batalkan
-              </a>
-            <?php endif; ?>
+            <?php if ($b->status_pembayaran == 'belum bayar' && empty($b->parent_booking_id)) : ?>
+  <a href="<?= site_url('admin/pemesanan/batalkan/'.$b->id_booking) ?>"
+     class="btn btn-sm btn-danger"
+     onclick="return confirm('Yakin ingin membatalkan pemesanan ini?')">
+    <i class="bi bi-x-circle"></i> Batalkan
+  </a>
+<?php endif; ?>
+
 
             <?php if ($b->status_pembayaran == 'lunas') : ?>
               <a href="<?= site_url('admin/pemesanan/selesai/'.$b->id_booking) ?>"
@@ -175,9 +172,9 @@
        onclick="return confirm('Yakin ingin membatalkan booking perpanjangan ini?')">
        <i class="bi bi-trash"></i> Hapus
     </a>
-<?php else: ?>
-    
-<?php endif; ?>
+  <?php else: ?>
+      
+  <?php endif; ?>
 
           </td>
         </tr>
@@ -221,10 +218,6 @@
   </div>
 </div>
 
-
-
-                            <!-- Modal Perpanjang -->
-<!-- Modal Perpanjangan -->
 
 <!-- Modal Perpanjangan -->
 <div class="modal fade" id="modalPerpanjang" tabindex="-1" aria-labelledby="modalPerpanjangLabel" aria-hidden="true">
@@ -285,11 +278,8 @@
 
 
 
-
-
-
                         </div>
-                    </div>
+         </div>
         </div>
 
     </section>

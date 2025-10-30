@@ -119,11 +119,9 @@
               <a href="<?= site_url('admin/waiting/edit/'.$w->id_waiting) ?>" class="btn btn-warning btn-sm">
                 <i class="bi bi-pencil"></i> Edit
               </a>
-              <a href="<?= site_url('admin/waiting/hapus/'.$w->id_waiting) ?>"
-                 class="btn btn-danger btn-sm"
-                 onclick="return confirm('Yakin ingin menghapus data ini?')">
-                <i class="bi bi-trash"></i> Hapus
-              </a>
+              <button onclick="hapusWaiting(<?= $w->id_waiting ?>)" class="btn btn-danger btn-sm">
+  <i class="bi bi-trash"></i> Hapus
+</button>
             </td>
           </tr>
         <?php endforeach; ?>
@@ -199,15 +197,7 @@
             </table>
           </div>
 
-          <div class="modal-footer">
-            <a href="<?= site_url('waitinglist/update_status/'.$w->id_waiting.'/diterima') ?>" class="btn btn-success btn-sm">
-              <i class="bi bi-check-circle"></i> Terima
-            </a>
-            <a href="<?= site_url('waitinglist/update_status/'.$w->id_waiting.'/batal') ?>" class="btn btn-danger btn-sm">
-              <i class="bi bi-x-circle"></i> Batal
-            </a>
-            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
-          </div>
+          
 
         </div>
       </div>

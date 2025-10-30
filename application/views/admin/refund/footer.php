@@ -90,6 +90,57 @@ document.getElementById('id_booking').addEventListener('change', function() {
 });
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const csrfName = '<?= $this->security->get_csrf_token_name(); ?>';
+    const csrfHash = '<?= $this->security->get_csrf_hash(); ?>';
+
+    document.querySelectorAll('.btn-hapus-refund').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+
+            Swal.fire({
+                title: 'Yakin ingin menghapus refund ini?',
+                text: 'Data refund yang dihapus tidak dapat dikembalikan.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('<?= site_url('admin/refund/delete/') ?>' + id, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: `${csrfName}=${csrfHash}`
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            Swal.fire({
+                                title: 'Berhasil!',
+                                text: data.message,
+                                icon: 'success',
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => location.reload());
+                        } else {
+                            Swal.fire('Gagal', data.message, 'error');
+                        }
+                    })
+                    .catch(() => {
+                        Swal.fire('Error', 'Terjadi kesalahan saat menghapus data', 'error');
+                    });
+                }
+            });
+        });
+    });
+});
+</script>
+
 
 
 

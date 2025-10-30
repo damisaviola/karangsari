@@ -170,6 +170,50 @@
 </script>
 
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const ctx = document.getElementById('bookingTrendChart');
+    if (ctx) {
+        const bookingTrend = new Chart(ctx.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: <?= json_encode($booking_trend['labels']) ?>,
+                datasets: [{
+                    label: 'Jumlah Pemesanan',
+                    data: <?= json_encode($booking_trend['values']) ?>,
+                    borderColor: '#4e73df',
+                    backgroundColor: 'rgba(78, 115, 223, 0.1)',
+                    tension: 0.3,
+                    fill: true,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#4e73df'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
+
+
 
 </body>
 

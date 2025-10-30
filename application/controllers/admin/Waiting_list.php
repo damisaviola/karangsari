@@ -94,14 +94,21 @@ class Waiting_list extends CI_Controller
 }
 
 
-    public function hapus($id)
+     public function hapus($id_waiting)
     {
-        if ($this->Waiting_list_model->delete($id)) {
+        if (empty($id_waiting)) {
+            show_error('ID waiting list tidak valid.');
+        }
+
+        $deleted = $this->Waiting_list_model->delete($id_waiting);
+
+        if ($deleted) {
             $this->session->set_flashdata('success', 'Data waiting list berhasil dihapus.');
         } else {
-            $this->session->set_flashdata('error', 'Gagal menghapus data.');
+            $this->session->set_flashdata('error', 'Data tidak ditemukan atau gagal dihapus.');
         }
 
         redirect('admin/waiting_list');
     }
+    
 }

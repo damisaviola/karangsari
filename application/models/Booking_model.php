@@ -32,11 +32,11 @@ class Booking_model extends CI_Model {
 }
 
 
-public function delete($id_booking)
-{
-    $this->db->where('id_booking', $id_booking);
-    return $this->db->delete($this->table);
-}
+    public function delete($id_booking)
+    {
+        $this->db->where('id_booking', $id_booking);
+        return $this->db->delete($this->table);
+    }
 
 
     public function get_booking_by_id($id_booking) {
@@ -63,8 +63,6 @@ public function delete($id_booking)
             $this->db->where('id_booking', $id_booking);
             $this->db->update('booking', ['jumlah_perpanjangan' => 0]);
         }
-
-
 
             public function get_bookings_lunas()
         {
@@ -249,5 +247,29 @@ public function delete($id_booking)
                     $this->db->limit($limit);
                     return $this->db->get()->result();
                 }
+
+               public function get_booking_trend() {
+                $this->db->select("DATE_FORMAT(created_at, '%Y-%m') as bulan, COUNT(*) as total_booking");
+                $this->db->from('booking');
+                $this->db->where_in('status_pembayaran', ['selesai', 'lunas']); 
+                $this->db->group_by("DATE_FORMAT(created_at, '%Y-%m')");
+                $this->db->order_by("bulan", "ASC");
+                $result = $this->db->get()->result();
+
+                $labels = [];
+                $values = [];
+
+                foreach ($result as $row) {
+                    $labels[] = date('F Y', strtotime($row->bulan . '-01')); 
+                    $values[] = (int)$row->total_booking;
+                }
+
+                return [
+                    'labels' => $labels,
+                    'values' => $values
+                ];
+            }
+
+
 
         }

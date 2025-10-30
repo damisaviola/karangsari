@@ -78,7 +78,6 @@ class Penghuni extends CI_Controller {
 }
 
 public function delete($id_penghuni) {
-    // Ambil data penghuni
     $penghuni = $this->User_model->get_penghuni_by_id($id_penghuni);
 
     if (!$penghuni) {
@@ -87,7 +86,6 @@ public function delete($id_penghuni) {
         return;
     }
 
-    // Cek histori booking
     $hasBooking = $this->Booking_model->checkBookingByPenghuni($id_penghuni);
     if ($hasBooking) {
         $this->session->set_flashdata('error', 'Penghuni tidak bisa dihapus karena memiliki histori pemesanan.');
@@ -95,7 +93,6 @@ public function delete($id_penghuni) {
         return;
     }
 
-    // Hapus penghuni jika tidak ada histori
     $hapus = $this->User_model->delete_penghuni($id_penghuni);
 
     if ($hapus) {
