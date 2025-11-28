@@ -109,6 +109,55 @@ class Kamar extends CI_Controller {
     }
 
 
+        public function getById($id)
+        {
+            $kamar = $this->Kamar_model->getById($id);
+            $fasilitas_all = $this->Fasilitas_model->getAllFasilitas();
+            $fasilitas_kamar = $this->Kamar_model->getFasilitasByKamar($id);
+
+            $fasilitas_ids = array_map(function($f) {
+                return (string)$f->id_fasilitas;
+            }, $fasilitas_kamar);
+
+            echo json_encode([
+                'kamar' => $kamar,
+                'fasilitas_all' => $fasilitas_all,
+                'fasilitas_kamar' => $fasilitas_ids
+            ]);
+        }
+
+public function update()
+{
+    $id = $this->input->post('id_kamar');
+    $data = [
+        'nomor_kamar' => $this->input->post('nomor_kamar'),
+        'lantai' => $this->input->post('lantai'),
+        'harga' => $this->input->post('harga'),
+        'status' => $this->input->post('status'),
+        'deskripsi' => $this->input->post('deskripsi'),
+        'updated_at' => date('Y-m-d H:i:s')
+    ];
+
+    $update = $this->Kamar_model->update($id, $data);
+    $this->Kamar_model->deleteKamarFasilitas($id);
+
+    $fasilitas = $this->input->post('fasilitas');
+    if (!empty($fasilitas)) {
+        $dataFasilitas = [];
+        foreach ($fasilitas as $fas) {
+            $dataFasilitas[] = [
+                'id_kamar' => $id,
+                'id_fasilitas' => $fas
+            ];
+        }
+        $this->Kamar_model->insertKamarFasilitas($dataFasilitas);
+    }
+
+    echo json_encode(['status' => $update ? 'success' : 'error']);
+}
+
+
+
 
 }
 

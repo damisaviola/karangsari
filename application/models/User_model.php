@@ -187,4 +187,9 @@ public function get_jumlah_kamar_by_status($status)
         $this->db->where('jumlah_perpanjangan >', 0);
         return $this->db->count_all_results('booking');
     }
+
+     public function update($id_penghuni, $data) {
+        $this->db->where('id_penghuni', $id_penghuni);
+        return $this->db->update($this->table, $data);
+    }
 }

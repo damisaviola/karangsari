@@ -21,7 +21,31 @@ class Waiting_list extends CI_Controller
         $this->load->view('admin/waiting/footer');
     }
 
- 
+    public function getById($id) {
+        $data = $this->Waiting_list_model->get_by_id($id);
+        echo json_encode($data);
+    }
+
+    public function update() {
+        $id = $this->input->post('id_waiting');
+
+        $data = [
+            'nama_lengkap' => $this->input->post('nama_lengkap'),
+            'email' => $this->input->post('email'),
+            'no_hp' => $this->input->post('no_hp'),
+            'status' => $this->input->post('status'),
+            'catatan' => $this->input->post('catatan'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $update = $this->Waiting_list_model->update($id, $data);
+
+        if ($update) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
 
     public function simpan()
 {

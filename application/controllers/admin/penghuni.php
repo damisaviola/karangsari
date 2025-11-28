@@ -26,7 +26,6 @@ class Penghuni extends CI_Controller {
         $this->load->view('admin/dashboard/sidebar');
         $this->load->view('admin/penghuni/footer');
     }
-
    public function simpan() {
     $this->load->library('form_validation');
 

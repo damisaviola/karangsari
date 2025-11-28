@@ -138,15 +138,22 @@
                     <td>
 
 
-                    <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailKamar<?= $k->id_kamar ?>">
+    <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailKamar<?= $k->id_kamar ?>">
         <i class="bi bi-eye"></i>
     </button>
 
-                        <a href="javascript:void(0)" 
-   class="btn btn-sm btn-danger"
-   onclick="hapusKamar(<?= $k->id_kamar ?>)">
-   <i class="bi bi-trash-fill"></i> Hapus
-</a>
+     <a href="javascript:void(0)" 
+                    class="btn btn-sm btn-danger"
+                    onclick="hapusKamar(<?= $k->id_kamar ?>)">
+                    <i class="bi bi-trash-fill"></i>
+        </a>
+
+                    <button 
+                            class="btn btn-sm btn-warning"
+                            onclick="editKamar(<?= $k->id_kamar ?>)"
+                        >
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
 
                         
 
@@ -160,6 +167,73 @@
         <?php endif; ?>
     </tbody>
 </table>
+
+<div class="modal fade" id="editKamarModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form id="formEditKamar">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">Edit Data Kamar</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="hidden" name="id_kamar" id="edit_id_kamar">
+
+          <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" 
+       value="<?= $this->security->get_csrf_hash(); ?>">
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="edit_nomor_kamar" class="form-label">Nomor Kamar</label>
+              <input type="text" class="form-control" id="edit_nomor_kamar" name="nomor_kamar" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="edit_lantai" class="form-label">Lantai</label>
+              <input type="number" class="form-control" id="edit_lantai" name="lantai" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="edit_harga" class="form-label">Harga (Rp)</label>
+              <input type="number" class="form-control" id="edit_harga" name="harga" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="edit_status" class="form-label">Status</label>
+              <select id="edit_status" name="status" class="form-select">
+                <option value="tersedia">Tersedia</option>
+                <option value="dihuni">Dihuni</option>
+              </select>
+            </div>
+
+            <div class="col-12 mb-3">
+              <label for="edit_deskripsi" class="form-label">Deskripsi</label>
+              <textarea id="edit_deskripsi" name="deskripsi" class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Fasilitas</label>
+            <div id="edit_fasilitas_list" class="ps-2 row g-2">
+             
+              <div class="text-muted">Memuat fasilitas...</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" id="btnUpdate" class="btn btn-primary">
+            <span id="spinnerEdit" class="spinner-border spinner-border-sm d-none"></span>
+            <span id="textEdit">Simpan Perubahan</span>
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 
 
 <?php foreach ($kamar as $k) : ?>

@@ -35,6 +35,25 @@ class Kamar_model extends CI_Model {
     return $this->db->get()->result();
 }
 
+ 
+public function getById($id)
+{
+    return $this->db->get_where('kamar', ['id_kamar' => $id])->row();
+}
+
+
+
+  public function deleteKamarFasilitas($id_kamar) {
+        $this->db->where('id_kamar', $id_kamar);
+        $this->db->delete('kamar_fasilitas');
+    }
+
+
+public function update($id, $data)
+{
+    $this->db->where('id_kamar', $id);
+    return $this->db->update('kamar', $data);
+}
 
 
 public function delete($id_kamar) {

@@ -44,8 +44,8 @@
 
                             <!-- Bagian Profil -->
                             <h5 class="mb-4"><i class="bi bi-person-circle me-2"></i>Informasi Akun</h5>
-                            <form action="<?= base_url('admin/pengaturan/update_profile') ?>" method="post" class="mb-5">
-                                <input type="hidden" name="id_admin" value="<?= $admin->id_admin ?>">
+                            <form action="<?= base_url('user/pengaturan_user/update_profile') ?>" method="post" class="mb-5">
+                                <input type="hidden" name="id_penghuni" value="<?= $penghuni->id_penghuni ?>">
 
 
                                 <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" 
@@ -54,30 +54,38 @@
                                 <div class="mb-3 row">
                                     <label class="col-sm-3 col-form-label">Nama Lengkap</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="nama_lengkap" class="form-control" value="<?= $admin->nama_lengkap ?>" >
+                                        <input type="text" name="nama" class="form-control" value="<?= $penghuni->nama ?>" >
                                     </div>
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <label class="col-sm-3 col-form-label">Username</label>
+                                    <label class="col-sm-3 col-form-label">Email</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="username" class="form-control" value="<?= $admin->username ?>" >
+                                       <input type="email" name="email" class="form-control" value="<?= $penghuni->email ?>">
                                     </div>
                                 </div>
 
                                 <div class="mb-3 row">
                                     <label class="col-sm-3 col-form-label">Nomor HP</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="no_hp" class="form-control" value="<?= $admin->no_hp ?>">
+                                        <input type="text" name="no_hp" class="form-control" value="<?= $penghuni->no_hp ?>">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Alamat</label>
+                                    <div class="col-sm-9">
+                                         <textarea name="alamat" class="form-control"><?= $penghuni->alamat ?></textarea>
                                     </div>
                                 </div>
 
                                 <div class="mb-3 row">
                                     <label class="col-sm-3 col-form-label">Role</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" value="<?= ucfirst($admin->role) ?>" disabled>
+                                        <input type="text" class="form-control" value="Penghuni" disabled>
                                     </div>
                                 </div>
+
 
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-primary">
@@ -90,8 +98,8 @@
                             <!-- Bagian Keamanan -->
                           <!-- Bagian Keamanan -->
                 <h5 class="mb-4"><i class="bi bi-shield-lock me-2"></i>Ubah Kata Sandi</h5>
-                <form action="<?= base_url('admin/pengaturan/update_password') ?>" method="post">
-                    <input type="hidden" name="id_admin" value="<?= $admin->id_admin ?>">
+                <form action="<?= base_url('user/pengaturan_user/update_password') ?>" method="post">
+                    <input type="hidden" name="id_penghuni" value="<?= $penghuni->id_penghuni ?>">
 
                     <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" 
                                                 value="<?= $this->security->get_csrf_hash(); ?>">
@@ -142,24 +150,7 @@
                         </button>
                     </div>
                 </form>
-                            <!-- Bagian Preferensi -->
-                            <h5 class="mb-4"><i class="bi bi-gear me-2"></i>Preferensi Aplikasi</h5>
-                            <form action="<?= base_url('user/update_preferences') ?>" method="post">
-                                <div class="mb-4 row">
-                                    <label class="col-sm-3 col-form-label">Mode Tampilan</label>
-                                    <div class="col-sm-9">
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="toggle-dark" name="tema" value="dark"
-                                                <?= isset($user->tema) && $user->tema == 'dark' ? 'checked' : '' ?>>
-                                            <label class="form-check-label" for="toggle-dark">
-                                                <?= isset($user->tema) && $user->tema == 'dark' ? 'Dark Mode Aktif' : 'Light Mode Aktif' ?>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </form>
-
+              
                         </div>
                     </div>
                 </section>

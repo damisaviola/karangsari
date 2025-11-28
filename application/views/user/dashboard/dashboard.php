@@ -5,10 +5,22 @@
         </a>
     </header>
 
-    <div class="page-heading">
+    <div class="page-heading">x
         <h3>Profile Statistics</h3>
     </div>
+<?php if ($this->session->flashdata('error')): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <?= $this->session->flashdata('error'); ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php endif; ?>
 
+          <?php if ($this->session->flashdata('success')): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <?= $this->session->flashdata('success'); ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <?php endif; ?>
     <div class="page-content">
         <section class="row">
             <div class="col-12 col-lg-9">
@@ -18,12 +30,13 @@
                         <div class="card-body px-4 py-4-5">
                             <div class="row">
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                    <div class="stats-icon purple mb-2">
-                                        <i class="iconly-boldShow"></i>
+                                    <div class="stats-icon blue mb-2">
+                                        <i class="iconly-boldCalendar"></i>
                                     </div>
+                                    
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Profile Views</h6>
+                                    <h6 class="text-muted font-semibold">Booking</h6>
                                     <h6 class="font-extrabold mb-0"><?= $total_booking_aktif ?></h6>
                                 </div>
                             </div> 
@@ -35,12 +48,13 @@
                         <div class="card-body px-4 py-4-5">
                             <div class="row">
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                    <div class="stats-icon purple mb-2">
-                                        <i class="iconly-boldShow"></i>
+                                    <div class="stats-icon green mb-2">
+                                        <i class="iconly-boldTick-Square"></i>
                                     </div>
+
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Profile Views</h6>
+                                    <h6 class="text-muted font-semibold">Lunas</h6>
                                     <h6 class="font-extrabold mb-0"><?= $total_lunas ?></h6>
                                 </div>
                             </div> 
@@ -53,11 +67,11 @@
                             <div class="row">
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
                                     <div class="stats-icon purple mb-2">
-                                        <i class="iconly-boldShow"></i>
+                                        <i class="iconly-boldSwap"></i>
                                     </div>
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Profile Views</h6>
+                                    <h6 class="text-muted font-semibold">Perpanjangan</h6>
                                     <h6 class="font-extrabold mb-0"><?= $total_perpanjangan ?></h6>
                                 </div>
                             </div> 
@@ -69,12 +83,12 @@
                         <div class="card-body px-4 py-4-5">
                             <div class="row">
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                    <div class="stats-icon purple mb-2">
-                                        <i class="iconly-boldShow"></i>
+                                    <div class="stats-icon red mb-2">
+                                        <i class="iconly-boldClose-Square"></i>
                                     </div>
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Profile Views</h6>
+                                    <h6 class="text-muted font-semibold">Belum Lunas</h6>
                                     <h6 class="font-extrabold mb-0"><?= $total_belum_lunas ?></h6>
                                 </div>
                             </div> 
@@ -132,9 +146,21 @@
                                     </div>
 
                                     <?php if ($booking_aktif->status_pembayaran === 'lunas' && $booking_aktif->jumlah_perpanjangan == 0): ?>
-                                        <form action="<?= site_url('penghuni/pemesanan/checkout/'.$booking_aktif->id_booking) ?>" method="post" onsubmit="return confirm('Yakin ingin menyelesaikan pemesanan ini?');">
-                                            <button type="submit" class="btn btn-success w-100 mt-3">Check Out / Selesai</button>
+                                      <form action="<?= site_url('user/dashboard/checkout/' . $booking_aktif->id_booking) ?>" 
+                                            method="post" 
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menyelesaikan pemesanan ini?');">
+                                            
+                                            <!-- CSRF Protection -->
+                                            <input type="hidden" 
+                                                name="<?= $this->security->get_csrf_token_name(); ?>" 
+                                                value="<?= $this->security->get_csrf_hash(); ?>" />
+
+                                            <!-- Tombol Checkout -->
+                                            <button type="submit" class="btn btn-success w-100 mt-3">
+                                                <i class="bi bi-box-arrow-right"></i> Check Out / Selesai
+                                            </button>
                                         </form>
+
                                     <?php elseif ($booking_aktif->jumlah_perpanjangan > 0): ?>
                                         <div class="alert alert-info mt-3 mb-0">
                                             Booking ini adalah perpanjangan. Silakan cek detail pembayaran tambahan jika ada.

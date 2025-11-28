@@ -64,6 +64,71 @@ function hapusWaiting(id) {
 </script>
 
 
+<script>
+function editWaiting(id) {
+  fetch(`<?= base_url('admin/waiting_list/getById/') ?>${id}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data) {
+        document.getElementById('edit_id_waiting').value = data.id_waiting;
+        document.getElementById('edit_nama_lengkap').value = data.nama_lengkap;
+        document.getElementById('edit_email').value = data.email;
+        document.getElementById('edit_no_hp').value = data.no_hp;
+        document.getElementById('edit_status').value = data.status;
+        document.getElementById('edit_catatan').value = data.catatan ?? '';
+
+        new bootstrap.Modal(document.getElementById('editWaiting')).show();
+      } else {
+        Swal.fire('Error', 'Data waiting list tidak ditemukan.', 'error');
+      }
+    })
+    .catch(() => Swal.fire('Gagal', 'Terjadi kesalahan koneksi.', 'error'));
+}
+
+document.getElementById('formEditWaiting').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById('btnUpdateWaiting');
+  const spinner = document.getElementById('spinnerEditWaiting');
+  const text = document.getElementById('textEditWaiting');
+
+  spinner.classList.remove('d-none');
+  text.textContent = 'Menyimpan...';
+  btn.disabled = true;
+
+  fetch('<?= base_url('admin/waiting_list/update') ?>', {
+    method: 'POST',
+    body: new FormData(this)
+  })
+  .then(res => res.json())
+  .then(res => {
+    spinner.classList.add('d-none');
+    text.textContent = 'Simpan Perubahan';
+    btn.disabled = false;
+
+    if (res.status === 'success') {
+      Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: 'Data waiting list berhasil diperbarui.',
+        timer: 1800,
+        showConfirmButton: false
+      }).then(() => location.reload());
+    } else {
+      Swal.fire('Gagal', 'Gagal memperbarui data.', 'error');
+    }
+  })
+  .catch(() => {
+    spinner.classList.add('d-none');
+    text.textContent = 'Simpan Perubahan';
+    btn.disabled = false;
+    Swal.fire('Error', 'Terjadi kesalahan koneksi.', 'error');
+  });
+});
+</script>
+
+
+
 </body>
 
 </html>

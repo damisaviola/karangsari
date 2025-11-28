@@ -34,9 +34,8 @@ class Waiting_list_model extends CI_Model {
     }
 
 
-    public function get_by_id($id_waiting)
-    {
-        return $this->db->get_where($this->table, ['id_waiting' => $id_waiting])->row();
+     public function get_by_id($id) {
+        return $this->db->where('id_waiting', $id)->get($this->table)->row();
     }
 
     public function update_waiting($id_waiting, $data)
@@ -45,7 +44,13 @@ class Waiting_list_model extends CI_Model {
         return $this->db->update($this->table, $data);
     }
 
+    
 
+public function update($id, $data) {
+        return $this->db->where('id_waiting', $id)->update($this->table, $data);
+    }
+
+    
     public function delete_waiting($id_waiting)
     {
         return $this->db->delete($this->table, ['id_waiting' => $id_waiting]);
@@ -61,4 +66,5 @@ class Waiting_list_model extends CI_Model {
         $this->db->where('id_waiting', $id_waiting);
         return $this->db->delete($this->table);
     }
+    
 }

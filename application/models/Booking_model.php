@@ -94,14 +94,16 @@ class Booking_model extends CI_Model {
     }
 
 
-            public function get_detail_booking($id_booking)
-        {
-            $this->db->select('booking.*, penghuni.nama AS nama_penghuni');
-            $this->db->from('booking');
-            $this->db->join('penghuni', 'penghuni.id_penghuni = booking.id_penghuni', 'left');
-            $this->db->where('booking.id_booking', $id_booking);
-            return $this->db->get()->row();
-        }
+        public function get_detail_booking($id_booking)
+{
+    $this->db->select('booking.*, penghuni.nama AS nama_penghuni');
+    $this->db->from('booking');
+    $this->db->join('penghuni', 'penghuni.id_penghuni = booking.id_penghuni', 'left');
+    $this->db->where('booking.id_booking', $id_booking);
+    $this->db->where('booking.status_pembayaran', 'lunas'); 
+    return $this->db->get()->row();
+}
+
 
         public function insert($data) {
             return $this->db->insert('booking', $data);

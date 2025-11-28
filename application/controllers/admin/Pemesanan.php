@@ -205,7 +205,7 @@ class Pemesanan extends CI_Controller {
 
 
         $this->db->where('id_penghuni', $id_penghuni);
-        $this->db->where_not_in('status_pembayaran', ['selesai', 'refund', 'dibatalkan']);
+        $this->db->where_not_in('status_pembayaran', ['selesai', 'refund', 'dibatalkan', 'perpanjang']);
         $cek_booking_aktif = $this->db->get('booking')->row();
 
         if ($cek_booking_aktif) {
@@ -240,6 +240,12 @@ class Pemesanan extends CI_Controller {
         }
 
         redirect('admin/pemesanan');
+    }
+
+        public function get_booking_by_id($id_booking) {
+        return $this->db->where('id_booking', $id_booking)
+                        ->get($this->table)
+                        ->row();
     }
 
 

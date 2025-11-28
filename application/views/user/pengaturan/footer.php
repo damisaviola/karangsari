@@ -19,23 +19,16 @@
         <script src="<?= base_url('assets/dist/assets/extensions/filepond/filepond.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/extensions/toastify-js/src/toastify.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/static/js/pages/filepond.js') ?>"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- Load JS -->
         <script src="<?= base_url('assets/dist/assets/static/js/components/dark.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') ?>"></script>
-       <?php if ($this->uri->uri_string() == 'admin/notifikasi' || $this->uri->uri_string() == 'admin/kamar/tambah_kamar') : ?>
+       <?php if ($this->uri->uri_string() == 'user/pengaturan_user' || $this->uri->uri_string() == 'user/pengaturan_user') : ?>
             <script src="<?= base_url('assets/dist/assets/compiled/js/app.js') ?>"></script>
         <?php endif; ?>
 
-        <?php if ($this->uri->uri_string() == 'admin/notifikasi') : ?>
-            <script src="<?= base_url('assets/dist/assets/extensions/simple-datatables/umd/simple-datatables.js') ?>"></script>
-            <script src="<?= base_url('assets/dist/assets/static/js/pages/simple-datatables.js') ?>"></script>
-        <?php endif; ?>
 
         
-
- 
-
 
 
         
@@ -43,31 +36,39 @@
         <script src="<?= base_url('assets/dist/assets/extensions/jquery/jquery.min.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/extensions/parsleyjs/parsley.min.js') ?>"></script>
         <script src="<?= base_url('assets/dist/assets/static/js/pages/parsley.js') ?>"></script>
-
-         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <script>
-        document.getElementById('btnLogout').addEventListener('click', function(e) {
-            e.preventDefault();
-
-            Swal.fire({
-                title: 'Yakin ingin logout?',
-                text: "Sesi Anda akan berakhir.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, logout',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "<?= site_url('user/auth/login/logout') ?>";
-                }
-            });
-        });
-        </script>
+        
+     <script>
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            if(input.type === "password") {
+                input.type = "text";
+            } else {
+                input.type = "password";
+            }
+        }
+    </script>
 
 
+<script>
+                    document.getElementById('btnLogout').addEventListener('click', function(e) {
+                        e.preventDefault();
 
+                        Swal.fire({
+                            title: 'Yakin ingin logout?',
+                            text: "Sesi Anda akan berakhir.",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya, logout',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "<?= site_url('user/auth/login/logout') ?>";
+                            }
+                        });
+                    });
+                    </script>
 
 
 

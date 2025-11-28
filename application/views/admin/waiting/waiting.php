@@ -116,9 +116,9 @@
               <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#detailWaiting<?= $w->id_waiting ?>">
                 <i class="bi bi-eye"></i> Detail
               </button>
-              <a href="<?= site_url('admin/waiting/edit/'.$w->id_waiting) ?>" class="btn btn-warning btn-sm">
-                <i class="bi bi-pencil"></i> Edit
-              </a>
+              <button onclick="editWaiting(<?= $w->id_waiting ?>)" class="btn btn-warning btn-sm">
+  <i class="bi bi-pencil"></i> Edit
+</button>
               <button onclick="hapusWaiting(<?= $w->id_waiting ?>)" class="btn btn-danger btn-sm">
   <i class="bi bi-trash"></i> Hapus
 </button>
@@ -244,4 +244,57 @@
       </form>
     </div>
   </div>
+
+
+  <!-- MODAL EDIT -->
+<div class="modal fade" id="editWaiting" tabindex="-1" aria-labelledby="editWaitingLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="formEditWaiting" class="modal-content" method="post">
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title" id="editWaitingLabel">Edit Waiting List</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>"
+             value="<?= $this->security->get_csrf_hash(); ?>">
+      <input type="hidden" name="id_waiting" id="edit_id_waiting">
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Nama Lengkap</label>
+          <input type="text" name="nama_lengkap" id="edit_nama_lengkap" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" name="email" id="edit_email" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">No. HP</label>
+          <input type="text" name="no_hp" id="edit_no_hp" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Status</label>
+          <select name="status" id="edit_status" class="form-select">
+            <option value="menunggu">Menunggu</option>
+            <option value="diterima">Diterima</option>
+            <option value="batal">Batal</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Catatan</label>
+          <textarea name="catatan" id="edit_catatan" class="form-control" rows="2"></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="submit" id="btnUpdateWaiting" class="btn btn-warning text-dark">
+          <span id="spinnerEditWaiting" class="spinner-border spinner-border-sm d-none"></span>
+          <span id="textEditWaiting">Simpan Perubahan</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 </body>

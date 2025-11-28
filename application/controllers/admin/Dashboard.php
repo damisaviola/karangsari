@@ -13,14 +13,11 @@ class Dashboard extends CI_Controller {
     }
 
     public function index() {
-        $result = $this->Booking_model->getBookingPerBulan();
-
-    
+    $result = $this->Booking_model->getBookingPerBulan();
     $data_bulan = array_fill(1, 12, 0);
     foreach ($result as $row) {
         $data_bulan[(int)$row->bulan] = (int)$row->total;
     }
-
     $chartData = [];
     foreach ($data_bulan as $bulan => $total) {
         $chartData[] = [
@@ -28,7 +25,6 @@ class Dashboard extends CI_Controller {
             'total' => $total
         ];
     }
-
     $data['tingkat_hunian'] = $this->Booking_model->get_tingkat_hunian_per_bulan();
     $data['chart_data'] = json_encode($chartData);
     $data['penghuni'] = $this->User_model->get_latest(3);
@@ -41,7 +37,6 @@ class Dashboard extends CI_Controller {
     $all_booking = $this->Booking_model->get_all();
     $data['latest_booking'] = array_slice($all_booking, 0, 5);
     $data['booking_trend'] = $this->Booking_model->get_booking_trend();
-
 
        $this->load->view('admin/dashboard/header');
        $this->load->view('admin/dashboard/dashboard', $data);

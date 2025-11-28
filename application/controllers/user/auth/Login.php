@@ -13,14 +13,11 @@ class Login extends CI_Controller {
     }
 
     public function index() {
-
         if ($this->session->userdata('id_penghuni')) {
             redirect('user/dashboard');
         }
-       
         $this->load->view('user/auth/auth-login');
     }
-
  public function login_action() 
 {
     if ($this->session->userdata('id_penghuni')) {

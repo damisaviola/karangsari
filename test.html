@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ FPS Prediktor (Filament Edition)</title>
+    <!-- Muat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Muat Font Inter (Modern) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Konfigurasi Warna dan Aksesori */
+        :root {
+            /* Warna primer neon/tech untuk Dark Mode (Cyan/Teal) */
+            --color-primary-dark: 20, 184, 166; /* teal-500 RGB */
+            /* Warna primer modern untuk Light Mode (Blue/Indigo) */
+            --color-primary-light: 37, 99, 235; /* blue-600 RGB */
+        }
+
+        /* Konfigurasi untuk Dark Mode (Default) */
+        .dark {
+            --bg-main: #0c101c; /* Lebih gelap dari slate-900 */
+            --bg-card: rgba(23, 37, 56, 0.7); /* slate-800 semi-transparan */
+            --text-main: #e2e8f0; /* slate-200 */
+            --text-accent: rgb(var(--color-primary-dark));
+            --border-color: #273040; /* border yang lebih halus */
+            --accent-rgb: var(--color-primary-dark);
+        }
+
+        /* Konfigurasi untuk Light Mode */
+        .light {
+            --bg-main: #f8fafc; /* slate-50 */
+            --bg-card: rgba(255, 255, 255, 0.7); /* putih semi-transparan */
+            --text-main: #1e293b; /* slate-800 */
+            --text-accent: rgb(var(--color-primary-light));
+            --border-color: #e2e8f0; /* slate-200 */
+            --accent-rgb: var(--color-primary-light);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            transition: background-color 0.4s, color 0.4s;
+        }
+
+        /* VFX: Background Grid/Texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -10;
+        }
+
+        /* Dark Mode VFX: Subtle grid noise */
+        .dark body::before {
+            background-image: linear-gradient(to right, rgba(40, 50, 70, 0.5) 1px, transparent 1px), linear-gradient(to bottom, rgba(40, 50, 70, 0.5) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.8;
+        }
+
+        /* Card & Glassmorphism Effect */
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem; /* Super rounded */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px); /* Efek Kaca/Blur */
+            -webkit-backdrop-filter: blur(8px);
+            transition: background-color 0.4s, border-color 0.4s, box-shadow 0.4s;
+        }
+
+        /* Primary Button Style (Filament Look) */
+        .btn-primary {
+            background-color: var(--text-accent);
+            color: var(--bg-main); /* Menggunakan warna main background untuk kontras tajam */
+            transition: background-color 0.2s, box-shadow 0.3s, transform 0.1s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.4); /* Glow yang halus */
+        }
+        
+        /* Focus Ring/Glow Effect (Lebih modern dari Neon Text) */
+        .accent-text-glow {
+            color: var(--text-accent);
+            font-weight: 900;
+        }
+        .dark .accent-text-glow {
+             text-shadow: 0 0 5px rgba(var(--accent-rgb), 0.5);
+        }
+
+        .accent-ring-glow {
+            transition: box-shadow 0.3s, border-color 0.3s;
+        }
+        .accent-ring-glow:hover {
+            border-color: var(--text-accent);
+            box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.5);
+        }
+        
+        /* Dropzone Styling */
+        #drop-area {
+            border-style: solid;
+            border-width: 2px; /* Lebih tipis */
+            transition: border-color 0.3s;
+        }
+        
+        /* Hero Section Styling */
+        .hero-section {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+    <!-- Header / Nav Bar -->
+    <header class="p-4 md:p-6 shadow-xl sticky top-0 z-20" style="background-color: var(--bg-card); border-bottom: 1px solid var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-black tracking-tight accent-text-glow" id="app-title">
+                GEGE-FPS PREDICTOR 🚀
+            </h1>
+            <!-- Tombol Theme Toggle -->
+            <button id="theme-toggle" class="p-2 rounded-full ring-2 ring-current hover:ring-4 transition accent-ring-glow" style="color: var(--text-accent); border-color: var(--border-color);" aria-label="Toggle Dark/Light Mode">
+                <!-- Icon Bulan (Dark Mode) / Matahari (Light Mode) -->
+                <svg id="sun-icon" class="h-6 w-6 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                <svg id="moon-icon" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        
+        <!-- SECTION 1: HERO - Landing Page Explanation -->
+        <section id="hero" class="hero-section max-w-7xl mx-auto">
+            <div class="space-y-6 max-w-3xl">
+                <p class="text-xl font-medium" style="color: var(--text-accent);">⚡ PREDIKSI FPS BERBASIS DATA. AKURAT, CEPAT.</p>
+                
+                <h2 class="text-6xl md:text-8xl font-black tracking-tight leading-none">
+                    <span class="accent-text-glow">Upgrade Performa</span> Game Tanpa Ganti PC.
+                </h2>
+                
+                <p class="text-lg md:text-xl opacity-80 max-w-2xl mx-auto pt-4">
+                    Gunakan data *benchmarking* kamu untuk memprediksi FPS optimal, menganalisis *bottleneck*, dan mendapatkan rekomendasi *setting* paling efisien. **Filament-grade UI untuk pengalaman premium.**
+                </p>
+
+                <!-- CTA Button -->
+                <button onclick="document.getElementById('prediction-tool').scrollIntoView({ behavior: 'smooth' });"
+                    class="btn-primary inline-flex items-center space-x-3 px-10 py-4 mt-6 text-xl font-extrabold rounded-2xl shadow-2xl">
+                    <span>Mulai Analisis Data Sekarang!</span>
+                    <!-- Inline SVG Arrow Right -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 2: KENAPA HARUS GEGE-FPS? (Features) -->
+        <section id="features" class="py-20 px-4 md:px-8">
+            <div class="max-w-7xl mx-auto text-center">
+                <h3 class="text-4xl font-extrabold mb-14 accent-text-glow">Fitur Utama Platform Kami</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Feature Card 1 -->
+                    <div class="card p-8 rounded-2xl accent-ring-glow transform hover:translate-y-[-4px] transition duration-300">
+                        <svg class="w-12 h-12 mx-auto mb-4" style="color: var(--text-accent);" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 0 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 4a8 8 0 0 1 8 8 8 8 0 0 1-8 8"/><path d="M8.5 13.5l1.5-1.5 3 3 1.5-1.5"/></svg>
+                        <h4 class="text-xl font-bold mb-2 accent-text-glow">Model Prediksi V2.0</h4>
+                        <p class="text-sm opacity-70">Menggunakan regresi AI terbaru untuk akurasi prediksi FPS hingga 99.1%.</p>
+                    </div>
+
+                    <!-- Feature Card 2 -->
+                    <div class="card p-8 rounded-2xl accent-ring-glow transform hover:translate-y-[-4px] transition duration-300">
+                        <svg class="w-12 h-12 mx-auto mb-4" style="color: var(--text-accent);" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h10l-4 8H2"/><path d="M8 12h8"/></svg>
+                        <h4 class="text-xl font-bold mb-2 accent-text-glow">Analisis Bottleneck Instan</h4>
+                        <p class="text-sm opacity-70">Identifikasi komponen *hardware* yang menjadi titik lemah dalam 3 detik.</p>
+                    </div>
+
+                    <!-- Feature Card 3 -->
+                    <div class="card p-8 rounded-2xl accent-ring-glow transform hover:translate-y-[-4px] transition duration-300">
+                        <svg class="w-12 h-12 mx-auto mb-4" style="color: var(--text-accent);" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <h4 class="text-xl font-bold mb-2 accent-text-glow">Desain Multi-Tema</h4>
+                        <p class="text-sm opacity-70">Pengalaman UI premium, responsif, dengan dukungan Light dan Dark mode.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: CARA KERJANYA (How It Works) -->
+        <section id="how-it-works" class="py-20 px-4 md:px-8 max-w-5xl mx-auto text-center">
+            <h3 class="text-4xl font-extrabold mb-14 accent-text-glow">3 Langkah Mudah Menuju GGWP</h3>
+
+            <div class="relative flex flex-col items-center">
+                <!-- Timeline/Konektor (Garis vertikal di tengah) -->
+                <div class="absolute inset-y-0 w-0.5 md:w-1" style="background-color: var(--border-color); transform: translateY(40px);"></div>
+                
+                <!-- Step 1 -->
+                <div class="flex flex-col md:flex-row w-full mb-12 z-10 items-center">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center font-black text-xl p-2 mr-4 mb-2 md:mb-0" style="background-color: var(--text-accent); color: var(--bg-main);">1</div>
+                    <div class="card p-6 rounded-2xl w-full md:w-5/6 text-left accent-ring-glow">
+                        <p class="font-bold text-xl accent-text-glow">Upload File Benchmark</p>
+                        <p class="text-sm opacity-70">Siapkan data performa PC kamu dalam format .CSV atau .JSON.</p>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="flex flex-col md:flex-row-reverse w-full mb-12 z-10 items-center">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center font-black text-xl p-2 ml-4 mb-2 md:mb-0" style="background-color: var(--text-accent); color: var(--bg-main);">2</div>
+                    <div class="card p-6 rounded-2xl w-full md:w-5/6 text-left accent-ring-glow">
+                        <p class="font-bold text-xl accent-text-glow">Proses dan Prediksi</p>
+                        <p class="text-sm opacity-70">Sistem AI kami akan memproses data kamu di latar belakang, memprediksi FPS, dan menganalisis efisiensi.</p>
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="flex flex-col md:flex-row w-full mb-12 z-10 items-center">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center font-black text-xl p-2 mr-4 mb-2 md:mb-0" style="background-color: var(--text-accent); color: var(--bg-main);">3</div>
+                    <div class="card p-6 rounded-2xl w-full md:w-5/6 text-left accent-ring-glow">
+                        <p class="font-bold text-xl accent-text-glow">Dapatkan *Insight* Tepat</p>
+                        <p class="text-sm opacity-70">Seketika, kamu akan melihat hasil FPS prediksi dan saran konkret untuk optimalisasi *setting*.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: PREDICTION TOOL -->
+        <section id="prediction-tool" class="py-16 p-4 md:p-8 flex items-start justify-center" style="background-color: var(--bg-main);">
+             <div class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Card 1: Upload Dataset -->
+                <div class="card p-8 rounded-2xl shadow-xl space-y-6 accent-ring-glow">
+                    <h2 class="text-3xl font-extrabold accent-text-glow">1. Upload Dataset</h2>
+                    <p class="text-sm opacity-70">Seret dan lepas file data benchmark kamu di kotak di bawah ini.</p>
+
+                    <!-- Area Dropzone/Input File -->
+                    <div id="drop-area" class="border-4 border-dashed rounded-xl p-10 text-center cursor-pointer hover:opacity-90 transition-all" style="border-color: var(--text-accent); background-color: rgba(var(--accent-rgb), 0.1);">
+                        <!-- Icon Upload (Inline SVG Lucide) -->
+                        <svg class="w-12 h-12 mx-auto mb-3" style="color: var(--text-accent);" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                        <p class="font-extrabold text-lg">Seret & Lepas File (.CSV/.JSON)</p>
+                        <p class="text-xs opacity-60 mt-1">Maks. 5MB. Klik untuk memilih file secara manual.</p>
+                        <input type="file" id="file-input" accept=".csv,.json" class="hidden">
+                    </div>
+
+                    <div id="file-status" class="hidden p-4 rounded-xl flex items-center justify-between border" style="background-color: var(--border-color);">
+                        <span id="file-name" class="truncate font-medium text-sm"></span>
+                        <button onclick="document.getElementById('file-input').value = null; document.getElementById('file-status').classList.add('hidden'); predictButton.disabled = true;" class="text-red-400 hover:text-red-300 ml-3 text-sm font-bold">Hapus</button>
+                    </div>
+
+                    <!-- Tombol Prediksi -->
+                    <button id="predict-button" class="btn-primary w-full p-4 font-extrabold text-lg rounded-2xl shadow-xl disabled:opacity-50" disabled>
+                        RUN ANALISIS
+                    </button>
+                </div>
+
+                <!-- Card 2: Hasil Prediksi -->
+                <div class="card p-8 rounded-2xl shadow-xl space-y-6 flex flex-col justify-between accent-ring-glow">
+                    <div>
+                        <h2 class="text-3xl font-extrabold accent-text-glow">2. Hasil & *Insight* 📈</h2>
+                        <p class="text-sm opacity-70 mt-2">Data metrik performa PC kamu akan ditampilkan di sini.</p>
+
+                        <div id="result-display" class="mt-8 p-6 rounded-xl text-center border-2 border-dashed" style="border-color: var(--border-color);">
+                            <p id="prediction-status" class="text-xl font-semibold opacity-70">
+                                Status: Menunggu Dataset Aktif...
+                            </p>
+                            <!-- Loader (Hidden by default) -->
+                            <div id="loader" class="hidden flex flex-col items-center justify-center p-4">
+                                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-t-2" style="border-color: var(--text-accent);"></div>
+                                <p class="mt-3 font-medium">Processing Data. Hold On...</p>
+                            </div>
+
+                            <!-- Result Card (Hidden by default) -->
+                            <div id="result-card" class="hidden mt-4 space-y-4">
+                                <p class="text-6xl font-black accent-text-glow">
+                                    <span id="predicted-fps">~144</span> FPS
+                                </p>
+                                <p id="result-caption" class="text-xl font-bold">
+                                    OPTIMAL! Performa PC Kamu Sudah *Balance*!
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 text-left pt-6 border-t border-dashed mt-6" style="border-color: var(--border-color);">
+                                    <div>
+                                        <p class="text-xs opacity-60">Rekomendasi Setting</p>
+                                        <p class="font-extrabold text-sm" id="rec-setting">ULTRA - STABLE</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs opacity-60">CPU Bottleneck Score</p>
+                                        <p class="font-extrabold text-sm" id="bottleneck-status" style="color: var(--text-accent);">LOW (3%)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="p-8 text-center" style="background-color: var(--bg-card); border-top: 1px solid var(--border-color);">
+        <div class="max-w-7xl mx-auto">
+             <p class="text-sm opacity-80 mb-2">Punya Pertanyaan atau Saran? Hubungi Kami: <span style="color: var(--text-accent);" class="font-semibold">support@gegefps.id</span></p>
+            <p class="text-xs opacity-50">© 2025 GEGE-FPS. All rights reserved. | UI Inspired by Modern Tech Platforms.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Setup Awal ---
+        const htmlElement = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('file-input');
+        const fileStatus = document.getElementById('file-status');
+        const fileNameDisplay = document.getElementById('file-name');
+        const predictButton = document.getElementById('predict-button');
+        const predictionStatus = document.getElementById('prediction-status');
+        const loader = document.getElementById('loader');
+        const resultCard = document.getElementById('result-card');
+        const predictedFps = document.getElementById('predicted-fps');
+        const resultCaption = document.getElementById('result-caption');
+
+        // --- Logika Theme Toggle ---
+        function setInitialTheme() {
+            // Cek localStorage atau gunakan dark mode sebagai default
+            const isDarkMode = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDarkMode) {
+                htmlElement.classList.add('dark');
+                htmlElement.classList.remove('light');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            } else {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            }
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                // Switch to Light Mode
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+                localStorage.setItem('theme', 'light');
+            } else {
+                // Switch to Dark Mode
+                htmlElement.classList.add('dark');
+                htmlElement.classList.remove('light');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Panggil saat load
+        setInitialTheme();
+
+        // --- Logika Drag and Drop & Upload File ---
+
+        dropArea.addEventListener('click', () => fileInput.click());
+        
+        // Mencegah default behavior untuk Drag & Drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Highlight saat file di atas area
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => dropArea.style.opacity = '0.6', false);
+        });
+
+        // Hapus highlight saat file keluar
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => dropArea.style.opacity = '1', false);
+        });
+
+        // Handle file yang di-drop
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            let dt = e.dataTransfer;
+            let files = dt.files;
+            handleFiles(files);
+        }
+
+        // Handle file yang dipilih dari dialog
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        // Fungsi utama untuk memproses file
+        function handleFiles(files) {
+            if (files.length === 0) return;
+
+            const file = files[0];
+            const allowedTypes = ['.csv', '.json'];
+            const fileExtension = file.name.substring(file.name.lastIndexOf('.'));
+
+            if (!allowedTypes.includes(fileExtension.toLowerCase())) {
+                showMessage('Hanya file CSV atau JSON yang didukung.', 'error');
+                return;
+            }
+            
+            // Tampilkan status file
+            fileNameDisplay.textContent = file.name;
+            fileStatus.classList.remove('hidden');
+            predictButton.disabled = false;
+            predictionStatus.textContent = 'Status: File Siap Diproses.';
+            resultCard.classList.add('hidden');
+            loader.classList.add('hidden');
+
+            showMessage(`File ${file.name} sukses di-upload!`, 'success');
+        }
+
+        // --- Logika Prediksi ---
+        predictButton.addEventListener('click', () => {
+            // Guard clause: Pastikan ada file
+            if (fileInput.files.length === 0) {
+                showMessage('Tolong upload file dataset terlebih dahulu!', 'error');
+                return;
+            }
+
+            // 1. Tampilkan Loading State
+            predictButton.disabled = true;
+            predictButton.textContent = 'Menganalisis Data (3s...)';
+            predictionStatus.classList.add('hidden');
+            resultCard.classList.add('hidden');
+            loader.classList.remove('hidden');
+
+            // 2. Simulasi Proses ML/Prediksi (3 detik)
+            setTimeout(() => {
+                
+                // Hasilkan hasil prediksi secara acak
+                const fps = Math.floor(Math.random() * (240 - 60 + 1)) + 60;
+                let setting, caption, bottleneck, bottleneckColor;
+                
+                if (fps > 120) {
+                    setting = "ULTRA - STABLE";
+                    caption = "OPTIMAL! Performa PC Kamu Sudah *Balance*!";
+                    bottleneck = "LOW (3%)";
+                    bottleneckColor = 'rgb(34, 197, 94)'; // green-500
+                } else if (fps > 75) {
+                    setting = "HIGH - EFFICIENT";
+                    caption = "BAGUS! Siap untuk pengalaman gaming kompetitif.";
+                    bottleneck = "MODERATE (15%)";
+                    bottleneckColor = 'rgb(234, 179, 8)'; // yellow-500
+                } else if (fps > 45) {
+                    setting = "MEDIUM - STANDARD";
+                    caption = "CUKUP! Perlu penyesuaian untuk FPS yang lebih tinggi.";
+                    bottleneck = "SIGNIFICANT (30%)";
+                    bottleneckColor = 'rgb(249, 115, 22)'; // orange-500
+                } else {
+                    setting = "LOW - SUB-PAR";
+                    caption = "WAH! Waktunya Upgrade atau Cek Hardware!";
+                    bottleneck = "HIGH (45%+)";
+                    bottleneckColor = 'rgb(239, 68, 68)'; // red-500
+                }
+                
+                // 3. Tampilkan Hasil
+                predictedFps.textContent = '~' + fps;
+                resultCaption.textContent = caption;
+                document.getElementById('rec-setting').textContent = setting;
+                document.getElementById('bottleneck-status').textContent = bottleneck;
+                document.getElementById('bottleneck-status').style.color = bottleneckColor;
+
+
+                // Update UI state
+                loader.classList.add('hidden');
+                predictionStatus.classList.add('hidden');
+                resultCard.classList.remove('hidden');
+                
+                predictButton.disabled = false;
+                predictButton.textContent = 'RUN ANALISIS';
+
+                showMessage('Analisis Selesai. Hasil Prediksi Tersedia!', 'success');
+
+            }, 3000); // Delay 3 detik
+        });
+
+        // --- Fungsi Notifikasi (Mengganti alert()) ---
+        function showMessage(message, type) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            
+            let bgColor, borderColor;
+            if (type === 'success') {
+                bgColor = 'bg-green-500';
+                borderColor = 'border-green-700';
+            } else if (type === 'error') {
+                bgColor = 'bg-red-500';
+                borderColor = 'border-red-700';
+            } else {
+                bgColor = 'bg-blue-500';
+                borderColor = 'border-blue-700';
+            }
+
+            notification.className = `fixed bottom-5 right-5 p-4 rounded-lg shadow-xl text-white font-semibold border-l-4 ${bgColor} ${borderColor} transition-all duration-300 transform translate-y-0 z-50`;
+            document.body.appendChild(notification);
+
+            // Hilangkan notifikasi setelah 4 detik
+            setTimeout(() => {
+                notification.classList.add('opacity-0', 'translate-y-full');
+                notification.addEventListener('transitionend', () => notification.remove());
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

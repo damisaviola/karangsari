@@ -1,4 +1,4 @@
-import { DateOption, Options, ParsedOptions } from "./options";
+      import { DateOption, Options, ParsedOptions } from "./options";
 import { Locale, CustomLocale, key as LocaleKey } from "./locale";
 import { RevFormat, Formats, TokenRegex } from "../utils/formatting";
 export interface Elements {

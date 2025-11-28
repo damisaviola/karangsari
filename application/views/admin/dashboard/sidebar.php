@@ -263,13 +263,12 @@
 
 
             <?php
-        $this->db->where('status', 'Diproses');
-        $jumlah_keluhan = $this->db->count_all_results('keluhan');
+        
 
         $this->db->where('status', 'Menunggu Verifikasi');
         $jumlah_pembayaran = $this->db->count_all_results('pembayaran');
 
-        $total_notifikasi = $jumlah_keluhan + $jumlah_pembayaran;
+        $total_notifikasi =  $jumlah_pembayaran;
         ?>
 
         <li class="sidebar-item <?= ($this->uri->uri_string() == 'admin/notifikasi') ? 'active' : '' ?>">

@@ -95,8 +95,8 @@ $total_notifikasi = $jumlah_tagihan;
 
 
         <!-- Pengaturan -->
-        <li class="sidebar-item">
-            <a href="<?= site_url('user/pengaturan') ?>" class="sidebar-link">
+        <li class="sidebar-item <?= ($this->uri->uri_string() == 'user/pengaturan_user') ? 'active' : '' ?>">
+            <a href="<?= site_url('user/pengaturan_user') ?>" class="sidebar-link">
                 <i class="bi bi-gear-fill"></i>
                 <span>Pengaturan</span>
             </a>

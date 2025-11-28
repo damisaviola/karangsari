@@ -72,9 +72,8 @@ class Pengaturan extends CI_Controller {
         redirect('admin/pengaturan');
     }
 
-            public function update_profile()
+          public function update_profile()
         {
-
             $id_admin = $this->input->post('id_admin', true);
             $nama_lengkap = $this->input->post('nama_lengkap', true);
             $username = $this->input->post('username', true);
@@ -83,6 +82,22 @@ class Pengaturan extends CI_Controller {
             $admin = $this->Admin_model->getAdminById($id_admin);
             if (!$admin) {
                 $this->session->set_flashdata('error', 'Admin tidak ditemukan.');
+                redirect('admin/pengaturan');
+            }
+
+
+            if (empty($nama_lengkap) || empty($username) || empty($no_hp)) {
+                $this->session->set_flashdata('error', 'Semua field wajib diisi.');
+                redirect('admin/pengaturan');
+            }
+
+            if (strlen($username) < 4) {
+                $this->session->set_flashdata('error', 'Username minimal terdiri dari 4 karakter.');
+                redirect('admin/pengaturan');
+            }
+
+            if (!ctype_digit($no_hp)) {
+                $this->session->set_flashdata('error', 'Nomor HP hanya boleh berisi angka.');
                 redirect('admin/pengaturan');
             }
 
@@ -102,6 +117,7 @@ class Pengaturan extends CI_Controller {
 
             redirect('admin/pengaturan');
         }
+
 
 }
 
